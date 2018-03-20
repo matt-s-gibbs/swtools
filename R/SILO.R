@@ -374,3 +374,18 @@ gg_getslopes<-function(dat_dm)
   }
   return(slopes)
 }
+
+#' Write SILO data report to word document
+#'
+#' @param SILO a list of sites with SILO data, as created by SILOLoad()
+#' @param filename filename to write the report to.
+#'
+#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples SILOReport(X,"C:/Output/MyReport.docx")
+
+SILOReport<-function(SILO,filename)
+{
+  SILO<-SILO
+  rmarkdown::render("R/SILOReport.Rmd",output_file = filename)
+}
+

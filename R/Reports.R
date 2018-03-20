@@ -7,10 +7,4 @@
 sites<-c("23718","24518","24537","24539")
 x<-SILOLoad(sites,"C:/SILO/",startdate="1960-01-01",enddate="2016-12-31")
 
-SILOReport<-function(x,filename)
-{
-  SILO<-x
-  rmarkdown::render("R/SILOReport.Rmd",output_file = filename)
-}
-
 SILOReport(x,"LakesSILO.docx")
