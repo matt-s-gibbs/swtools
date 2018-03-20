@@ -1,0 +1,49 @@
+---
+title: "SILO Data Report"
+output: 
+  word_document:
+    reference_docx: style.docx
+    fig_width: 8.8
+    fig_height: 6
+    df_print: kable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Generated using the R swtools package.
+
+
+```{r echo=FALSE}
+#Load Data
+sites<-c("23300","23302","23305","23309","23312","23313","23317","23318",
+          "23321","23363","23373","23752","23756")
+
+SILO<-SILOLoad(sites,"C:/Barossa/",startdate="1900-01-01",enddate="2016-12-31")
+```
+
+#Station Summary
+```{r echo=FALSE}
+SILOSiteSummary(SILO)
+```
+##Data quality codes
+```{r echo=FALSE}
+SILOQualityCodes(SILO)
+```
+
+##Map of station locations
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+SILOMap(SILO)
+```
+
+##Cumulative deviation from the daily mean rainfall
+```{r echo=FALSE}
+SILOCumulativeDeviation(SILO)
+```
+
+##Double mass plots
+Double mass plot of each station against each other (lower) and slope of the line between each station (upper).
+```{r echo=FALSE}
+SILODoubleMass(SILO)
+```
+

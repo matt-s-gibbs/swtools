@@ -20,5 +20,7 @@ Imports:
     GGally,
     forcats,
     reshape2,
-    hydroTSM
+    hydroTSM,
+    ggmap,
+    magrittr
 RoxygenNote: 6.0.1

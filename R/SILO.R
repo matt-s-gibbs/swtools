@@ -187,7 +187,7 @@ SILOQualityCodes<-function(SILO,filename=NULL)
   for(i in 1:length(SILO))
   {
     
-    temp<-ggplot2::fortify(SILO[[i]]$tsd$Srn)
+    temp<-zoo::fortify.zoo(SILO[[i]]$tsd$Srn)
     temp$Station<-SILO[[i]]$Station
     temp$Site<-SILO[[i]]$Site
     my.data<-rbind(my.data,temp)
@@ -203,9 +203,13 @@ SILOQualityCodes<-function(SILO,filename=NULL)
   
   #generate the plot
   p<-ggplot2::ggplot(my.data)+
-    geom_tile(aes(x=Index, y=factor(Station),fill = factor(Quality)))+
-    scale_fill_manual(values = cols, name='Quality Code' )+
-    theme_bw()+ylab("Station")+xlab("Date")+theme(legend.position = "top") + guides(fill = guide_legend(nrow = length(unique(my.data$Code)))) 
+    ggplot2::geom_tile(ggplot2::aes(x=Index, y=factor(Station),fill = factor(Quality)))+
+    ggplot2::scale_fill_manual(values = cols, name='Quality Code' )+
+    ggplot2::theme_bw()+
+    ggplot2::ylab("Station")+
+    ggplot2::xlab("Date")+
+    ggplot2::theme(legend.position = "top") + 
+    ggplot2::guides(fill = ggplot2::guide_legend(nrow = length(unique(my.data$Code)))) 
   
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
@@ -257,10 +261,11 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL)
   dat<-reshape2::melt(dat,id.vars="date")
   
   p<-ggplot2::ggplot(dat)+
-    ggplot2::geom_line(aes(date,value,col=variable))+
+    ggplot2::geom_line(ggplot2::aes(date,value,col=variable))+
     ggplot2::theme_bw()+
     ggplot2::ylab("Cumulative deviation from mean (mm)")+
-    ggplot2::xlab("Date")+scale_colour_discrete(name="Station")
+    ggplot2::xlab("Date")+
+    ggplot2::scale_colour_discrete(name="Station")
 
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
@@ -297,8 +302,34 @@ SILOSiteSummary<-function(SILO)
   return(X)
 }
 
+#' Plot a map of the SILO station locations
+#'
+#' @param SILO a list of sites with SILO data, as created by SILOLoad()
+#' @param filename optional, filename to write the plot to, including extension. Filename can include full path or sub folders.
+#'
+#' @return a google map of the SILO station locations
+#'
+#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples p<-SILOMap(X,"Locations.png")
 
+SILOMap<-function(SILO,filename=NULL)
+{
+  points<-data.frame(lon=sapply(SILO,function(x) x$Lon),
+                     lat=sapply(SILO,function(x) x$Lat),
+                     Station=sapply(SILO,function(x) x$Station))
+  
+  sbbox <- ggmap::make_bbox(lon = points$lon, lat = points$lat, f = 0.25)
+  
+  sq_map <- ggmap::get_map(location = sbbox,  maptype = "terrain", source = "google")
+  
+  p<-ggmap::ggmap(sq_map) + 
+    ggplot2::geom_point(data = points, color = "red", size = 3) +
+    ggplot2::geom_text(data = points, ggplot2::aes(label = Station), hjust = 0,nudge_x = 0.005)#, color = "yellow")
+  
+  if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
+  return(p)
 
+}
 
 #For internal use, subplots for SILODoubleMass
 gg_doublemass <- function(data, mapping, ...) {
@@ -390,7 +421,7 @@ gg_slope<-function (data, mapping, alignPercent = 0.6, method = "pearson",
     })
     colnames(cord)[2] <- "ggally_cor"
     cord$ggally_cor <- signif(as.numeric(cord$ggally_cor), 
-                              3)
+                              2)
     lev <- levels(data[[colorCol]])
     ord <- rep(-1, nrow(cord))
     for (i in 1:nrow(cord)) {
@@ -411,8 +442,8 @@ gg_slope<-function (data, mapping, alignPercent = 0.6, method = "pearson",
     ymax <- max(yVal, na.rm = TRUE)
     yrange <- c(ymin - 0.01 * (ymax - ymin), ymax + 0.01 * 
                   (ymax - ymin))
-    p <- GGally::ggally_text(label = str_c("Cor : ", signif(cor_fn(xVal, 
-                                                           yVal), 3)), mapping = mapping, xP = 0.5, yP = 0.9, 
+    p <- GGally::ggally_text(label = str_c("", signif(cor_fn(xVal, 
+                                                           yVal), 2)), mapping = mapping, xP = 0.5, yP = 0.9, 
                      xrange = xrange, yrange = yrange, color = "black", 
                      ...) + ggplot2::theme(legend.position = "none")+ 
       ggplot2::theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
@@ -438,10 +469,11 @@ gg_slope<-function (data, mapping, alignPercent = 0.6, method = "pearson",
     ymax <- max(yVal, na.rm = TRUE)
     yrange <- c(ymin - 0.01 * (ymax - ymin), ymax + 0.01 * 
                   (ymax - ymin))
-    p <- GGally::ggally_text(label = paste("Slope:\n", signif(cor_fn(xVal, 
-                                                             yVal), 3), sep = "", collapse = ""), mapping, xP = 0.5, 
+    p <- GGally::ggally_text(label = paste("", signif(cor_fn(xVal, 
+                                                             yVal), 2), sep = "", collapse = ""), mapping, xP = 0.5, 
                      yP = 0.5, xrange = xrange, yrange = yrange, ...) + 
-      ggplot2::theme(legend.position = "none")+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+      ggplot2::theme(legend.position = "none")+ 
+      ggplot2::theme(panel.grid.major = ggplot2::element_blank(), panel.grid.minor = ggplot2::element_blank())
     p
   }
 }
