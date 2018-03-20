@@ -216,29 +216,6 @@ SILOQualityCodes<-function(SILO,filename=NULL)
   
 }
 
-#' Plot double mass curves of each rainfall site against each other
-#'
-#' @param SILO a list of sites with SILO data, as created by SILOLoad()
-#' @param filename optional, filename to write the plot to, including extension. Filename can include full path or sub folders.
-#'
-#' @return a ggplot  plot of the double mass curves of each station in the SILO list against each other. The double mass plot is on the bottom diagonal, and the slope of the line for each case in the upper diagonal. 
-#'
-#' @examples X<-LoadSILO(c("24001","24002","24003")
-#' @examples p<-SILODoubleMass(X,"DoubleMass.png")
-
-SILODoubleMass<-function(SILO,filename=NULL)
-{
-  #munge data for ggpairs
-  dat<-lapply(SILO,function(x) cumsum(as.numeric(x$tsd$Rain)))
-  dat<-data.frame(matrix(unlist(dat),nrow=length(dat[[1]]),byrow=FALSE))
-
-  colnames(dat)<-paste0("S",names(SILO))
-  
-  p<-GGally::ggpairs(dat,upper=list(continuous=gg_slope),diag="blankDiag",lower=list(continuous=gg_doublemass))
-  if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
-  return(p)
-}
-
 #' Plot the cumulative deviation from the mean for each silo station on one plot
 #'
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
@@ -318,162 +295,82 @@ SILOMap<-function(SILO,filename=NULL)
                      lat=sapply(SILO,function(x) x$Lat),
                      Station=sapply(SILO,function(x) x$Station))
   
-  sbbox <- ggmap::make_bbox(lon = points$lon, lat = points$lat, f = 0.25)
+  sbbox <- ggmap::make_bbox(lon = points$lon, lat = points$lat, f = 1.0)
   
   sq_map <- ggmap::get_map(location = sbbox,  maptype = "terrain", source = "google")
   
   p<-ggmap::ggmap(sq_map) + 
     ggplot2::geom_point(data = points, color = "red", size = 3) +
-    ggplot2::geom_text(data = points, ggplot2::aes(label = Station), hjust = 0,nudge_x = 0.005)#, color = "yellow")
+    ggrepel::geom_text_repel(data = points, ggplot2::aes(label = Station))
   
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
 
 }
 
-#For internal use, subplots for SILODoubleMass
-gg_doublemass <- function(data, mapping, ...) {
-  ggplot2::ggplot(data = data, mapping = mapping) +
-    ggplot2::geom_line(color = I("blue")) + 
-    ggplot2::geom_smooth(method = "lm", color = I("black"), ...)+
-    ggplot2::theme_bw()
+#' Plot double mass curves of each rainfall site against each other
+#'
+#' @param SILO a list of sites with SILO data, as created by SILOLoad()
+#' @param filename optional, filename to write the plot to, including extension. Filename can include full path or sub folders.
+#' @param plotsperpage optional, number of plots to output per element of the list returned. Defaults to 4
+#'
+#' @return a list of ggplot objects that plot of the double mass curves of each station in the SILO list against each other. The double mass plot is on the bottom diagonal, and the slope of the line for each case in the upper diagonal. Each list element contains plotsperpage (default to 4) double mass plots, to allow them to be plotted on multiple pages
+#'
+#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples p<-SILODoubleMass(X,"DoubleMass.png")
+
+SILODoubleMass<-function(SILO,filename=NULL,plotsperpage=4)
+{
+  #munge data for ggpairs
+  dat<-lapply(SILO,function(x) cumsum(as.numeric(x$tsd$Rain)))
+  dat_dm<-NULL
+  for(i in 1:(length(dat)-1))
+  {
+    for(j in (i+1):length(dat))
+    {
+      temp<-data.frame(rain1=dat[[i]],rain2=dat[[j]],site=paste0(names(dat)[i],"-",names(dat)[j]))
+      dat_dm<-rbind(dat_dm,temp)
+    }  
+  }
+  
+  dat_all<-dat_dm
+  dat_all$site<-as.character(dat_all$site)
+  
+  sites<-unique(dat_all$site)
+  plots<-list()
+  for(i in seq(1,length(sites),plotsperpage))
+  {
+    dat_dm<-dat_all[dat_all$site %in% sites[i:(i-1+plotsperpage)],]
+  
+    slopes<-gg_getslopes(dat_dm)
+  
+    p<-ggplot2::ggplot(dat_dm,ggplot2::aes(rain1,rain2))+
+      ggplot2::geom_line()+
+      ggplot2::geom_smooth(method="lm",se=FALSE,lty="dashed")+
+      ggplot2::facet_wrap(~site,ncol=2)+
+      ggplot2::geom_text(data=slopes,ggplot2::aes(x,y,label=signif(slope,3)))+
+      ggplot2::theme_bw()+
+      ggplot2::xlab("Station Number 1")+
+      ggplot2::ylab("Station Number 2")
+  
+    if(!is.null(filename))  ggplot2::ggsave(paste0(i,"_",filename),p,width=15,height=15,units="cm")
+    plots[[floor(i/plotsperpage)+1]]<-p
+  }
+  return(plots)
 }
 
-#For internal use, largely taken from cor in ggally, changing correlation to slope.
-gg_slope<-function (data, mapping, alignPercent = 0.6, method = "pearson", 
-                 use = "complete.obs", corAlignPercent = NULL, corMethod = NULL, 
-                 corUse = NULL, ...) 
+#internal use, calculate slope for double mass plots
+gg_getslopes<-function(dat_dm)
 {
-  if (!is.null(corAlignPercent)) {
-    stop("'corAlignPercent' is deprecated.  Please use argument 'alignPercent'")
+  dat_dm$site<-as.character(dat_dm$site)
+  sites<-unique(dat_dm$site)
+  slopes<-NULL
+  for(site in sites)
+  {
+    dat<-dat_dm[dat_dm$site==site,]
+    s<-lm(rain2~rain1+0,data=dat)$coefficients[1]
+    temp<-data.frame(slope=s,site=site,x=dat$rain1[nrow(dat)*0.25],y=dat$rain2[nrow(dat)*0.75])
+    slopes<-rbind(slopes,temp)
   }
-  if (!is.null(corMethod)) {
-    stop("'corMethod' is deprecated.  Please use argument 'method'")
-  }
-  if (!is.null(corUse)) {
-    stop("'corUse' is deprecated.  Please use argument 'use'")
-  }
-  useOptions <- c("all.obs", "complete.obs", "pairwise.complete.obs", 
-                  "everything", "na.or.complete")
-  use <- pmatch(use, useOptions)
-  if (is.na(use)) {
-    warning("correlation 'use' not found.  Using default value of 'all.obs'")
-    use <- useOptions[1]
-  }
-  else {
-    use <- useOptions[use]
-  }
-  cor_fn <- function(x, y) {
-    as.numeric(lm(y~x+0)$coefficients[1])
-  }
-  xCol <- deparse(mapping$x)
-  yCol <- deparse(mapping$y)
-  
-  # if (is.numeric(eval_data_col(data, mapping$colour))) {
-  #   stop("ggally_cor: mapping color column must be categorical, not numeric")
-  # }
-  colorCol <- deparse(mapping$colour)
-  singleColorCol <- ifelse(is.null(colorCol), NULL, paste(colorCol, 
-                                                          collapse = ""))
-  if (use %in% c("complete.obs", "pairwise.complete.obs", "na.or.complete")) {
-    if (length(colorCol) > 0) {
-      if (singleColorCol %in% colnames(data)) {
-        rows <- complete.cases(data[c(xCol, yCol, colorCol)])
-      }
-      else {
-        rows <- complete.cases(data[c(xCol, yCol)])
-      }
-    }
-    else {
-      rows <- complete.cases(data[c(xCol, yCol)])
-    }
-    if (any(!rows)) {
-      total <- sum(!rows)
-      if (total > 1) {
-        warning("Removed ", total, " rows containing missing values")
-      }
-      else if (total == 1) {
-        warning("Removing 1 row that contained a missing value")
-      }
-    }
-    data <- data[rows, ]
-  }
-  xVal <- data[[xCol]]
-  yVal <- data[[yCol]]
-  if (length(names(mapping)) > 0) {
-    for (i in length(names(mapping)):1) {
-      tmp_map_val <- deparse(mapping[names(mapping)[i]][[1]])
-      if (tmp_map_val[length(tmp_map_val)] %in% colnames(data)) 
-        mapping[[names(mapping)[i]]] <- NULL
-      if (length(names(mapping)) < 1) {
-        mapping <- NULL
-        break
-      }
-    }
-  }
-  if (length(colorCol) < 1) {
-    colorCol <- "ggally_NO_EXIST"
-  }
-  if ((singleColorCol != "ggally_NO_EXIST") && (singleColorCol %in% 
-                                                colnames(data))) {
-    cord <- ddply(data, c(colorCol), function(x) {
-      cor_fn(x[[xCol]], x[[yCol]])
-    })
-    colnames(cord)[2] <- "ggally_cor"
-    cord$ggally_cor <- signif(as.numeric(cord$ggally_cor), 
-                              2)
-    lev <- levels(data[[colorCol]])
-    ord <- rep(-1, nrow(cord))
-    for (i in 1:nrow(cord)) {
-      for (j in seq_along(lev)) {
-        if (identical(as.character(cord[i, colorCol]), 
-                      as.character(lev[j]))) {
-          ord[i] <- j
-        }
-      }
-    }
-    cord <- cord[order(ord[ord >= 0]), ]
-    cord$label <- str_c(cord[[colorCol]], ": ", cord$ggally_cor)
-    xmin <- min(xVal, na.rm = TRUE)
-    xmax <- max(xVal, na.rm = TRUE)
-    xrange <- c(xmin - 0.01 * (xmax - xmin), xmax + 0.01 * 
-                  (xmax - xmin))
-    ymin <- min(yVal, na.rm = TRUE)
-    ymax <- max(yVal, na.rm = TRUE)
-    yrange <- c(ymin - 0.01 * (ymax - ymin), ymax + 0.01 * 
-                  (ymax - ymin))
-    p <- GGally::ggally_text(label = str_c("", signif(cor_fn(xVal, 
-                                                           yVal), 2)), mapping = mapping, xP = 0.5, yP = 0.9, 
-                     xrange = xrange, yrange = yrange, color = "black", 
-                     ...) + ggplot2::theme(legend.position = "none")+ 
-      ggplot2::theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-    xPos <- rep(alignPercent, nrow(cord)) * diff(xrange) + 
-      min(xrange, na.rm = TRUE)
-    yPos <- seq(from = 0.9, to = 0.2, length.out = nrow(cord) + 
-                  1)
-    yPos <- yPos * diff(yrange) + min(yrange, na.rm = TRUE)
-    yPos <- yPos[-1]
-    cordf <- data.frame(xPos = xPos, yPos = yPos, labelp = cord$label)
-    cordf$labelp <- factor(cordf$labelp, levels = cordf$labelp)
-    p <- p + GGally::geom_text(data = cordf, aes(x = xPos, y = yPos, 
-                                         label = labelp, color = labelp), hjust = 1, ...)+
-      ggplot2::theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-    p
-  }
-  else {
-    xmin <- min(xVal, na.rm = TRUE)
-    xmax <- max(xVal, na.rm = TRUE)
-    xrange <- c(xmin - 0.01 * (xmax - xmin), xmax + 0.01 * 
-                  (xmax - xmin))
-    ymin <- min(yVal, na.rm = TRUE)
-    ymax <- max(yVal, na.rm = TRUE)
-    yrange <- c(ymin - 0.01 * (ymax - ymin), ymax + 0.01 * 
-                  (ymax - ymin))
-    p <- GGally::ggally_text(label = paste("", signif(cor_fn(xVal, 
-                                                             yVal), 2), sep = "", collapse = ""), mapping, xP = 0.5, 
-                     yP = 0.5, xrange = xrange, yrange = yrange, ...) + 
-      ggplot2::theme(legend.position = "none")+ 
-      ggplot2::theme(panel.grid.major = ggplot2::element_blank(), panel.grid.minor = ggplot2::element_blank())
-    p
-  }
+  return(slopes)
 }

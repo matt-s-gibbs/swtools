@@ -1,15 +1,16 @@
+#Load Data
+#sites<-c("23300","23302","23305","23309","23312","23313","23317","23318",
+#          "23321","23363","23373","23752","23756")
 
-sites<-c("24025","24026")
+#SILO<-SILOLoad(sites,"C:/Barossa/",startdate="1900-01-01",enddate="2016-12-31")
 
-X<-SILOLoad(X)
+sites<-c("23718","24518","24537","24539")
+x<-SILOLoad(sites,"C:/SILO/",startdate="1960-01-01",enddate="2016-12-31")
 
-d<-SILOSiteSummary(X)
-p1<-SILOMap(X)
-p2<-SILOQualityCodes(X)
-p3<-SILODoubleMass(X)
-p4<-SILOCumulativeDeviation(X)
+SILOReport<-function(x,filename)
+{
+  SILO<-x
+  rmarkdown::render("R/SILOReport.Rmd",output_file = filename)
+}
 
-#TODO
-#SILOMap
-#Monthly rainfall boxplot and evap
-#Write to csv for Source
+SILOReport(x,"LakesSILO.docx")

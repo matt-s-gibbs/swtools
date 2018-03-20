@@ -1,5 +1,6 @@
 ---
 title: "SILO Data Report"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   word_document:
     reference_docx: style.docx
@@ -8,19 +9,7 @@ output:
     df_print: kable
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 Generated using the R swtools package.
-
-
-```{r echo=FALSE}
-#Load Data
-sites<-c("23300","23302","23305","23309","23312","23313","23317","23318",
-          "23321","23363","23373","23752","23756")
-
-SILO<-SILOLoad(sites,"C:/Barossa/",startdate="1900-01-01",enddate="2016-12-31")
-```
 
 #Station Summary
 ```{r echo=FALSE}
@@ -36,14 +25,14 @@ SILOQualityCodes(SILO)
 SILOMap(SILO)
 ```
 
-##Cumulative deviation from the daily mean rainfall
+##Cumulative deviation in mean daily rainfall
 ```{r echo=FALSE}
 SILOCumulativeDeviation(SILO)
 ```
 
 ##Double mass plots
-Double mass plot of each station against each other (lower) and slope of the line between each station (upper).
 ```{r echo=FALSE}
-SILODoubleMass(SILO)
+plots<-SILODoubleMass(SILO)
+for(i in 1:length(plots)) print(plots[[i]])
 ```
 

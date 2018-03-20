@@ -20,7 +20,7 @@ Imports:
     GGally,
     forcats,
     reshape2,
-    hydroTSM,
     ggmap,
+    ggrepel,
     magrittr
 RoxygenNote: 6.0.1
