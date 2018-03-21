@@ -17,10 +17,10 @@ Imports:
     ggplot2,
     RColorBrewer,
     dplyr,
-    GGally,
     forcats,
     reshape2,
     ggmap,
     ggrepel,
-    magrittr
+    magrittr,
+    hydroTSM
 RoxygenNote: 6.0.1

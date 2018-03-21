@@ -25,6 +25,12 @@ SILOQualityCodes(SILO)
 SILOMap(SILO)
 ```
 
+##Monthly Rainfall
+Monthly rainfall at each station as boxplots and the mean monthly evaporation as a line.
+```{r echo=FALSE}
+SILOMonthlyRainfall(SILO)
+```
+
 ##Cumulative deviation in mean daily rainfall
 ```{r echo=FALSE}
 SILOCumulativeDeviation(SILO)

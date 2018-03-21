@@ -388,4 +388,67 @@ SILOReport<-function(SILO,filename)
   SILO<-SILO
   rmarkdown::render("R/SILOReport.Rmd",output_file = filename)
 }
+#' Plot a boxplot of monthly rainfall with mean monthly evaporation
+#'
+#' @param SILO a list of sites with SILO data, as created by SILOLoad()
+#' @param evapcol name of an evaporation column to print, defaults to "MWet".
+#' @param filename optional, filename to write the plot to, including extension. Filename can include full path or sub folders.
+#'
+#' @return a ggplot of the monthly rainfall and evaporation.
+#'
+#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples p<-SILOMonthlyRainfall(X,"Span","Monthly.png")
 
+SILOMonthlyRainfall<-function(SILO,evapcol="Mwet",filename=NULL)
+{
+
+dat<-lapply(SILO,function(x) x$tsd$Rain)
+dat<-data.frame(matrix(unlist(dat),nrow=length(dat[[1]]),byrow=FALSE))
+colnames(dat)<-names(SILO)
+dat<-zoo::zoo(dat,zoo::index(SILO[[1]]$tsd))
+dat<-hydroTSM::daily2monthly(dat,FUN=sum)
+dat<-zoo::fortify.zoo(dat,melt=TRUE)
+dat$month<-format(dat$Index,"%b")
+dat$month<-forcats::fct_relevel(dat$month,month.abb)
+
+evap<-lapply(SILO,function(x) x$tsd[,evapcol])
+evap<-data.frame(matrix(unlist(evap),nrow=length(evap[[1]]),byrow=FALSE))
+colnames(evap)<-names(SILO)
+evap<-zoo::zoo(evap,zoo::index(SILO[[1]]$tsd))
+evap<-hydroTSM::daily2monthly(evap,sum)
+evap<-hydroTSM::monthlyfunction(evap, FUN=mean, na.rm=TRUE)
+evap<-t(evap)
+evap<-zoo::fortify.zoo(evap,melt=TRUE)
+evap$month<-month.abb[evap$Index]
+evap$month<-forcats::fct_relevel(evap$month,month.abb)
+
+p<-ggplot2::ggplot()+
+  ggplot2::geom_boxplot(data=dat,ggplot2::aes(month,Value,colour=Series,fill=Series))+
+  ggplot2::geom_line(data=evap,ggplot2::aes(Index,Value,group=Series,colour=Series))+
+  ggplot2::xlab("Month")+
+  ggplot2::ylab("Monthly total (mm)")+
+  ggplot2::theme_bw()
+  
+  if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
+  return(p)
+  
+}
+
+#' Write a csv file that can be loaded into a model, e.g. Source
+#'
+#' @param SILO a list of sites with SILO data, as created by SILOLoad()
+#' @param col Name of a column in a silo file to write out
+#' @param filename file to write to.
+#'
+#'
+#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples p<-SILOWriteforSource(X,"Rain","Rainfall.csv")
+
+SILOWriteforSource<-function(SILO,col,filename)
+{
+  dat<-lapply(SILO,function(x) x$tsd[,col])
+  dat<-data.frame(matrix(unlist(dat),nrow=length(dat[[1]]),byrow=FALSE))
+  colnames(dat)<-names(SILO)
+  dat<-zoo::zoo(dat,zoo::index(SILO[[1]]$tsd))
+  write.csv(dat,filename,row.names = format(zoo::index(dat),"%d/%m/%Y"),quote = FALSE)
+}
