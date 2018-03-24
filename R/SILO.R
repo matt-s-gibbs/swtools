@@ -137,14 +137,14 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
 
 #' Import multiple SILO files
 #'
-#' @param sites a vector of Station numbers (e.g. c("24001","24002","24003") to import. The function expects the file to be called "24001.txt".
+#' @param sites a vector of Station numbers (e.g. c("24001","24002","24003")) to import. The function expects the file to be called "24001.txt".
 #' @param path Location where the file is located. Use "/" or "\\\\" for folders. Defaults to getwd() if not specified.
 #' @param startdate Start date of data to load, in format "YYYY-MM-DD". Defaults to start of the file if not provided
 #' @param enddate End date of data to load, in format "YYYY-MM-DD". Defaults to end of the file if not provided
 #'
 #' @return a list of lists of SILO data from each file. Each list has members: tsd - the raw data as a daily zoo object, Site- the name of the site, Station - the station number, Lon- Longitude, and Lat - Latitude
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples X<-LoadSILO(c("24001","24002","24003"))
 #' @examples plot(X$tsd$Rain)
 
 SILOLoad<-function(sites,path = getwd(), startdate, enddate)
@@ -161,7 +161,7 @@ SILOLoad<-function(sites,path = getwd(), startdate, enddate)
 #'
 #' @return a ggplot geom_tile plot of the rainfall quality codes
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples X<-LoadSILO(c("24001","24002","24003"))
 #' @examples p<-SILOQualityCodes(X,"QualityCodes.png")
   
 SILOQualityCodes<-function(SILO,filename=NULL)
@@ -223,7 +223,7 @@ SILOQualityCodes<-function(SILO,filename=NULL)
 #'
 #' @return a ggplot  plot of the cumulative deviation from the mean.
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples X<-LoadSILO(c("24001","24002","24003"))
 #' @examples p<-SILOCumulativeDeviation(X,"Cumulative.png")
 
 SILOCumulativeDeviation<-function(SILO,filename=NULL)
@@ -262,7 +262,7 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL)
 #' Latitute - Latitude
 #' Longitude - Longitude
 #' 
-#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples X<-LoadSILO(c("24001","24002","24003"))
 #' @examples d<-SILOSummary(X)
 
 SILOSiteSummary<-function(SILO)
@@ -286,7 +286,7 @@ SILOSiteSummary<-function(SILO)
 #'
 #' @return a google map of the SILO station locations
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples X<-LoadSILO(c("24001","24002","24003"))
 #' @examples p<-SILOMap(X,"Locations.png")
 
 SILOMap<-function(SILO,filename=NULL)
@@ -316,7 +316,7 @@ SILOMap<-function(SILO,filename=NULL)
 #'
 #' @return a list of ggplot objects that plot of the double mass curves of each station in the SILO list against each other. The double mass plot is on the bottom diagonal, and the slope of the line for each case in the upper diagonal. Each list element contains plotsperpage (default to 4) double mass plots, to allow them to be plotted on multiple pages
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples X<-LoadSILO(c("24001","24002","24003"))
 #' @examples p<-SILODoubleMass(X,"DoubleMass.png")
 
 SILODoubleMass<-function(SILO,filename=NULL,plotsperpage=4)
@@ -380,8 +380,10 @@ gg_getslopes<-function(dat_dm)
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
 #' @param filename filename to write the report to.
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples X<-LoadSILO(c("24001","24002","24003"))
 #' @examples SILOReport(X,"C:/Output/MyReport.docx")
+#' 
+#' \code{\link{SILOLoad}}
 
 SILOReport<-function(SILO,filename)
 {
@@ -396,7 +398,7 @@ SILOReport<-function(SILO,filename)
 #'
 #' @return a ggplot of the monthly rainfall and evaporation.
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003")
+#' @examples X<-LoadSILO(c("24001","24002","24003"))
 #' @examples p<-SILOMonthlyRainfall(X,"Span","Monthly.png")
 
 SILOMonthlyRainfall<-function(SILO,evapcol="Mwet",filename=NULL)
@@ -434,21 +436,3 @@ p<-ggplot2::ggplot()+
   
 }
 
-#' Write a csv file that can be loaded into a model, e.g. Source
-#'
-#' @param SILO a list of sites with SILO data, as created by SILOLoad()
-#' @param col Name of a column in a silo file to write out
-#' @param filename file to write to.
-#'
-#'
-#' @examples X<-LoadSILO(c("24001","24002","24003")
-#' @examples p<-SILOWriteforSource(X,"Rain","Rainfall.csv")
-
-SILOWriteforSource<-function(SILO,col,filename)
-{
-  dat<-lapply(SILO,function(x) x$tsd[,col])
-  dat<-data.frame(matrix(unlist(dat),nrow=length(dat[[1]]),byrow=FALSE))
-  colnames(dat)<-names(SILO)
-  dat<-zoo::zoo(dat,zoo::index(SILO[[1]]$tsd))
-  write.csv(dat,filename,row.names = format(zoo::index(dat),"%d/%m/%Y"),quote = FALSE)
-}
