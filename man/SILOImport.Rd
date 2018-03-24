@@ -16,7 +16,15 @@ SILOImport(station, path = getwd(), startdate, enddate)
 \item{enddate}{End date of data to load, in format "YYYY-MM-DD". Defaults to end of the file if not provided}
 }
 \value{
-a list of data from the file, with members: tsd - the raw data as a daily zoo object, Site- the name of the site, Station - the station number, Lon- Longitude, and Lat - Latitude
+a list of data from the file, with members: 
+tsd - the raw data as a daily zoo object, 
+Site- the name of the site, 
+Station - the station number,
+Lon- Longitude,
+Lat - Latitude,
+start - the first date with good quality rainfall data
+end - the last date with good quality rainfall data
+goodpct - the percentage of good quality coded rainfall data between start and end
 }
 \description{
 Import a SILO file
