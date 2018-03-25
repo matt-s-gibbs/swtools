@@ -18,6 +18,6 @@ a ggplot geom_tile plot of the rainfall quality codes
 Plot the quality codes of the SILO rainfall data
 }
 \examples{
-X<-LoadSILO(c("24001","24002","24003")
+X<-LoadSILO(c("24001","24002","24003"))
 p<-SILOQualityCodes(X,"QualityCodes.png")
 }

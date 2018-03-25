@@ -4,17 +4,21 @@
 \alias{SILOReport}
 \title{Write SILO data report to word document}
 \usage{
-SILOReport(SILO, filename)
+SILOReport(SILO, filename, path = getwd())
 }
 \arguments{
 \item{SILO}{a list of sites with SILO data, as created by SILOLoad()}
 
 \item{filename}{filename to write the report to.}
+
+\item{path}{Optional. Folder to save the report to, defaults to current working directory}
 }
 \description{
 Write SILO data report to word document
 }
 \examples{
-X<-LoadSILO(c("24001","24002","24003")
+X<-LoadSILO(c("24001","24002","24003"))
 SILOReport(X,"C:/Output/MyReport.docx")
+
+\\code{\\link{SILOLoad}}
 }

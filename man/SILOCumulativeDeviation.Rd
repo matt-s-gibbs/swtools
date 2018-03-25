@@ -18,6 +18,6 @@ a ggplot  plot of the cumulative deviation from the mean.
 Plot the cumulative deviation from the mean for each silo station on one plot
 }
 \examples{
-X<-LoadSILO(c("24001","24002","24003")
+X<-LoadSILO(c("24001","24002","24003"))
 p<-SILOCumulativeDeviation(X,"Cumulative.png")
 }

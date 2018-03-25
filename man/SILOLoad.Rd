@@ -7,7 +7,7 @@
 SILOLoad(sites, path = getwd(), startdate, enddate)
 }
 \arguments{
-\item{sites}{a vector of Station numbers (e.g. c("24001","24002","24003") to import. The function expects the file to be called "24001.txt".}
+\item{sites}{a vector of Station numbers (e.g. c("24001","24002","24003")) to import. The function expects the file to be called "24001.txt".}
 
 \item{path}{Location where the file is located. Use "/" or "\\\\" for folders. Defaults to getwd() if not specified.}
 
@@ -22,6 +22,6 @@ a list of lists of SILO data from each file. Each list has members: tsd - the ra
 Import multiple SILO files
 }
 \examples{
-X<-LoadSILO(c("24001","24002","24003")
+X<-LoadSILO(c("24001","24002","24003"))
 plot(X$tsd$Rain)
 }

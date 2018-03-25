@@ -24,6 +24,6 @@ Longitude - Longitude
 Produce a table summarising  SILO sites
 }
 \examples{
-X<-LoadSILO(c("24001","24002","24003")
+X<-LoadSILO(c("24001","24002","24003"))
 d<-SILOSummary(X)
 }

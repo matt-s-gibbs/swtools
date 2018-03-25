@@ -328,6 +328,10 @@ SILODoubleMass<-function(SILO,filename=NULL,plotsperpage=4)
   {
     for(j in (i+1):length(dat))
     {
+      if(length(dat[[i]]!=length(dat[[j]]))){
+        print("Data lengths need to be the same for Double Mass to work. Specify dates in SILOLoad() so a common date range is covered")
+        return(-1)
+      }
       temp<-data.frame(rain1=dat[[i]],rain2=dat[[j]],site=paste0(names(dat)[i],"-",names(dat)[j]))
       dat_dm<-rbind(dat_dm,temp)
     }  
@@ -379,16 +383,18 @@ gg_getslopes<-function(dat_dm)
 #'
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
 #' @param filename filename to write the report to.
+#' @param path Optional. Folder to save the report to, defaults to current working directory
 #'
 #' @examples X<-LoadSILO(c("24001","24002","24003"))
 #' @examples SILOReport(X,"C:/Output/MyReport.docx")
 #' 
 #' \code{\link{SILOLoad}}
 
-SILOReport<-function(SILO,filename)
+SILOReport<-function(SILO,filename,path=getwd())
 {
   SILO<-SILO
-  rmarkdown::render("R/SILOReport.Rmd",output_file = filename)
+  file<-system.file("SILOReport.Rmd", package="SWTools")
+  rmarkdown::render(file,output_file = paste0(path,"/",filename))
 }
 #' Plot a boxplot of monthly rainfall with mean monthly evaporation
 #'
