@@ -328,7 +328,7 @@ SILODoubleMass<-function(SILO,filename=NULL,plotsperpage=4)
   {
     for(j in (i+1):length(dat))
     {
-      if(length(dat[[i]]!=length(dat[[j]]))){
+      if(length(dat[[i]])!=length(dat[[j]])){
         print("Data lengths need to be the same for Double Mass to work. Specify dates in SILOLoad() so a common date range is covered")
         return(-1)
       }
