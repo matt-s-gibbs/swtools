@@ -144,7 +144,7 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
 #'
 #' @return a list of lists of SILO data from each file. Each list has members: tsd - the raw data as a daily zoo object, Site- the name of the site, Station - the station number, Lon- Longitude, and Lat - Latitude
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples plot(X$tsd$Rain)
 
 SILOLoad<-function(sites,path = getwd(), startdate, enddate)
@@ -161,7 +161,7 @@ SILOLoad<-function(sites,path = getwd(), startdate, enddate)
 #'
 #' @return a ggplot geom_tile plot of the rainfall quality codes
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOQualityCodes(X,"QualityCodes.png")
   
 SILOQualityCodes<-function(SILO,filename=NULL)
@@ -223,7 +223,7 @@ SILOQualityCodes<-function(SILO,filename=NULL)
 #'
 #' @return a ggplot  plot of the cumulative deviation from the mean.
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOCumulativeDeviation(X,"Cumulative.png")
 
 SILOCumulativeDeviation<-function(SILO,filename=NULL)
@@ -262,7 +262,7 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL)
 #' Latitute - Latitude
 #' Longitude - Longitude
 #' 
-#' @examples X<-LoadSILO(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples d<-SILOSummary(X)
 
 SILOSiteSummary<-function(SILO)
@@ -286,7 +286,7 @@ SILOSiteSummary<-function(SILO)
 #'
 #' @return a google map of the SILO station locations
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOMap(X,"Locations.png")
 
 SILOMap<-function(SILO,filename=NULL)
@@ -316,7 +316,7 @@ SILOMap<-function(SILO,filename=NULL)
 #'
 #' @return a list of ggplot objects that plot of the double mass curves of each station in the SILO list against each other. The double mass plot is on the bottom diagonal, and the slope of the line for each case in the upper diagonal. Each list element contains plotsperpage (default to 4) double mass plots, to allow them to be plotted on multiple pages
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILODoubleMass(X,"DoubleMass.png")
 
 SILODoubleMass<-function(SILO,filename=NULL,plotsperpage=4)
@@ -385,7 +385,7 @@ gg_getslopes<-function(dat_dm)
 #' @param filename filename to write the report to.
 #' @param path Optional. Folder to save the report to, defaults to current working directory
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples SILOReport(X,"C:/Output/MyReport.docx")
 #' 
 #' \code{\link{SILOLoad}}
@@ -404,7 +404,7 @@ SILOReport<-function(SILO,filename,path=getwd())
 #'
 #' @return a ggplot of the monthly rainfall and evaporation.
 #'
-#' @examples X<-LoadSILO(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOMonthlyRainfall(X,"Span","Monthly.png")
 
 SILOMonthlyRainfall<-function(SILO,evapcol="Mwet",filename=NULL)
