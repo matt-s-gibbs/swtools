@@ -28,8 +28,8 @@ SILODownload <- function(SiteList, path = getwd(), startdate = "18890101", endda
     for (site in SiteList) {
 
         #build link
-        siteToOpen <- paste0("https://www.longpaddock.qld.gov.au/cgi-bin/silo/PatchedPointDataset.php?format=alldata&station=", site, "&start=", startdate,
-            "&finish=", enddate, "&username=", username, "&password=", password)
+      siteToOpen <- paste0("https://legacy.longpaddock.qld.gov.au/cgi-bin/silo/PatchedPointDataset.php?format=alldata&station=", site, "&start=", startdate,
+                           "&finish=", enddate, "&username=", username, "&password=", password)
 
         #download data
         A <- RCurl::getURL(siteToOpen, .opts = list(ssl.verifypeer = FALSE))
@@ -297,7 +297,11 @@ SILOMap<-function(SILO,filename=NULL)
   
   sbbox <- ggmap::make_bbox(lon = points$lon, lat = points$lat, f = 1.0)
   
-  sq_map <- ggmap::get_map(location = sbbox,  maptype = "terrain", source = "google")
+  if(length(SILO)==1){
+    sq_map <- ggmap::get_map(location = sbbox,  maptype = "terrain", source = "google",zoom=10)
+  }else{
+    sq_map <- ggmap::get_map(location = sbbox,  maptype = "terrain", source = "google")
+  }
   
   p<-ggmap::ggmap(sq_map) + 
     ggplot2::geom_point(data = points, color = "red", size = 3) +
