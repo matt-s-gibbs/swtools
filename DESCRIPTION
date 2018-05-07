@@ -22,5 +22,7 @@ Imports:
     ggmap,
     ggrepel,
     magrittr,
-    hydroTSM
+    hydroTSM,
+    httr,
+    jsonlite
 RoxygenNote: 6.0.1

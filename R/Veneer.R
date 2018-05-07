@@ -1,8 +1,3 @@
-library(httr)
-library(jsonlite)
-library(zoo)
-library(dplyr)
-
 #' Run Source using Veneer
 #' 
 #' @param StartDate Optional. Start date for simulation. Must be dd/mm/yyyy
