@@ -1,0 +1,127 @@
+library(httr)
+library(jsonlite)
+library(zoo)
+library(dplyr)
+
+#' Run Source using Veneer
+#' 
+#' @param StartDate Optional. Start date for simulation. Must be dd/mm/yyyy
+#' @param EndDate Optional. End date for simulation. Must be dd/mm/yyyy
+#' @param InputSet Optional. Input set to use
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#' If not set, the configuration parmaters (StartDate, EndDate, InputSet), whatever is specified
+#' in the Source configuration in the GUI will be used.
+#' 
+#' The console will show any errors returned by Veneer. 
+#' 
+#' @examples VeneerRunSource()
+#' @examples VeneerRunSource("01/07/2017","01/02/2018","NoDams")
+
+VeneerRunSource<-function(StartDate=NULL,EndDate=NULL,InputSet=NULL,baseURL="http://localhost:9876")
+{
+  X<-list()
+  if(!is.null(StartDate)) X[["StartDate"]]<-StartDate
+  if(!is.null(EndDate)) X[["EndDate"]]<-EndDate
+  if(!is.null(InputSet)) X[["SelectedInputSet"]]<-InputSet
+  
+  X<-toJSON(X,auto_unbox = TRUE)
+  A<-POST(paste0(baseURL,"/runs"),body=X,content_type_json())
+  
+  #write error message to console if there was one
+  if(substr(rawToChar(A[[6]]),3,9)=="Message") substr(strsplit(rawToChar(A[[6]]),",")[[1]][1],13,1000)
+}
+
+#' Change a Source function using Veneer
+#' 
+#' @param Name Name of the function without the $, e.g. f_ScaleFactor
+#' @param Expression Expression to change it to, e.g. 1.2
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#'  Update a function value or expression. Function must exist before being updated.
+#'  
+#'  @examples VeneerSetFunction("f_ScaleFactor",1.2)
+#'  @examples VeneerSetFunction("f_TargetLevel","if($m_Flow<1000,3.2,3.5)") #not tested, but more complex functions should work
+
+VeneerSetFunction<-function(Name,Expression,baseURL="http://localhost:9876")
+{
+  X<-list("Expression"=as.character(Expression),"Name"=paste0("$",Name))
+  X<-toJSON(X,auto_unbox = TRUE)
+
+  PUT(paste0(baseURL,"/functions/",Name),body=X,content_type_json())
+}
+
+#' Change a Source piecewise table using Veneer
+#' 
+#' @param data A 2 column data.frame or matrix with the data to load into the piecewise table.
+#' @param pw_table The name of the piecewise linear variable, without the $
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#'  Update a piecewise linear table using a table.
+#'  
+#'  @examples data<-data.frame(X=seq(1,5),Y=seq(1,5))
+#'  @examples VeneerSetPiecewise(data,"pw_table")
+
+VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
+{
+  if(ncol(data)!=2)
+  {
+    print("Data for piecewise linear must have 2 columns")
+    return()
+  }
+  X<-list()
+  X[["Entries"]]<-as.matrix(data)
+  X[["XName"]]<-"Lookup"
+  X[["YName"]]<-"Result"
+  
+  X<-toJSON(X,auto_unbox = TRUE)
+  
+  #Name in here, or not??
+  PUT(paste0(baseURL,"/variables/",pw_table,"/Piecewise"),body=X,content_type_json())
+}
+
+#'Get a time series result from Source using Veneer
+#' @param TSURL, the URL of the time series to retrieve
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#' @return a zoo time series of the data
+#' 
+#' The URL of the time series must be specified, by interrogation using a browser or other analysis. 
+#' Units for flow data are converted to ML/d. Spaces are OK, like in the example below (dont need to insert %20 for example).
+#' 
+#' @examples VeneerGetTS("/runs/latest/location/EndofSystem/element/Downstream Flow/variable/Flow")
+
+VeneerGetTS<-function(TSURL,baseURL="http://localhost:9876")
+{
+  D<-fromJSON(URLencode(paste0(baseURL,TSURL)))
+  B<-zoo(D$Events$Value,as.Date(D$Events$Date,format="%m/%d/%Y"))
+  if(D$Units=="m³/s") B<-B*86.4
+  return(B)
+}
+
+#' Get all time series recorded in Source of a given variable type
+#' @param variable Which variable to retrieve. Defaults to Flow.
+#' @param run Which run to retrieve from. Defaults to the latest
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#' @return a zoo time series, with each output as a column
+#' 
+#' @examples VeneerGetTSbyVariable() #returns all flow outputs recorded in the latest run
+#' @examples VeneerGetTSbyVariable("Water Surface Elevation",1) 
+#' 
+VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://localhost:9876")
+{
+  Results<-fromJSON(paste0(baseURL,"/runs/",run))
+  X<-Results$Results %>% filter(RecordingVariable==variable)
+  TS<-lapply(X$TimeSeriesUrl,function(x) VeneerGetTS(x,baseURL))
+  if(length(TS)>0)
+  {
+    TS<-zoo(matrix(unlist(TS),ncol=length(TS)),index(TS[[1]]))
+    if(ncol(TS)>1) colnames(TS)<-X$NetworkElement
+    return(TS)
+  }else
+  {
+    print(paste("No results for variable",variable,"found for run",run))
+    print(paste("Recorded variables are:",unique(Results$Results$RecordingVariable)))
+  }
+}

@@ -3,7 +3,7 @@
 #' @param SiteList A station number or vector of station numbers, as a string (e.g. "24001")
 #' @param path Where to save the output. Will default to getwd() if not specified
 #' @param startdate First day of data, in the format "YYYYMMDD". Will default to the first day of the record "18890101" if not specified
-#' @param enddata Last day of data, in the format "YYYYMMDD". Will default to yesterday if not specified
+#' @param enddate Last day of data, in the format "YYYYMMDD". Will default to yesterday if not specified
 #'
 #' @return A file for each station will be saved to path, named station number.txt. Nothing is returned to the R environment.
 #'
