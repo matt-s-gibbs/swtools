@@ -20,8 +20,8 @@ VeneerRunSource<-function(StartDate=NULL,EndDate=NULL,InputSet=NULL,baseURL="htt
   if(!is.null(EndDate)) X[["EndDate"]]<-EndDate
   if(!is.null(InputSet)) X[["SelectedInputSet"]]<-InputSet
   
-  X<-toJSON(X,auto_unbox = TRUE)
-  A<-POST(paste0(baseURL,"/runs"),body=X,content_type_json())
+  X<-jsonlite::toJSON(X,auto_unbox = TRUE)
+  A<-httr::POST(paste0(baseURL,"/runs"),body=X,httr::content_type_json())
   
   #write error message to console if there was one
   if(substr(rawToChar(A[[6]]),3,9)=="Message") substr(strsplit(rawToChar(A[[6]]),",")[[1]][1],13,1000)
@@ -41,9 +41,9 @@ VeneerRunSource<-function(StartDate=NULL,EndDate=NULL,InputSet=NULL,baseURL="htt
 VeneerSetFunction<-function(Name,Expression,baseURL="http://localhost:9876")
 {
   X<-list("Expression"=as.character(Expression),"Name"=paste0("$",Name))
-  X<-toJSON(X,auto_unbox = TRUE)
+  X<-jsonlite::toJSON(X,auto_unbox = TRUE)
 
-  PUT(paste0(baseURL,"/functions/",Name),body=X,content_type_json())
+  httr::PUT(paste0(baseURL,"/functions/",Name),body=X,httr::content_type_json())
 }
 
 #' Change a Source piecewise table using Veneer
@@ -69,10 +69,10 @@ VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
   X[["XName"]]<-"Lookup"
   X[["YName"]]<-"Result"
   
-  X<-toJSON(X,auto_unbox = TRUE)
+  X<-jsonlite::toJSON(X,auto_unbox = TRUE)
   
   #Name in here, or not??
-  PUT(paste0(baseURL,"/variables/",pw_table,"/Piecewise"),body=X,content_type_json())
+  httr::PUT(paste0(baseURL,"/variables/",pw_table,"/Piecewise"),body=X,httr::content_type_json())
 }
 
 #'Get a time series result from Source using Veneer
@@ -88,8 +88,8 @@ VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
 
 VeneerGetTS<-function(TSURL,baseURL="http://localhost:9876")
 {
-  D<-fromJSON(URLencode(paste0(baseURL,TSURL)))
-  B<-zoo(D$Events$Value,as.Date(D$Events$Date,format="%m/%d/%Y"))
+  D<-jsonlite::fromJSON(URLencode(paste0(baseURL,TSURL)))
+  B<-zoo::zoo(D$Events$Value,zoo::as.Date(D$Events$Date,format="%m/%d/%Y"))
   if(D$Units=="m³/s") B<-B*86.4
   return(B)
 }
@@ -106,17 +106,17 @@ VeneerGetTS<-function(TSURL,baseURL="http://localhost:9876")
 #' 
 VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://localhost:9876")
 {
-  Results<-fromJSON(paste0(baseURL,"/runs/",run))
-  X<-Results$Results %>% filter(RecordingVariable==variable)
+  Results<-jsonlite::fromJSON(paste0(baseURL,"/runs/",run))
+  X<-Results$Results %>% dplyr::filter(RecordingVariable==variable)
   TS<-lapply(X$TimeSeriesUrl,function(x) VeneerGetTS(x,baseURL))
   if(length(TS)>0)
   {
-    TS<-zoo(matrix(unlist(TS),ncol=length(TS)),index(TS[[1]]))
+    TS<-zoo::zoo(matrix(unlist(TS),ncol=length(TS)),zoo::index(TS[[1]]))
     if(ncol(TS)>1) colnames(TS)<-X$NetworkElement
     return(TS)
   }else
   {
     print(paste("No results for variable",variable,"found for run",run))
-    print(paste("Recorded variables are:",unique(Results$Results$RecordingVariable)))
+    print(paste("Recorded variables are:",paste(unique(Results$Results$RecordingVariable))))
   }
 }
