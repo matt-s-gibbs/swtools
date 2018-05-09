@@ -82,7 +82,12 @@ VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
 #' @return a zoo time series of the data
 #' 
 #' The URL of the time series must be specified, by interrogation using a browser or other analysis. 
-#' Units for flow data are converted to ML/d. Spaces are OK, like in the example below (dont need to insert %20 for example).
+#' By default Source returns SI units. Some conversion is undertaken:
+#' * Flow converted to ML/d
+#' * Volume converted to ML
+#' * Area converted to ha
+#' 
+#' Spaces are OK, like in the example below (dont need to insert %20 for example).
 #' 
 #' @examples VeneerGetTS("/runs/latest/location/EndofSystem/element/Downstream Flow/variable/Flow")
 
@@ -90,7 +95,11 @@ VeneerGetTS<-function(TSURL,baseURL="http://localhost:9876")
 {
   D<-jsonlite::fromJSON(URLencode(paste0(baseURL,TSURL)))
   B<-zoo::zoo(D$Events$Value,zoo::as.Date(D$Events$Date,format="%m/%d/%Y"))
-  if(D$Units=="m³/s") B<-B*86.4
+
+  if(D$Units=="m³/s") B <- B*86.4 #m3/s to ML/d
+  if(D$Units == "m³") B <- B / 1000 #m3 to ML
+  if(D$Units == "m²") B <- B / 10000 #m2 to ha
+  
   return(B)
 }
 
@@ -118,5 +127,32 @@ VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://loc
   {
     print(paste("No results for variable",variable,"found for run",run))
     print(paste("Recorded variables are:",paste(unique(Results$Results$RecordingVariable))))
+  }
+}
+
+#' Get all time series recorded in Source of a given variable type
+#' @param variable Which variable to retrieve. Defaults to Flow.
+#' @param run Which run to retrieve from. Defaults to the latest
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#' @return a zoo time series, with each output as a column
+#' 
+#' @examples VeneerGetTSbyVariable() #returns all flow outputs recorded in the latest run
+#' @examples VeneerGetTSbyVariable("Water Surface Elevation",1) 
+#' 
+VeneerGetTSbyNode<-function(Node,run="latest",baseURL="http://localhost:9876")
+{
+  Results<-jsonlite::fromJSON(paste0(baseURL,"/runs/",run))
+  X<-Results$Results %>% dplyr::filter(NetworkElement==Node)
+  TS<-lapply(X$TimeSeriesUrl,function(x) VeneerGetTS(x,baseURL))
+  if(length(TS)>0)
+  {
+    TS<-zoo::zoo(matrix(unlist(TS),ncol=length(TS)),zoo::index(TS[[1]]))
+    if(ncol(TS)>1) colnames(TS)<-X$RecordingVariable
+    return(TS)
+  }else
+  {
+    print(paste("No results for node",Node,"found for run",run))
+    print(paste("Recorded Nodes are:",paste(unique(Results$Results$NetworkElement))))
   }
 }
