@@ -14,7 +14,7 @@ SILODownload(SiteList, path = getwd(), startdate = "18890101",
 
 \item{startdate}{First day of data, in the format "YYYYMMDD". Will default to the first day of the record "18890101" if not specified}
 
-\item{enddata}{Last day of data, in the format "YYYYMMDD". Will default to yesterday if not specified}
+\item{enddate}{Last day of data, in the format "YYYYMMDD". Will default to yesterday if not specified}
 }
 \value{
 A file for each station will be saved to path, named station number.txt. Nothing is returned to the R environment.

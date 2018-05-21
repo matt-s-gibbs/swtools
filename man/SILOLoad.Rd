@@ -22,6 +22,6 @@ a list of lists of SILO data from each file. Each list has members: tsd - the ra
 Import multiple SILO files
 }
 \examples{
-X<-LoadSILO(c("24001","24002","24003"))
+X<-SILOLoad(c("24001","24002","24003"))
 plot(X$tsd$Rain)
 }

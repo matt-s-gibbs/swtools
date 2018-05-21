@@ -17,7 +17,7 @@ SILOReport(SILO, filename, path = getwd())
 Write SILO data report to word document
 }
 \examples{
-X<-LoadSILO(c("24001","24002","24003"))
+X<-SILOLoad(c("24001","24002","24003"))
 SILOReport(X,"C:/Output/MyReport.docx")
 
 \\code{\\link{SILOLoad}}

@@ -4,7 +4,7 @@
 \alias{SILOWriteforSource}
 \title{Write a csv file that can be loaded into a model, e.g. Source}
 \usage{
-SILOWriteforSource(SILO, col, filename)
+SILOWriteforSource(SILO, col, filename, scalefactor = 1)
 }
 \arguments{
 \item{SILO}{a list of sites with SILO data, as created by SILOLoad()}
@@ -12,6 +12,8 @@ SILOWriteforSource(SILO, col, filename)
 \item{col}{Name of a column in a silo file to write out}
 
 \item{filename}{file to write to.}
+
+\item{scalefactor}{factor to scale the data by. Defaults to 1. Useful for Pan evap or rainfall scaling. Could also be a vector, with a value for each station in SILO}
 }
 \description{
 Write a csv file that can be loaded into a model, e.g. Source

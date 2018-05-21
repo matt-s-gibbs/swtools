@@ -18,6 +18,6 @@ a google map of the SILO station locations
 Plot a map of the SILO station locations
 }
 \examples{
-X<-LoadSILO(c("24001","24002","24003"))
+X<-SILOLoad(c("24001","24002","24003"))
 p<-SILOMap(X,"Locations.png")
 }
