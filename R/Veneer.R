@@ -24,7 +24,12 @@ VeneerRunSource<-function(StartDate=NULL,EndDate=NULL,InputSet=NULL,baseURL="htt
   A<-httr::POST(paste0(baseURL,"/runs"),body=X,httr::content_type_json())
   
   #write error message to console if there was one
-  if(substr(rawToChar(A[[6]]),3,9)=="Message") substr(strsplit(rawToChar(A[[6]]),",")[[1]][1],13,1000)
+  if(substr(rawToChar(A[[6]]),3,9)=="Message"){
+    return(substr(strsplit(rawToChar(A[[6]]),",")[[1]][1],13,1000))
+  }else{
+    return("Run Successful")
+  }
+    
 }
 
 #' Change a Source function using Veneer
@@ -130,15 +135,14 @@ VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://loc
   }
 }
 
-#' Get all time series recorded in Source of a given variable type
-#' @param variable Which variable to retrieve. Defaults to Flow.
+#' Get all time series recorded in Source for a given node
+#' @param Node Name of node to retrieve Time Series for
 #' @param run Which run to retrieve from. Defaults to the latest
 #' @param baseURL URL of the Veneer server. Defaults to the veneer default.
 #' 
-#' @return a zoo time series, with each output as a column
+#' @return a zoo time series, with each variable as a column
 #' 
-#' @examples VeneerGetTSbyVariable() #returns all flow outputs recorded in the latest run
-#' @examples VeneerGetTSbyVariable("Water Surface Elevation",1) 
+#' @examples VeneerGetTSbyNode("Storage 1")
 #' 
 VeneerGetTSbyNode<-function(Node,run="latest",baseURL="http://localhost:9876")
 {
@@ -154,5 +158,38 @@ VeneerGetTSbyNode<-function(Node,run="latest",baseURL="http://localhost:9876")
   {
     print(paste("No results for node",Node,"found for run",run))
     print(paste("Recorded Nodes are:",paste(unique(Results$Results$NetworkElement))))
+  }
+}
+
+#' Get vector of InputSets
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#' @return vector containing info on Input Sets in the model
+#' 
+#' @examples VeneerGetInputSets()
+
+VeneerGetInputSets<-function(baseURL="http://localhost:9876")
+{
+  return(jsonlite::fromJSON(paste0(baseURL,"/InputSets")))
+}
+
+#' Get a vector of node names for a given type
+#' @param NodeType The node to return the names of. The icon in /network is searched for this name
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#'@return vector of node names matching the specified node type
+#'
+#'@examples VeneerGetNodesbyType("Weir")
+
+VeneerGetNodesbyType<-function(NodeType,baseURL="http://localhost:9876")
+{
+  A<-jsonlite::fromJSON(paste0(baseURL,"/network"))
+  
+  #find the name of the nodetype
+  iconname<-A$features$properties$icon[grep(NodeType,A$features$properties$icon)[1]]
+  if(is.na(iconname)){
+    print(paste(NodeType,"not found in the model. Try a different name, capitalisation matters. Search http://localhost:9876/network to see options, look for \"icon\""))
+  }else{
+    return(A$features$properties %>% dplyr::filter(icon == iconname) %>% dplyr::select(name))
   }
 }
