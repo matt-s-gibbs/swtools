@@ -104,6 +104,7 @@ VeneerGetTS<-function(TSURL,baseURL="http://localhost:9876")
   if(D$Units=="m³/s") B <- B*86.4 #m3/s to ML/d
   if(D$Units == "m³") B <- B / 1000 #m3 to ML
   if(D$Units == "m²") B <- B / 10000 #m2 to ha
+  if(D$Units == "kg/m³") B <- B * 1000 #kg/m³ to mg/L
   
   return(B)
 }
@@ -133,6 +134,20 @@ VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://loc
     print(paste("No results for variable",variable,"found for run",run))
     print(paste("Recorded variables are:",paste(unique(Results$Results$RecordingVariable))))
   }
+}
+
+#' Get a vector of the type of time series variables recorded
+#' @param run Which run to retrieve from. Defaults to the latest
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#' @return a vector of variable types (e.g. Downstream flow, Downstream Flow Concentration, water surface elevation)
+#' 
+#' @examples VeneerGetTSVariables()
+#' 
+VeneerGetTSVariables<-function(run="latest",baseURL="http://localhost:9876")
+{
+  Results<-jsonlite::fromJSON(paste0(baseURL,"/runs/",run))
+  return(unique(Results$Results$RecordingVariable))
 }
 
 #' Get all time series recorded in Source for a given node
@@ -187,9 +202,21 @@ VeneerGetNodesbyType<-function(NodeType,baseURL="http://localhost:9876")
   
   #find the name of the nodetype
   iconname<-A$features$properties$icon[grep(NodeType,A$features$properties$icon)[1]]
-  if(is.na(iconname)){
+  if(length(iconname)==1 & is.na(iconname)){
     print(paste(NodeType,"not found in the model. Try a different name, capitalisation matters. Search http://localhost:9876/network to see options, look for \"icon\""))
   }else{
     return(A$features$properties %>% dplyr::filter(icon == iconname) %>% dplyr::select(name))
   }
+}
+
+#' Get the number of the latest run
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#' @return integer of the latest run number
+#' 
+#' @examples VeneerlatestRunNumber()
+VeneerlatestRunNumber<-function(baseURL="http://localhost:9876")
+{
+  A<-jsonlite::fromJSON(paste0(baseURL,"/Runs"))
+  return(as.integer(strsplit(A[nrow(A),]$RunUrl,"/")[[1]][3]))
 }
