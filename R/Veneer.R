@@ -80,6 +80,24 @@ VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
   httr::PUT(paste0(baseURL,"/variables/",pw_table,"/Piecewise"),body=X,httr::content_type_json())
 }
 
+#' Get data from a Source piecewise table using Veneer
+#' 
+#' @param pw_table The name of the piecewise linear variable, without the $
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' 
+#' @return a matrix with the data from the piecewise table
+#' 
+#'  Get data from a piecewise linear table using a table.
+#'  
+#'  @examples VeneerGetPiecewise(data,"pw_table")
+VeneerGetPiecewise<-function(pw_table,baseURL="http://localhost:9876")
+{
+  
+  #Name in here, or not??
+  D<-jsonlite::fromJSON(URLencode(paste0(baseURL,"/variables/",pw_table,"/Piecewise")))$Entries
+  return(D)
+}
+
 #'Get a time series result from Source using Veneer
 #' @param TSURL, the URL of the time series to retrieve
 #' @param baseURL URL of the Veneer server. Defaults to the veneer default.
@@ -127,7 +145,12 @@ VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://loc
   if(length(TS)>0)
   {
     TS<-zoo::zoo(matrix(unlist(TS),ncol=length(TS)),zoo::index(TS[[1]]))
-    if(ncol(TS)>1) colnames(TS)<-X$NetworkElement
+    if(ncol(TS)>1){
+      colnames(TS)<-X$NetworkElement
+    }else
+    {
+      names(TS)<-X$NetworkElement
+    }
     return(TS)
   }else
   {
