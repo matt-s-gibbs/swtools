@@ -297,11 +297,8 @@ SILOMap<-function(SILO,filename=NULL)
   
   sbbox <- ggmap::make_bbox(lon = points$lon, lat = points$lat, f = 1.0)
   
-  if(length(SILO)==1){
-    sq_map <- ggmap::get_map(location = sbbox,  maptype = "terrain", source = "google",zoom=10)
-  }else{
-    sq_map <- ggmap::get_map(location = sbbox,  maptype = "terrain", source = "google")
-  }
+  if(length(SILO)==1) sbbox<-c(sbbox[1]*0.999,sbbox[2]*1.005,sbbox[3]*1.001,sbbox[4]*0.995)
+    sq_map <- ggmap::get_map(location = sbbox,  maptype = "terrain", source = "stamen")
   
   p<-ggmap::ggmap(sq_map) + 
     ggplot2::geom_point(data = points, color = "red", size = 3) +
