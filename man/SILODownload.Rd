@@ -4,11 +4,15 @@
 \alias{SILODownload}
 \title{Download SILO data}
 \usage{
-SILODownload(SiteList, path = getwd(), startdate = "18890101",
-  enddate = NULL)
+SILODownload(SiteList, username, password, path = getwd(),
+  startdate = "18890101", enddate = NULL)
 }
 \arguments{
 \item{SiteList}{A station number or vector of station numbers, as a string (e.g. "24001")}
+
+\item{username}{SILO user name}
+
+\item{password}{SILO password}
 
 \item{path}{Where to save the output. Will default to getwd() if not specified}
 

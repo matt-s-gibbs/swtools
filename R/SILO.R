@@ -1,6 +1,8 @@
 #' Download SILO data
 #'
 #' @param SiteList A station number or vector of station numbers, as a string (e.g. "24001")
+#' @param username SILO user name
+#' @param password SILO password
 #' @param path Where to save the output. Will default to getwd() if not specified
 #' @param startdate First day of data, in the format "YYYYMMDD". Will default to the first day of the record "18890101" if not specified
 #' @param enddate Last day of data, in the format "YYYYMMDD". Will default to yesterday if not specified
@@ -11,14 +13,12 @@
 #' @examples SILODownload("24001","C:/SILO/","20170701","20170801")
 #'
 #'
-SILODownload <- function(SiteList, path = getwd(), startdate = "18890101", enddate = NULL) {
+SILODownload <- function(SiteList, username,password,path = getwd(), startdate = "18890101", enddate = NULL) {
 
     if(!dir.exists(path)){
         print(paste("Path",path,"Doesn't exist"))
         return(-1)
     }
-    username <- "SADWLBC"
-    password = "25732"
 
     #if no end date provided, use yesterday
     if (is.null(enddate))
@@ -61,78 +61,74 @@ SILODownload <- function(SiteList, path = getwd(), startdate = "18890101", endda
 
 
 SILOImport <- function(station, path = getwd(), startdate, enddate) {
-
-    if(!dir.exists(path)){
-      print(paste("Path",path,"Doesn't exist"))
-      return(-1)
+  
+  if(!dir.exists(path)){
+    print(paste("Path",path,"Doesn't exist"))
+    return(-1)
+  }
+  
+  filename <- paste0(path, "/", station, ".txt")
+  fcon <- file(filename, "r")
+  file <- readLines(fcon)
+  close(fcon)
+  
+  name <- FALSE
+  header <- 0
+  i <- 1
+  
+  for (line in file) {
+    # strip out the station name and location
+    if (name == FALSE) {
+      if (regexpr(" * Patched", line, fixed = TRUE) > 0) {
+        l <- line[i]
+        list <- unlist(strsplit(line, " "))
+        list <- list[list!=""]
+        Station <- list[8]
+        Site <- list[9:(match("Lat:",list)-1)]
+        Site <- paste(Site,sep = " ",collapse = " ")
+        Lat <- as.numeric(list[(match("Lat:",list))+1])
+        Lon <- as.numeric(gsub("\\\"","",list[(match("Long:",list))+1]))
+        
+        name <- TRUE
+      }
+    } else if (header == 0) {
+      if (regexpr("Date ", line, fixed = TRUE) > 0) {
+        Heads = strsplit(line, " +")
+        # can't have duplicate row names
+        Heads[[1]][26] = "Ssp1"
+        header <- 1
+      }
+    } else if (header == 1) {
+      units <- strsplit(line, " +")
+      break
     }
-
-    filename <- paste0(path, "/", station, ".txt")
-    fcon <- file(filename, "r")
-    file <- readLines(fcon)
-    close(fcon)
-
-    name <- FALSE
-    header <- 0
-    i <- 1
-
-    for (line in file) {
-        # strip out the station name and location
-        if (name == FALSE) {
-            if (regexpr(" * Patched", line, fixed = TRUE) > 0) {
-                list <- strsplit(line, ":+")
-                statname <- strsplit(list[[1]][2], " ")
-                Station <- statname[[1]][2]
-                Site <- statname[[1]][3]
-
-                statname <- strsplit(list[[1]][3], " ")
-                Lat <- as.numeric(statname[[1]][2])
-
-                statname <- gsub("\"", "", list[[1]][4])
-                statname <- gsub(" ", "", statname)
-                Lon <- as.numeric(statname)
-
-                name <- TRUE
-            }
-        } else if (header == 0) {
-            if (regexpr("Date ", line, fixed = TRUE) > 0) {
-                Heads = strsplit(line, " +")
-                # can't have duplicate row names
-                Heads[[1]][26] = "Ssp1"
-                header <- 1
-            }
-        } else if (header == 1) {
-            units <- strsplit(line, " +")
-            break
-        }
-        i <- i + 1
-    }
-
-    # read in the data, and convert to a zoo time series object
-    d <- read.table(filename, header = FALSE, col.names = Heads[[1]], skip = i)
-    x <- as.Date(d$Date2, "%d-%m-%Y")
-    tsd <- zoo::zoo(d[, 4:26], x)
-
-    # extract on just the dates
-    if (missing(startdate)) {
-        startdate <- start(tsd)
-    }
-
-    if (missing(enddate)) {
-        enddate <- end(tsd)
-    }
-
-    tsd <- window(tsd, start = as.Date(startdate), end = as.Date(enddate))
-    
-    id<-which(tsd$Srn==0)
-    startdata<-zoo::index(tsd[id[1],])
-    enddata<-zoo::index(tsd[id[length(id)],])
-    missingdata<-100-length(id)/(as.numeric(enddata-startdata)+1)*100.0
-
-
-    return(list(tsd = tsd, Site = Site, Station = Station, Lat = Lat, Lon = Lon,
-                start=startdata,end=enddata,missing=missingdata))
-
+    i <- i + 1
+  }
+  # read in the data, and convert to a zoo time series object
+  d <- read.table(filename, header = FALSE, col.names = Heads[[1]], skip = i)
+  x <- as.Date(d$Date2, "%d-%m-%Y")
+  tsd <- zoo::zoo(d[, 4:26], x)
+  
+  # extract on just the dates
+  if (missing(startdate)) {
+    startdate <- start(tsd)
+  }
+  
+  if (missing(enddate)) {
+    enddate <- end(tsd)
+  }
+  
+  tsd <- window(tsd, start = as.Date(startdate), end = as.Date(enddate))
+  
+  id<-which(tsd$Srn==0)
+  startdata<-zoo::index(tsd[id[1],])
+  enddata<-zoo::index(tsd[id[length(id)],])
+  missingdata<-100-length(id)/(as.numeric(enddata-startdata)+1)*100.0
+  
+  
+  return(list(tsd = tsd, Site = Site, Station = Station, Lat = Lat, Lon = Lon,
+              start=startdata,end=enddata,missing=missingdata))
+  
 }
 
 #' Import multiple SILO files
@@ -147,12 +143,27 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples plot(X$tsd$Rain)
 
-SILOLoad<-function(sites,path = getwd(), startdate, enddate)
-{
+SILOLoad<-function(sites,path = getwd(), startdate, enddate){
+  n=4
   Data<-list()
-  for(s in sites) Data[[s]]<-SILOImport(s,path,startdate,enddate)
+  
+  cl<-parallel::makeCluster(n,type = "SOCK") 
+  doSNOW::registerDoSNOW(cl)
+  
+  foreach::foreach(i = 1:n) %do% {
+    Data[[i]]<- SILOImport(sites[i],path,startdate,enddate)
+    return(Data)
+  }
+  
+  parallel::stopCluster(cl)
+  closeAllConnections()
+  
+  names(Data)<-sites
   return(Data)
+  
+  
 }
+
 
 #' Plot the quality codes of the SILO rainfall data
 #'
