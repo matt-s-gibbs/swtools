@@ -55,14 +55,14 @@ read_res.csv <- function(resFile,returnType="df")
   
   d <- read.csv(resFile,header  = FALSE,skip = EOHline,sep = ",",as.is=TRUE)
   
-  allColHeaders <- read.csv(resFile,header = FALSE,skip = hline-1,nrows = numOutputs,stringsAsFactors = FALSE,as.is=TRUE)
+  allColHeaders <- read.csv(resFile,header = FALSE,skip = hline-1,nrows = numOutputs,as.is=TRUE)
   
   colHeaders <- paste0(allColHeaders$V7,".",allColHeaders$V11)
   
   colnames(d) <- c("Date",colHeaders)
   d$Date<-as.Date(d$Date)
   
-  if(returnType=="t")  return(as_tibble(d))
+  if(returnType=="t")  return(tibble::as_tibble(d))
   if(returnType=="z")   return(zoo::zoo(d,order.by = d$Date))
   return(d)
   
