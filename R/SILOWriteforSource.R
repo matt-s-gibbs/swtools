@@ -24,3 +24,46 @@ SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
     write.csv(dat * scalefactor,filename,row.names = format(zoo::index(dat),"%d/%m/%Y"),quote = FALSE)
   }
 }
+
+# Function to Read a Source .res.csv File
+
+# Returns data (as a Data Frame,  Zoo, or tibble) as a time Series with all Results
+
+#' Read Source .res.csv file into a data table or zoo time series
+#'
+#' @param resFile A character string representing the full file path of the .res.csv file
+#'
+#' @param returnType A character string to set the return type: "z", "t", "df". If not specified or not matching "t" or "z", data frame returned.
+#'
+#' @return Data in the format selected with all data read in from the Source .res.csv file
+#'
+#' @examples X = read_res.csv(file.choose(),returnType="df")
+#'
+#'
+
+read_res.csv <- function(resFile,returnType="df")
+{
+  s <-readLines(resFile,skipNul = TRUE)
+  
+  EOCline <- which(s=="EOC",arr.ind = TRUE)
+  
+  EOHline <- which(s=="EOH",arr.ind = TRUE)
+  
+  hline <- EOCline + 2
+  
+  numOutputs <- as.integer(s[EOCline+1])
+  
+  d <- read.csv(resFile,header  = FALSE,skip = EOHline,sep = ",",as.is=TRUE)
+  
+  allColHeaders <- read.csv(resFile,header = FALSE,skip = hline-1,nrows = numOutputs,stringsAsFactors = FALSE,as.is=TRUE)
+  
+  colHeaders <- paste0(allColHeaders$V7,".",allColHeaders$V11)
+  
+  colnames(d) <- c("Date",colHeaders)
+  d$Date<-as.Date(d$Date)
+  
+  if(returnType=="t")  return(as_tibble(d))
+  if(returnType=="z")   return(zoo::zoo(d,order.by = d$Date))
+  return(d)
+  
+}
