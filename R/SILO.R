@@ -77,6 +77,11 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
   i <- 1
   
   for (line in file) {
+    #get elevation
+    if (regexpr(" * Elevation", line, fixed = TRUE) > 0) {
+        list<-strsplit(line," ")[[1]]
+        elevation<-as.numeric(list[length(list)-2])
+      }
     # strip out the station name and location
     if (name == FALSE) {
       if (regexpr(" * Patched", line, fixed = TRUE) > 0) {
@@ -126,7 +131,7 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
   missingdata<-100-length(id)/(as.numeric(enddata-startdata)+1)*100.0
   
   
-  return(list(tsd = tsd, Site = Site, Station = Station, Lat = Lat, Lon = Lon,
+  return(list(tsd = tsd, Site = Site, Station = Station, Lat = Lat, Lon = Lon, Elevation=elevation,
               start=startdata,end=enddata,missing=missingdata))
   
 }

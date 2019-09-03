@@ -4,7 +4,7 @@
 \alias{SILOLoad}
 \title{Import multiple SILO files}
 \usage{
-SILOLoad(sites, path = getwd(), startdate, enddate, nclusters = 4)
+SILOLoad(sites, path = getwd(), startdate, enddate, nclusters = 1)
 }
 \arguments{
 \item{sites}{a vector of Station numbers (e.g. c("24001","24002","24003")) to import. The function expects the file to be called "24001.txt".}
@@ -15,7 +15,7 @@ SILOLoad(sites, path = getwd(), startdate, enddate, nclusters = 4)
 
 \item{enddate}{End date of data to load, in format "YYYY-MM-DD". Defaults to end of the file if not provided}
 
-\item{nclusters}{Number of cores to use in parallel to load data. Defaults to 4.}
+\item{nclusters}{Number of cores to use in parallel to load data. Defaults to 1.}
 }
 \value{
 a list of lists of SILO data from each file. Each list has members: tsd - the raw data as a daily zoo object, Site- the name of the site, Station - the station number, Lon- Longitude, and Lat - Latitude
