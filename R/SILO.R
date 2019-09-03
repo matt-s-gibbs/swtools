@@ -137,16 +137,25 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
 #' @param path Location where the file is located. Use "/" or "\\\\" for folders. Defaults to getwd() if not specified.
 #' @param startdate Start date of data to load, in format "YYYY-MM-DD". Defaults to start of the file if not provided
 #' @param enddate End date of data to load, in format "YYYY-MM-DD". Defaults to end of the file if not provided
-#' @param nclusters Number of cores to use in parallel to load data. Defaults to 4.
+#' @param nclusters Number of cores to use in parallel to load data. Defaults to 1.
 #'
 #' @return a list of lists of SILO data from each file. Each list has members: tsd - the raw data as a daily zoo object, Site- the name of the site, Station - the station number, Lon- Longitude, and Lat - Latitude
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples plot(X$tsd$Rain)
 
-SILOLoad<-function(sites,path = getwd(), startdate, enddate,nclusters=4){
+SILOLoad<-function(sites,path = getwd(), startdate, enddate,nclusters=1){
   
   Data<-list()
+  
+  if(nclusters==1)
+  {
+    for(i in 1:length(sites)){
+      Data[[i]]<- SILOImport(sites[i],path,startdate,enddate)
+    }
+    
+  }else
+  {
   
   cl<-parallel::makeCluster(nclusters,type = "SOCK") 
   doSNOW::registerDoSNOW(cl)
@@ -158,7 +167,7 @@ SILOLoad<-function(sites,path = getwd(), startdate, enddate,nclusters=4){
   
   parallel::stopCluster(cl)
   closeAllConnections()
-  
+  }
   names(Data)<-sites
   return(Data)
   
