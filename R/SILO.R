@@ -1,7 +1,7 @@
 #' Download SILO data
 #'
 #' @param SiteList A station number or vector of station numbers, as a string (e.g. "24001")
-#' @param username SILO user name
+#' @param username SILO user name. Defaults to credentials used by https://www.longpaddock.qld.gov.au/silo/point-data/
 #' @param password SILO password
 #' @param path Where to save the output. Will default to getwd() if not specified
 #' @param startdate First day of data, in the format "YYYYMMDD". Will default to the first day of the record "18890101" if not specified
@@ -9,11 +9,11 @@
 #'
 #' @return A file for each station will be saved to path, named station number.txt. Nothing is returned to the R environment.
 #'
-#' @examples SILODownload("24001")
-#' @examples SILODownload("24001","C:/SILO/","20170701","20170801")
+#' @examples SILODownload("24001",path="C:/SILO/")
+#' @examples SILODownload("24001",path="C:/SILO/",startdate="20170701",enddate="20170801")
 #'
 #'
-SILODownload <- function(SiteList, username,password,path = getwd(), startdate = "18890101", enddate = NULL) {
+SILODownload <- function(SiteList, username="noemail@net.com",password="gui",path = getwd(), startdate = "18890101", enddate = NULL) {
 
     if(!dir.exists(path)){
         print(paste("Path",path,"Doesn't exist"))
@@ -28,12 +28,13 @@ SILODownload <- function(SiteList, username,password,path = getwd(), startdate =
     for (site in SiteList) {
 
         #build link
-      siteToOpen <- paste0("https://legacy.longpaddock.qld.gov.au/cgi-bin/silo/PatchedPointDataset.php?format=alldata&station=", site, "&start=", startdate,
+      siteToOpen <- paste0("https://longpaddock.qld.gov.au/cgi-bin/silo/PatchedPointDataset.php?format=alldata&station=", site, "&start=", startdate,
                            "&finish=", enddate, "&username=", username, "&password=", password)
 
         #download data
-        A <- RCurl::getURL(siteToOpen, .opts = list(ssl.verifypeer = FALSE))
-
+      A<-httr::with_config( config("ssl_cipher_list" = "RC4-SHA"),GET(siteToOpen))
+      A<-httr::content(A,as="text")
+      
         #write to file
         cat(A, file = paste0(path, "/", site, ".txt"))
     }

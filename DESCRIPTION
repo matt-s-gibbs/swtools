@@ -1,7 +1,7 @@
 Package: SWTools
 Type: Package
 Title: Commonly used tools for DEW Hydrologists
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: person("Matt", "Gibbs", email = "matt.gibbs@sa.gov.au",
     role = c("aut", "cre"))
 Description: Functions to speed up workflow for hydrology in DEWNR. DEWNR is specified
@@ -12,7 +12,7 @@ License: GLP-3
 Encoding: UTF-8
 LazyData: true
 Imports:
-    RCurl,
+    httr,
     zoo,
     ggplot2,
     RColorBrewer,
