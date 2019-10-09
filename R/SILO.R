@@ -32,7 +32,7 @@ SILODownload <- function(SiteList, username="noemail@net.com",password="gui",pat
                            "&finish=", enddate, "&username=", username, "&password=", password)
 
         #download data
-      A<-httr::with_config( config("ssl_cipher_list" = "RC4-SHA"),GET(siteToOpen))
+      A<-httr::with_config( httr::config("ssl_cipher_list" = "RC4-SHA"),httr::GET(siteToOpen))
       A<-httr::content(A,as="text")
       
         #write to file

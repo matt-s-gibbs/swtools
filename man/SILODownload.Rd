@@ -4,13 +4,13 @@
 \alias{SILODownload}
 \title{Download SILO data}
 \usage{
-SILODownload(SiteList, username, password, path = getwd(),
-  startdate = "18890101", enddate = NULL)
+SILODownload(SiteList, username = "noemail@net.com", password = "gui",
+  path = getwd(), startdate = "18890101", enddate = NULL)
 }
 \arguments{
 \item{SiteList}{A station number or vector of station numbers, as a string (e.g. "24001")}
 
-\item{username}{SILO user name}
+\item{username}{SILO user name. Defaults to credentials used by https://www.longpaddock.qld.gov.au/silo/point-data/}
 
 \item{password}{SILO password}
 
@@ -27,8 +27,8 @@ A file for each station will be saved to path, named station number.txt. Nothing
 Download SILO data
 }
 \examples{
-SILODownload("24001")
-SILODownload("24001","C:/SILO/","20170701","20170801")
+SILODownload("24001",path="C:/SILO/")
+SILODownload("24001",path="C:/SILO/",startdate="20170701",enddate="20170801")
 
 
 }
