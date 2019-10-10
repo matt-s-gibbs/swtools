@@ -6,14 +6,14 @@
 #' @param path Where to save the output. Will default to getwd() if not specified
 #' @param startdate First day of data, in the format "YYYYMMDD". Will default to the first day of the record "18890101" if not specified
 #' @param enddate Last day of data, in the format "YYYYMMDD". Will default to yesterday if not specified
-#'
+#' @param ssl if true set ssl_cipher_list to "RC4-SHA" for file download. Seems to be necessary on some machines. default to FALSE
 #' @return A file for each station will be saved to path, named station number.txt. Nothing is returned to the R environment.
 #'
 #' @examples SILODownload("24001",path="C:/SILO/")
 #' @examples SILODownload("24001",path="C:/SILO/",startdate="20170701",enddate="20170801")
 #'
 #'
-SILODownload <- function(SiteList, username="noemail@net.com",password="gui",path = getwd(), startdate = "18890101", enddate = NULL) {
+SILODownload <- function(SiteList, username="noemail@net.com",password="gui",path = getwd(), startdate = "18890101", enddate = NULL,ssl=FALSE) {
 
     if(!dir.exists(path)){
         print(paste("Path",path,"Doesn't exist"))
@@ -32,7 +32,12 @@ SILODownload <- function(SiteList, username="noemail@net.com",password="gui",pat
                            "&finish=", enddate, "&username=", username, "&password=", password)
 
         #download data
-      A<-httr::with_config( httr::config("ssl_cipher_list" = "RC4-SHA"),httr::GET(siteToOpen))
+      if(ssl){
+        A<-httr::with_config( httr::config("ssl_cipher_list" = "RC4-SHA"),httr::GET(siteToOpen))
+      }else
+      {
+        A<-httr::GET(siteToOpen)
+      }
       A<-httr::content(A,as="text")
       
         #write to file
