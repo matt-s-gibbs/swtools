@@ -1,12 +1,12 @@
 Package: SWTools
 Type: Package
 Title: Commonly used tools for DEW Hydrologists
-Version: 0.1.5
+Version: 0.1.6
 Authors@R: person("Matt", "Gibbs", email = "matt.gibbs@sa.gov.au",
     role = c("aut", "cre"))
-Description: Functions to speed up workflow for hydrology in DEWNR. DEWNR is specified
-    as the user group, some functions must be run on the DEWNR network (e.g. Hydstra)
-    or include DEWNR login information (SILO).
+Description: Functions to speed up workflow for hydrology in DEW. DEW is specified
+    as the user group, some functions must be run on the DEW network (e.g. Hydstra)
+    or include DEW login information (SILO).
 Depends: R (>= 3.2.0)
 License: GLP-3
 Encoding: UTF-8
@@ -27,5 +27,6 @@ Imports:
     jsonlite,
     doSNOW,
     foreach,
-    tibble
-RoxygenNote: 6.0.1
+    tibble,
+    purrr
+RoxygenNote: 6.1.1

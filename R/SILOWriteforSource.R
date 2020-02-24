@@ -57,7 +57,7 @@ read_res.csv <- function(resFile,returnType="df")
   
   allColHeaders <- read.csv(resFile,header = FALSE,skip = hline-1,nrows = numOutputs,as.is=TRUE)
   
-  t<-ifelse(str_detect(allColHeaders$V11,allColHeaders$V8),allColHeaders$V11,paste0(allColHeaders$V8,".",allColHeaders$V11))
+  t<-ifelse(stringr::str_detect(allColHeaders$V11,allColHeaders$V8),allColHeaders$V11,paste0(allColHeaders$V8,".",allColHeaders$V11))
   
   colHeaders <- paste0(allColHeaders$V7,".",t)
   
