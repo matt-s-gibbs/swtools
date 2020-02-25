@@ -19,6 +19,11 @@
 #'   \item Outputfilename - where to save the plots.
 #'   \item TSPlot - TRUE if  the time series plots should be produced 
 #'   \item TSylab - y label for the time series plot
+#'   \item textsize - size of text for results on tile plot 
+#'   \item TileWidth - width of tile plot figure in cm
+#'   \item TileHeight - height of tile plot figure in cm
+#'   \item TSWidth - width of tile plot figure in cm
+#'   \item TSHeight - height of tile plot figure in cm
 #' }
 #'
 #' @return Nothing returned to the environment. Figures saved to the filename specified
@@ -38,7 +43,8 @@ IOTilePlot<-function(options)
   
   dat <- dat %>%
     purrr::map( ~ dplyr::select(.x, options[['SourceColumns']])) %>% #select columns
-    purrr::map( ~ dplyr::mutate_all(.x, .funs = dplyr::funs(. * options[['unitconversion']]))) #convert units
+    #purrr::map( ~ dplyr::mutate_all(.x, .funs = dplyr::funs(. * options[['unitconversion']]))) #convert units
+    purrr::map( ~ dplyr::mutate_all(.x, .funs = ~. * options[['unitconversion']])) #convert units
   
   recode <- options[['SourceColumnsNiceNames']]
   names(recode) <- options[['SourceColumns']]
@@ -88,7 +94,7 @@ IOTilePlot<-function(options)
       high = "#1a9850"#,
 #      oob = scales::squish
     ) +
-    ggplot2::geom_text(ggplot2::aes(label = round(Value, options[['dp']]))) +
+    ggplot2::geom_text(ggplot2::aes(label = round(Value, options[['dp']])),size=options[['textsize']]) +
     ggplot2::labs(title = options[['title']], y = NULL) +
     ggplot2::theme_bw() +
     ggplot2::theme(legend.title = ggplot2::element_text(hjust = 0.5))
@@ -96,8 +102,8 @@ IOTilePlot<-function(options)
   ggplot2::ggsave(
     paste0(options[['Outputfilename']], "-Tile.png"),
     p,
-    width = 15,
-    height = 22,
+    width = options[['TileWidth']],
+    height = options[['TileHeight']],
     units = "cm"
   )
   
@@ -128,8 +134,8 @@ IOTilePlot<-function(options)
       ggplot2::ggsave(
         paste0(options[['Outputfilename']], "-TS-Locks.png"),
         p1,
-        width = 15,
-        height = 22,
+        width = options[['TSWidth']],
+        height = options[['TSHeight']],
         units = "cm"
       )
     }
@@ -150,10 +156,41 @@ IOTilePlot<-function(options)
       ggplot2::ggsave(
         paste0(options[['Outputfilename']], "-TS-Other.png"),
         p2,
-        width = 15,
-        height = 22,
+        width = options[['TSWidth']],
+        height = options[['TSHeight']],
         units = "cm"
       )
     }
   }
+}
+
+#' Function to set list object for IOTilePlot
+#'
+#' @return list with expected elements and some default values
+#' @export
+#'
+#' @examples IODefaults()
+IODefaults<-function()
+{
+  a<-list(TSWidth=15,
+          TSHeight=22,
+          TileWidth=15,
+          TileHeight=22,
+          textsize=5,
+          direction=1,
+          files=NULL,
+          startdate=NULL,
+          enddate=NULL,
+          SourceColumns=NULL,
+          SourceColumnsNiceNames=NULL,
+          thresholds=NULL,
+          "function"=function(x) mean(x),
+          dp=0,
+          title=NULL,
+          unitconversion=1,
+          TSPlot=FALSE,
+          TSylab=NULL,
+          Outputfilename=NULL)
+  
+  return(a)
 }
