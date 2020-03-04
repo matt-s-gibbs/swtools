@@ -74,7 +74,7 @@ IOTilePlot<-function(options)
   
   stats<-stats%>%
     dplyr::group_by(Location) %>%
-    dplyr::mutate(base = Value[1],
+    dplyr::mutate(base = Value[Scenario==names(options[['files']])],
                   #first row that matches group, *should* be value from first file, i.e. run for comparison
                   pct = ifelse(base==0,0,(Value - base) / base * 100. * options[['direction']]),
                   pct = ifelse(pct>options[['maxscale']],options[['maxscale']],pct),
