@@ -24,6 +24,7 @@
 #'   \item TileHeight - height of tile plot figure in cm
 #'   \item TSWidth - width of tile plot figure in cm
 #'   \item TSHeight - height of tile plot figure in cm
+#'   \item maxscale - maximum limit on the scale of the tile plot. Any values that exceed [-maxscale,maxscale] will be shown as 100%
 #' }
 #'
 #' @return Nothing returned to the environment. Figures saved to the filename specified
@@ -75,7 +76,9 @@ IOTilePlot<-function(options)
     dplyr::group_by(Location) %>%
     dplyr::mutate(base = Value[1],
                   #first row that matches group, *should* be value from first file, i.e. run for comparison
-                  pct = ifelse(base==0,0,(Value - base) / base * 100. * options[['direction']])) %>%
+                  pct = ifelse(base==0,0,(Value - base) / base * 100. * options[['direction']]),
+                  pct = ifelse(pct>options[['maxscale']],options[['maxscale']],pct),
+                  pct = ifelse(pct< -options[['maxscale']],-options[['maxscale']],pct)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Scenario = factor(Scenario, levels = names(options[['files']]))) %>%
     dplyr::mutate(Location = dplyr::recode_factor(Location, !!!recode))
@@ -190,7 +193,8 @@ IODefaults<-function()
           unitconversion=1,
           TSPlot=FALSE,
           TSylab=NULL,
-          Outputfilename=NULL)
+          Outputfilename=NULL,
+          maxscale=100)
   
   return(a)
 }
