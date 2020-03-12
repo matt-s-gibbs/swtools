@@ -25,6 +25,7 @@
 #'   \item TSWidth - width of tile plot figure in cm
 #'   \item TSHeight - height of tile plot figure in cm
 #'   \item maxscale - maximum limit on the scale of the tile plot. Any values that exceed [-maxscale,maxscale] will be shown as 100%
+#'   \item difference - apply function or threshold to the difference bewteen each scenario and the base scenario (first file) (TRUE), or the raw time series values (FALSE)
 #' }
 #'
 #' @return Nothing returned to the environment. Figures saved to the filename specified
@@ -50,6 +51,12 @@ IOTilePlot<-function(options)
   recode <- options[['SourceColumnsNiceNames']]
   names(recode) <- options[['SourceColumns']]
   recode = rev(recode)
+  
+  if(options[['difference']]) 
+  {
+    base<-rep(list(dat[[1]]),length(dat))
+    dat<-purrr::map2(dat,base,~.x-.y)
+  }
   
   if(length(options[['thresholds']])!=length(options[['SourceColumns']]))
   {
@@ -84,23 +91,45 @@ IOTilePlot<-function(options)
     dplyr::mutate(Location = dplyr::recode_factor(Location, !!!recode))
   
   
-  lims <- max(abs(stats$pct))
-  lims <- ceiling(lims / 10) * 10 #round up to nearest 10.
-  
-  p <- ggplot2::ggplot(stats, ggplot2::aes(x = Scenario, y = Location)) +
-    ggplot2::geom_tile(ggplot2::aes(fill = pct)) +
-    ggplot2::scale_fill_gradient2(
-      paste0("Percent\nchange\nfrom\n", names(options[['files']])[1], "\nScenario"),
-      limits = c(-lims, lims),
-      low = "#d73027",
-      mid = "white",
-      high = "#1a9850"#,
-#      oob = scales::squish
-    ) +
-    ggplot2::geom_text(ggplot2::aes(label = round(Value, options[['dp']])),size=options[['textsize']]) +
-    ggplot2::labs(title = options[['title']], y = NULL) +
-    ggplot2::theme_bw() +
-    ggplot2::theme(legend.title = ggplot2::element_text(hjust = 0.5))
+  if(options[['difference']])
+  { 
+    lims <- max(abs(stats$Value))
+    lims <- ceiling(lims / 10) * 10 #round up to nearest 10.
+    
+    p <- ggplot2::ggplot(stats, ggplot2::aes(x = Scenario, y = Location)) +
+      ggplot2::geom_tile(ggplot2::aes(fill = Value)) +
+      ggplot2::geom_text(ggplot2::aes(label = round(Value, options[['dp']])),size=options[['textsize']]) +
+      ggplot2::labs(title = options[['title']], y = NULL) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(legend.title = ggplot2::element_text(hjust = 0.5)) +
+      ggplot2::scale_fill_gradient2(
+        paste0("Change\nfrom\n", names(options[['files']])[1], "\nScenario"),
+        low = "#d73027",
+        mid = "white",
+        high = "#1a9850"#,
+        #      oob = scales::squish
+      )
+    
+  }else
+  {
+    lims <- max(abs(stats$pct))
+    lims <- ceiling(lims / 10) * 10 #round up to nearest 10.
+    
+    p <- ggplot2::ggplot(stats, ggplot2::aes(x = Scenario, y = Location)) +
+      ggplot2::geom_tile(ggplot2::aes(fill = pct)) +
+      ggplot2::geom_text(ggplot2::aes(label = round(Value, options[['dp']])),size=options[['textsize']]) +
+      ggplot2::labs(title = options[['title']], y = NULL) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(legend.title = ggplot2::element_text(hjust = 0.5)) +
+      ggplot2::scale_fill_gradient2(
+        paste0("Percent\nchange\nfrom\n", names(options[['files']])[1], "\nScenario"),
+        limits = c(-lims, lims),
+        low = "#d73027",
+        mid = "white",
+        high = "#1a9850"#,
+        #      oob = scales::squish
+      )
+  }
   
   ggplot2::ggsave(
     paste0(options[['Outputfilename']], "-Tile.png"),
@@ -194,7 +223,8 @@ IODefaults<-function()
           TSPlot=FALSE,
           TSylab=NULL,
           Outputfilename=NULL,
-          maxscale=100)
+          maxscale=100,
+          difference=FALSE)
   
   return(a)
 }
