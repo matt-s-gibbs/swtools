@@ -1,3 +1,20 @@
+
+pkg.env <- new.env(parent = emptyenv())
+pkg.env$cols <-c("#124734",
+                 "#38A28F",
+                 "#C33B32",
+                 "#E27E44",
+                 "#45494A",
+                 "#2999A3",
+                 "#031D44",
+                 "#92AFD7",
+                 "#4C1E4F",
+                 "#B6174B",
+                 "#53DD6C",
+                 "#364156")
+
+
+
 #' Download SILO data
 #'
 #' @param SiteList A station number or vector of station numbers, as a string (e.g. "24001")
@@ -274,7 +291,7 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL)
     ggplot2::theme_bw()+
     ggplot2::ylab("Cumulative deviation from mean (mm)")+
     ggplot2::xlab("Date")+
-    ggplot2::scale_colour_discrete(name="Station")
+    ggplot2::scale_colour_discrete(values=pkg.env$cols,name="Station")
 
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
@@ -468,7 +485,9 @@ p<-ggplot2::ggplot()+
   ggplot2::geom_line(data=evap,ggplot2::aes(Index,Value,group=Series,colour=Series))+
   ggplot2::xlab("Month")+
   ggplot2::ylab("Monthly total (mm)")+
-  ggplot2::theme_bw()
+  ggplot2::theme_bw()+
+  ggplot2::scale_colour_manual(values=pkg.env$cols,name="Station")+
+  ggplot2::scale_fill_manual(values=pkg.env$cols,name="Station")
   
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
