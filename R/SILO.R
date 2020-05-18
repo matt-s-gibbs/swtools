@@ -269,13 +269,14 @@ SILOQualityCodes<-function(SILO,filename=NULL)
 #'
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
 #' @param filename optional, filename to write the plot to, including extension. Filename can include full path or sub folders.
-#'
+#' @param cols optional, a vector of colours to use for the plotting
+#' 
 #' @return a ggplot  plot of the cumulative deviation from the mean.
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOCumulativeDeviation(X,"Cumulative.png")
 
-SILOCumulativeDeviation<-function(SILO,filename=NULL)
+SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
 {
   #calculate cumulative deviation from the mean for each site
   dat<-lapply(SILO,function(x) cumsum(as.numeric(x$tsd$Rain-mean(x$tsd$Rain))))
@@ -291,7 +292,7 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL)
     ggplot2::theme_bw()+
     ggplot2::ylab("Cumulative deviation from mean (mm)")+
     ggplot2::xlab("Date")+
-    ggplot2::scale_colour_discrete(values=pkg.env$cols,name="Station")
+    ggplot2::scale_colour_discrete(values=cols,name="Station")
 
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
@@ -440,7 +441,7 @@ gg_getslopes<-function(dat_dm)
 #' 
 #' \code{\link{SILOLoad}}
 
-SILOReport<-function(SILO,filename,path=getwd())
+SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$col)
 {
   SILO<-SILO
   file<-system.file("SILOReport.Rmd", package="SWTools")
@@ -451,13 +452,14 @@ SILOReport<-function(SILO,filename,path=getwd())
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
 #' @param evapcol name of an evaporation column to print, defaults to "MWet".
 #' @param filename optional, filename to write the plot to, including extension. Filename can include full path or sub folders.
+#' @param cols optional, a vector of colours to use for the plotting
 #'
 #' @return a ggplot of the monthly rainfall and evaporation.
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
-#' @examples p<-SILOMonthlyRainfall(X,"Span","Monthly.png")
+#' @examples p<-SILOMonthlyRainfall(X,"Span","Monthly.png",c("black","red","#124734"))
 
-SILOMonthlyRainfall<-function(SILO,evapcol="Mwet",filename=NULL)
+SILOMonthlyRainfall<-function(SILO,evapcol="Mwet",filename=NULL,cols=pkg.env$cols)
 {
 
 dat<-lapply(SILO,function(x) x$tsd$Rain)
@@ -486,8 +488,8 @@ p<-ggplot2::ggplot()+
   ggplot2::xlab("Month")+
   ggplot2::ylab("Monthly total (mm)")+
   ggplot2::theme_bw()+
-  ggplot2::scale_colour_manual(values=pkg.env$cols,name="Station")+
-  ggplot2::scale_fill_manual(values=pkg.env$cols,name="Station")
+  ggplot2::scale_colour_manual(values=cols,name="Station")+
+  ggplot2::scale_fill_manual(values=cols,name="Station")
   
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
