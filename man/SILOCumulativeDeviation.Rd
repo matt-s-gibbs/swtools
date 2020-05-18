@@ -4,12 +4,14 @@
 \alias{SILOCumulativeDeviation}
 \title{Plot the cumulative deviation from the mean for each silo station on one plot}
 \usage{
-SILOCumulativeDeviation(SILO, filename = NULL)
+SILOCumulativeDeviation(SILO, filename = NULL, cols = pkg.env$cols)
 }
 \arguments{
 \item{SILO}{a list of sites with SILO data, as created by SILOLoad()}
 
 \item{filename}{optional, filename to write the plot to, including extension. Filename can include full path or sub folders.}
+
+\item{cols}{optional, a vector of colours to use for the plotting}
 }
 \value{
 a ggplot  plot of the cumulative deviation from the mean.

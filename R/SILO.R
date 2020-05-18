@@ -292,7 +292,7 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
     ggplot2::theme_bw()+
     ggplot2::ylab("Cumulative deviation from mean (mm)")+
     ggplot2::xlab("Date")+
-    ggplot2::scale_colour_discrete(values=cols,name="Station")
+    ggplot2::scale_colour_manual(values=cols,name="Station")
 
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
@@ -435,6 +435,7 @@ gg_getslopes<-function(dat_dm)
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
 #' @param filename filename to write the report to.
 #' @param path Optional. Folder to save the report to, defaults to current working directory
+#' @param cols Optional. vector of colours to use for the monthly rainfall and cumulative deviation plots. Must be at least as long as the number of sites in the SILO list.
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples SILOReport(X,"C:/Output/MyReport.docx")
@@ -445,7 +446,7 @@ SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$col)
 {
   SILO<-SILO
   file<-system.file("SILOReport.Rmd", package="SWTools")
-  rmarkdown::render(file,output_file = paste0(path,"/",filename))
+  rmarkdown::render(file,output_file = paste0(path,"/",filename),params=list(cols=cols))
 }
 #' Plot a boxplot of monthly rainfall with mean monthly evaporation
 #'

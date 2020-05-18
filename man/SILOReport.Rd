@@ -4,7 +4,7 @@
 \alias{SILOReport}
 \title{Write SILO data report to word document}
 \usage{
-SILOReport(SILO, filename, path = getwd())
+SILOReport(SILO, filename, path = getwd(), cols = pkg.env$col)
 }
 \arguments{
 \item{SILO}{a list of sites with SILO data, as created by SILOLoad()}

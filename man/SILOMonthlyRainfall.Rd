@@ -4,7 +4,8 @@
 \alias{SILOMonthlyRainfall}
 \title{Plot a boxplot of monthly rainfall with mean monthly evaporation}
 \usage{
-SILOMonthlyRainfall(SILO, evapcol = "Mwet", filename = NULL)
+SILOMonthlyRainfall(SILO, evapcol = "Mwet", filename = NULL,
+  cols = pkg.env$cols)
 }
 \arguments{
 \item{SILO}{a list of sites with SILO data, as created by SILOLoad()}
@@ -12,6 +13,8 @@ SILOMonthlyRainfall(SILO, evapcol = "Mwet", filename = NULL)
 \item{evapcol}{name of an evaporation column to print, defaults to "MWet".}
 
 \item{filename}{optional, filename to write the plot to, including extension. Filename can include full path or sub folders.}
+
+\item{cols}{optional, a vector of colours to use for the plotting}
 }
 \value{
 a ggplot of the monthly rainfall and evaporation.
@@ -21,5 +24,5 @@ Plot a boxplot of monthly rainfall with mean monthly evaporation
 }
 \examples{
 X<-SILOLoad(c("24001","24002","24003"))
-p<-SILOMonthlyRainfall(X,"Span","Monthly.png")
+p<-SILOMonthlyRainfall(X,"Span","Monthly.png",c("black","red","#124734"))
 }

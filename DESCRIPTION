@@ -28,5 +28,6 @@ Imports:
     doSNOW,
     foreach,
     tibble,
-    purrr
+    purrr,
+    ggforce
 RoxygenNote: 6.1.1
