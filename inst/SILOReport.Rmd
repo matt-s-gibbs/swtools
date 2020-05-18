@@ -7,8 +7,6 @@ output:
     fig_width: 8.8
     fig_height: 6
     df_print: kable
-params:
-  cols: "`r pkg.env$col`"
 ---
 
 Generated using the R swtools package.
@@ -30,12 +28,12 @@ SILOMap(SILO)
 ##Monthly Rainfall
 Monthly rainfall at each station as boxplots and the mean monthly evaporation as a line.
 ```{r echo=FALSE}
-SILOMonthlyRainfall(SILO,cols=params$cols)
+SILOMonthlyRainfall(SILO,cols=cols)
 ```
 
 ##Cumulative deviation in mean daily rainfall
 ```{r echo=FALSE}
-SILOCumulativeDeviation(SILO,cols=params$cols)
+SILOCumulativeDeviation(SILO,cols=cols)
 ```
 
 ##Double mass plots

@@ -442,11 +442,17 @@ gg_getslopes<-function(dat_dm)
 #' 
 #' \code{\link{SILOLoad}}
 
-SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$col)
+SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$cols)
 {
   SILO<-SILO
+  cols<-cols
+  if(length(SILO)>length(cols))
+  {
+    print("You need to specify more colours for the number of sites, use the cols= argument")
+    return()
+  }
   file<-system.file("SILOReport.Rmd", package="SWTools")
-  rmarkdown::render(file,output_file = paste0(path,"/",filename),params=list(cols=cols))
+  rmarkdown::render(file,output_file = paste0(path,"/",filename))
 }
 #' Plot a boxplot of monthly rainfall with mean monthly evaporation
 #'
