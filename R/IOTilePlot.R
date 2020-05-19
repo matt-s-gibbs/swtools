@@ -45,9 +45,9 @@ IOTilePlot<-function(options)
   
   months<-list(annual=seq(1:12))
   if(options[['seasonal']]){
-    months[['autumn']]<-seq(3:5)
-    months[['winter']]<-seq(6:8)
-    months[['spring']]<-seq(9:11)
+    months[['autumn']]<-seq(3,5)
+    months[['winter']]<-seq(6,8)
+    months[['spring']]<-seq(9,11)
     months[['summer']]<-c(12,1,2)
   }
   
