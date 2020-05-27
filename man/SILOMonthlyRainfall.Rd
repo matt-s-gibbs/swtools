@@ -4,8 +4,12 @@
 \alias{SILOMonthlyRainfall}
 \title{Plot a boxplot of monthly rainfall with mean monthly evaporation}
 \usage{
-SILOMonthlyRainfall(SILO, evapcol = "Mwet", filename = NULL,
-  cols = pkg.env$cols)
+SILOMonthlyRainfall(
+  SILO,
+  evapcol = "Mwet",
+  filename = NULL,
+  cols = pkg.env$cols
+)
 }
 \arguments{
 \item{SILO}{a list of sites with SILO data, as created by SILOLoad()}

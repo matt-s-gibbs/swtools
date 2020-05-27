@@ -22,5 +22,5 @@ Write SILO data report to word document
 X<-SILOLoad(c("24001","24002","24003"))
 SILOReport(X,"C:/Output/MyReport.docx")
 
-\\code{\\link{SILOLoad}}
+\code{\link{SILOLoad}}
 }

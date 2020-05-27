@@ -4,9 +4,15 @@
 \alias{SILODownload}
 \title{Download SILO data}
 \usage{
-SILODownload(SiteList, username = "noemail@net.com", password = "gui",
-  path = getwd(), startdate = "18890101", enddate = NULL,
-  ssl = FALSE)
+SILODownload(
+  SiteList,
+  username = "noemail@net.com",
+  password = "gui",
+  path = getwd(),
+  startdate = "18890101",
+  enddate = NULL,
+  ssl = FALSE
+)
 }
 \arguments{
 \item{SiteList}{A station number or vector of station numbers, as a string (e.g. "24001")}
