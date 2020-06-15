@@ -490,7 +490,7 @@ evap$month<-month.abb[evap$Index]
 evap$month<-forcats::fct_relevel(evap$month,month.abb)
 
 p<-ggplot2::ggplot()+
-  ggplot2::geom_boxplot(data=dat,ggplot2::aes(month,Value,colour=Series,fill=Series))+
+  ggplot2::geom_boxplot(data=dat,ggplot2::aes(month,Value,fill=Series), coef = 500)+
   ggplot2::geom_line(data=evap,ggplot2::aes(Index,Value,group=Series,colour=Series))+
   ggplot2::xlab("Month")+
   ggplot2::ylab("Monthly total (mm)")+
