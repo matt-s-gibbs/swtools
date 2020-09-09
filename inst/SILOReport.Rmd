@@ -28,12 +28,12 @@ SILOMap(SILO)
 ##Monthly Rainfall
 Monthly rainfall at each station as boxplots and the mean monthly evaporation as a line.
 ```{r echo=FALSE}
-SILOMonthlyRainfall(SILO)
+SILOMonthlyRainfall(SILO,cols=cols)
 ```
 
 ##Cumulative deviation in mean daily rainfall
 ```{r echo=FALSE}
-SILOCumulativeDeviation(SILO)
+SILOCumulativeDeviation(SILO,cols=cols)
 ```
 
 ##Double mass plots

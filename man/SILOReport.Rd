@@ -4,7 +4,7 @@
 \alias{SILOReport}
 \title{Write SILO data report to word document}
 \usage{
-SILOReport(SILO, filename, path = getwd())
+SILOReport(SILO, filename, path = getwd(), cols = pkg.env$cols)
 }
 \arguments{
 \item{SILO}{a list of sites with SILO data, as created by SILOLoad()}
@@ -12,6 +12,8 @@ SILOReport(SILO, filename, path = getwd())
 \item{filename}{filename to write the report to.}
 
 \item{path}{Optional. Folder to save the report to, defaults to current working directory}
+
+\item{cols}{Optional. vector of colours to use for the monthly rainfall and cumulative deviation plots. Must be at least as long as the number of sites in the SILO list.}
 }
 \description{
 Write SILO data report to word document
@@ -20,5 +22,5 @@ Write SILO data report to word document
 X<-SILOLoad(c("24001","24002","24003"))
 SILOReport(X,"C:/Output/MyReport.docx")
 
-\\code{\\link{SILOLoad}}
+\code{\link{SILOLoad}}
 }

@@ -1,19 +1,36 @@
+
+pkg.env <- new.env(parent = emptyenv())
+pkg.env$cols <-c("#124734",
+                 "#38A28F",
+                 "#C33B32",
+                 "#E27E44",
+                 "#45494A",
+                 "#2999A3",
+                 "#031D44",
+                 "#92AFD7",
+                 "#4C1E4F",
+                 "#B6174B",
+                 "#53DD6C",
+                 "#364156")
+
+
+
 #' Download SILO data
 #'
 #' @param SiteList A station number or vector of station numbers, as a string (e.g. "24001")
-#' @param username SILO user name
+#' @param username SILO user name. Defaults to credentials used by https://www.longpaddock.qld.gov.au/silo/point-data/
 #' @param password SILO password
 #' @param path Where to save the output. Will default to getwd() if not specified
 #' @param startdate First day of data, in the format "YYYYMMDD". Will default to the first day of the record "18890101" if not specified
 #' @param enddate Last day of data, in the format "YYYYMMDD". Will default to yesterday if not specified
-#'
+#' @param ssl if true set ssl_cipher_list to "RC4-SHA" for file download. Seems to be necessary on some machines. default to FALSE
 #' @return A file for each station will be saved to path, named station number.txt. Nothing is returned to the R environment.
 #'
-#' @examples SILODownload("24001")
-#' @examples SILODownload("24001","C:/SILO/","20170701","20170801")
+#' @examples SILODownload("24001",path="C:/SILO/")
+#' @examples SILODownload("24001",path="C:/SILO/",startdate="20170701",enddate="20170801")
 #'
 #'
-SILODownload <- function(SiteList, username,password,path = getwd(), startdate = "18890101", enddate = NULL) {
+SILODownload <- function(SiteList, username="noemail@net.com",password="gui",path = getwd(), startdate = "18890101", enddate = NULL,ssl=FALSE) {
 
     if(!dir.exists(path)){
         print(paste("Path",path,"Doesn't exist"))
@@ -28,12 +45,18 @@ SILODownload <- function(SiteList, username,password,path = getwd(), startdate =
     for (site in SiteList) {
 
         #build link
-      siteToOpen <- paste0("https://legacy.longpaddock.qld.gov.au/cgi-bin/silo/PatchedPointDataset.php?format=alldata&station=", site, "&start=", startdate,
+      siteToOpen <- paste0("https://longpaddock.qld.gov.au/cgi-bin/silo/PatchedPointDataset.php?format=alldata&station=", site, "&start=", startdate,
                            "&finish=", enddate, "&username=", username, "&password=", password)
 
         #download data
-        A <- RCurl::getURL(siteToOpen, .opts = list(ssl.verifypeer = FALSE))
-
+      if(ssl){
+        A<-httr::with_config( httr::config("ssl_cipher_list" = "RC4-SHA"),httr::GET(siteToOpen))
+      }else
+      {
+        A<-httr::GET(siteToOpen)
+      }
+      A<-httr::content(A,as="text")
+      
         #write to file
         cat(A, file = paste0(path, "/", site, ".txt"))
     }
@@ -77,6 +100,11 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
   i <- 1
   
   for (line in file) {
+    #get elevation
+    if (regexpr(" * Elevation", line, fixed = TRUE) > 0) {
+        list<-strsplit(line," ")[[1]]
+        elevation<-as.numeric(list[length(list)-2])
+      }
     # strip out the station name and location
     if (name == FALSE) {
       if (regexpr(" * Patched", line, fixed = TRUE) > 0) {
@@ -126,7 +154,7 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
   missingdata<-100-length(id)/(as.numeric(enddata-startdata)+1)*100.0
   
   
-  return(list(tsd = tsd, Site = Site, Station = Station, Lat = Lat, Lon = Lon,
+  return(list(tsd = tsd, Site = Site, Station = Station, Lat = Lat, Lon = Lon, Elevation=elevation,
               start=startdata,end=enddata,missing=missingdata))
   
 }
@@ -137,16 +165,25 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
 #' @param path Location where the file is located. Use "/" or "\\\\" for folders. Defaults to getwd() if not specified.
 #' @param startdate Start date of data to load, in format "YYYY-MM-DD". Defaults to start of the file if not provided
 #' @param enddate End date of data to load, in format "YYYY-MM-DD". Defaults to end of the file if not provided
-#' @param nclusters Number of cores to use in parallel to load data. Defaults to 4.
+#' @param nclusters Number of cores to use in parallel to load data. Defaults to 1.
 #'
 #' @return a list of lists of SILO data from each file. Each list has members: tsd - the raw data as a daily zoo object, Site- the name of the site, Station - the station number, Lon- Longitude, and Lat - Latitude
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples plot(X$tsd$Rain)
 
-SILOLoad<-function(sites,path = getwd(), startdate, enddate,nclusters=4){
+SILOLoad<-function(sites,path = getwd(), startdate, enddate,nclusters=1){
   
   Data<-list()
+  
+  if(nclusters==1)
+  {
+    for(i in 1:length(sites)){
+      Data[[i]]<- SILOImport(sites[i],path,startdate,enddate)
+    }
+    
+  }else
+  {
   
   cl<-parallel::makeCluster(nclusters,type = "SOCK") 
   doSNOW::registerDoSNOW(cl)
@@ -158,7 +195,7 @@ SILOLoad<-function(sites,path = getwd(), startdate, enddate,nclusters=4){
   
   parallel::stopCluster(cl)
   closeAllConnections()
-  
+  }
   names(Data)<-sites
   return(Data)
   
@@ -232,13 +269,14 @@ SILOQualityCodes<-function(SILO,filename=NULL)
 #'
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
 #' @param filename optional, filename to write the plot to, including extension. Filename can include full path or sub folders.
-#'
+#' @param cols optional, a vector of colours to use for the plotting
+#' 
 #' @return a ggplot  plot of the cumulative deviation from the mean.
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOCumulativeDeviation(X,"Cumulative.png")
 
-SILOCumulativeDeviation<-function(SILO,filename=NULL)
+SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
 {
   #calculate cumulative deviation from the mean for each site
   dat<-lapply(SILO,function(x) cumsum(as.numeric(x$tsd$Rain-mean(x$tsd$Rain))))
@@ -254,7 +292,7 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL)
     ggplot2::theme_bw()+
     ggplot2::ylab("Cumulative deviation from mean (mm)")+
     ggplot2::xlab("Date")+
-    ggplot2::scale_colour_discrete(name="Station")
+    ggplot2::scale_colour_manual(values=cols,name="Station")
 
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
@@ -397,15 +435,22 @@ gg_getslopes<-function(dat_dm)
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
 #' @param filename filename to write the report to.
 #' @param path Optional. Folder to save the report to, defaults to current working directory
+#' @param cols Optional. vector of colours to use for the monthly rainfall and cumulative deviation plots. Must be at least as long as the number of sites in the SILO list.
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples SILOReport(X,"C:/Output/MyReport.docx")
 #' 
 #' \code{\link{SILOLoad}}
 
-SILOReport<-function(SILO,filename,path=getwd())
+SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$cols)
 {
   SILO<-SILO
+  cols<-cols
+  if(length(SILO)>length(cols))
+  {
+    print("You need to specify more colours for the number of sites, use the cols= argument")
+    return()
+  }
   file<-system.file("SILOReport.Rmd", package="SWTools")
   rmarkdown::render(file,output_file = paste0(path,"/",filename))
 }
@@ -414,13 +459,14 @@ SILOReport<-function(SILO,filename,path=getwd())
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
 #' @param evapcol name of an evaporation column to print, defaults to "MWet".
 #' @param filename optional, filename to write the plot to, including extension. Filename can include full path or sub folders.
+#' @param cols optional, a vector of colours to use for the plotting
 #'
 #' @return a ggplot of the monthly rainfall and evaporation.
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
-#' @examples p<-SILOMonthlyRainfall(X,"Span","Monthly.png")
+#' @examples p<-SILOMonthlyRainfall(X,"Span","Monthly.png",c("black","red","#124734"))
 
-SILOMonthlyRainfall<-function(SILO,evapcol="Mwet",filename=NULL)
+SILOMonthlyRainfall<-function(SILO,evapcol="Mwet",filename=NULL,cols=pkg.env$cols)
 {
 
 dat<-lapply(SILO,function(x) x$tsd$Rain)
@@ -444,11 +490,13 @@ evap$month<-month.abb[evap$Index]
 evap$month<-forcats::fct_relevel(evap$month,month.abb)
 
 p<-ggplot2::ggplot()+
-  ggplot2::geom_boxplot(data=dat,ggplot2::aes(month,Value,colour=Series,fill=Series))+
+  ggplot2::geom_boxplot(data=dat,ggplot2::aes(month,Value,fill=Series), coef = 500)+
   ggplot2::geom_line(data=evap,ggplot2::aes(Index,Value,group=Series,colour=Series))+
   ggplot2::xlab("Month")+
   ggplot2::ylab("Monthly total (mm)")+
-  ggplot2::theme_bw()
+  ggplot2::theme_bw()+
+  ggplot2::scale_colour_manual(values=cols,name="Station")+
+  ggplot2::scale_fill_manual(values=cols,name="Station")
   
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)

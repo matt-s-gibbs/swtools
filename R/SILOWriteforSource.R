@@ -33,7 +33,7 @@ SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
 #'
 #' @param resFile A character string representing the full file path of the .res.csv file
 #'
-#' @param returnType A character string to set the return type: "z", "t", "df". If not specified or not matching "t" or "z", data frame returned.
+#' @param returnType A character string to set the return type: "z", "t", "df". If not specified or not matching "t" (tibble) or "z" (zoo), data frame returned.
 #'
 #' @return Data in the format selected with all data read in from the Source .res.csv file
 #'
@@ -57,7 +57,9 @@ read_res.csv <- function(resFile,returnType="df")
   
   allColHeaders <- read.csv(resFile,header = FALSE,skip = hline-1,nrows = numOutputs,as.is=TRUE)
   
-  colHeaders <- paste0(allColHeaders$V7,".",allColHeaders$V11)
+  t<-ifelse(stringr::str_detect(allColHeaders$V11,allColHeaders$V8),allColHeaders$V11,paste0(allColHeaders$V8,".",allColHeaders$V11))
+  
+  colHeaders <- paste0(allColHeaders$V7,".",t)
   
   colnames(d) <- c("Date",colHeaders)
   d$Date<-as.Date(d$Date)
