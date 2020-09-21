@@ -1,6 +1,6 @@
 #' DEW colour scheme
 #'
-#' Colours derived from the DEW technical report template, Weekly email, and similar colours using color.io website
+#' Colours derived from the DEW technical report template, the Weekly email, and similar colours using color.io website
 #' 
 #' @docType data
 #' 
