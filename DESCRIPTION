@@ -1,7 +1,7 @@
 Package: SWTools
 Type: Package
 Title: Commonly used tools for DEW Hydrologists
-Version: 0.1.8
+Version: 0.1.9
 Authors@R: person("Matt", "Gibbs", email = "matt.gibbs@sa.gov.au",
     role = c("aut", "cre"))
 Description: Functions to speed up workflow for hydrology in DEW. DEW is specified

@@ -69,3 +69,30 @@ read_res.csv <- function(resFile,returnType="df")
   return(d)
   
 }
+
+#' Write an input set line for a piecewise lookup table
+#' 
+#' @param folder Folder for where are the csv files with the lookup table
+#' @param csvfiles vector of files to turn into an input set line. 
+#' File name should be the name of the pw table in Source, including the folder name if necessary. 
+#' The first row should be column names  the same as used in Source, i.e. XValue and YValue
+#' @param outputfile text file to save the lines to
+#' 
+#' @examples folder<-"C:/Source/tables"
+#' csvfiles<-c("LowerLakesOps.pw_LakeTarget.csv","Operations.pw_NA_Lock5_16p8.csv")
+#' outputfile<-"inputset.txt"
+#' WritepwtoIS(folder,csvfiles,outputfile)
+
+WritepwtoIS<-function(folder,csvfiles,outputfile)
+{
+  con<-file(paste0(folder,"/",outputfile),"w")
+  for(f in csvfiles)
+  {
+    x<-read.csv(paste0(folder,"/",f))
+    name<-gsub(".csv","",f)
+    sep<-c(rep("][",nrow(x)-1),"]]")
+    writeLines(paste0("Functions.Variables.$",name,".Relationship=[[",paste0(x$XValue," ",x$YValue,sep,collapse="")),con)
+  
+  }
+  close(con)
+}
