@@ -29,5 +29,6 @@ Imports:
     foreach,
     tibble,
     purrr,
-    ggforce
+    ggforce,
+    sf
 RoxygenNote: 7.1.0

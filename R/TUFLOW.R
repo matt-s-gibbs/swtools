@@ -73,7 +73,7 @@ ReadHydsta<-function(file,Name="Observed",convertECtogL=FALSE)
 #' @param width width of image in cm, default to 17
 #' @param height height of image in cm, default to 22
 #' @param order character vector of site IDs to order the plots in. Default to NULL, which will plot in alphabetical order
-#' @param scales control the y axis scales across the facets plots. default to fixed, the same scale across all plots. Change to free_y to have scales dependent on the data for each plot 
+#' @param scales control the y axis scales across the facets plots. default to fixed, the same scale across all plots. Change to free_y to have scales dependent on the data for each plot
 #' 
 #' @example 
 #' stations<-c("A4261043", "A4261134","A4261135","A4260572","A4260633","A4261209","A4261165")
