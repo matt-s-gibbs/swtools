@@ -7,7 +7,7 @@ Authors@R: person("Matt", "Gibbs", email = "matt.gibbs@sa.gov.au",
 Description: Functions to speed up workflow for hydrology in DEW. DEW is specified
     as the user group, some functions must be run on the DEW network (e.g. Hydstra)
     or include DEW login information (SILO).
-Depends: R (>= 3.2.0)
+Depends: R (>= 4.0.0)
 License: GLP-3
 Encoding: UTF-8
 LazyData: true
