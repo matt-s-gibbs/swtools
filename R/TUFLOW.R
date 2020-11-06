@@ -68,17 +68,18 @@ ReadHydsta<-function(file,Name="Observed",convertECtogL=FALSE)
 #' ggplot of TFV model runs and observed data
 #' @param Sim modelled output, imported using TFVGetResults()
 #' @param Obs observed data, imported using ReadHydstra()
-#' @ylab label for y axis
-#' @file file to save figure to
-#' @width width of image in cm, default to 17
-#' @height height of image in cm, default to 22
-#' @order character vector of site IDs to order the plots in. Default to NULL, which will plot in alphabetical order
+#' @param ylab label for y axis
+#' @param file file to save figure to
+#' @param width width of image in cm, default to 17
+#' @param height height of image in cm, default to 22
+#' @param order character vector of site IDs to order the plots in. Default to NULL, which will plot in alphabetical order
+#' @param scales control the y axis scales across the facets plots. default to fixed, the same scale across all plots. Change to free_y to have scales dependent on the data for each plot 
 #' 
 #' @example 
 #' stations<-c("A4261043", "A4261134","A4261135","A4260572","A4260633","A4261209","A4261165")
 #' TFVPlotagainstHydstra(Sim,Obs,"Salinity (g/L)","salinity.png",order=stations)
 
-TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL)
+TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,scales="fixed")
 {
   
   #trim observed to modelled
@@ -97,7 +98,7 @@ TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL)
     ggplot2::geom_line(ggplot2::aes(Time,Value,colour=Data))+
     ggplot2::ylab(ylab)+
     ggplot2::xlab("Date")+
-    ggplot2::facet_grid(ggplot2::vars(Site),scales="free_y")+
+    ggplot2::facet_grid(ggplot2::vars(Site),scales=scales)+
     ggplot2::theme_bw()+
     ggplot2::theme(legend.position = "top",legend.title = NULL)+
     ggplot2::scale_colour_manual(values=cols,name=NULL)
