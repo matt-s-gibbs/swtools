@@ -75,9 +75,9 @@ ReadHydsta<-function(file,Name="Observed",convertECtogL=FALSE)
 #' @param order character vector of site IDs to order the plots in. Default to NULL, which will plot in alphabetical order
 #' @param scales control the y axis scales across the facets plots. default to fixed, the same scale across all plots. Change to free_y to have scales dependent on the data for each plot
 #' @param cols vector of colours to plot each line. Defaults to DEW style 2 greens and 2 blues. Defaults will fail if more than 4 RunNames.
-#' @example 
-#' stations<-c("A4261043", "A4261134","A4261135","A4260572","A4260633","A4261209","A4261165")
-#' TFVPlotagainstHydstra(Sim,Obs,"Salinity (g/L)","salinity.png",order=stations)
+#' 
+#' @examples stations<-c("A4261043", "A4261134","A4261135","A4260572","A4260633","A4261209","A4261165")
+#' @examples TFVPlotagainstHydstra(Sim,Obs,"Salinity (g/L)","salinity.png",order=stations)
 
 TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,scales="fixed",cols=NULL)
 {
