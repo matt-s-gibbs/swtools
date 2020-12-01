@@ -75,11 +75,14 @@ ReadHydsta<-function(file,Name="Observed",convertECtogL=FALSE)
 #' @param order character vector of site IDs to order the plots in. Default to NULL, which will plot in alphabetical order
 #' @param scales control the y axis scales across the facets plots. default to fixed, the same scale across all plots. Change to free_y to have scales dependent on the data for each plot
 #' @param cols vector of colours to plot each line. Defaults to DEW style 2 greens and 2 blues. Defaults will fail if more than 4 RunNames.
+#' @param newnames named vector to label the facets on the plot. vector elements should be the new text to use, names should be the names in the data
 #' 
 #' @examples stations<-c("A4261043", "A4261134","A4261135","A4260572","A4260633","A4261209","A4261165")
 #' @examples TFVPlotagainstHydstra(Sim,Obs,"Salinity (g/L)","salinity.png",order=stations)
+#' @examples newnames<-c("Parnka Point")
+#' @examples names(newnames)<-c("A4260633") #This will change from the station ID to the name Parnka Point.
 
-TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,scales="fixed",cols=NULL)
+TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,scales="fixed",cols=NULL,newnames=NULL)
 {
   
   #trim observed to modelled
@@ -101,10 +104,22 @@ TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,
     ggplot2::geom_line(ggplot2::aes(Time,Value,colour=Data))+
     ggplot2::ylab(ylab)+
     ggplot2::xlab("Date")+
-    ggplot2::facet_grid(ggplot2::vars(Site),scales=scales)+
     ggplot2::theme_bw()+
     ggplot2::theme(legend.position = "top",legend.title = NULL)+
     ggplot2::scale_colour_manual(values=cols,name=NULL)
+  
+  #dont facet if there is only 1 site
+  if(length(unique(dat$Site))>1)
+  {
+    if(is.null(newnames)) #create some names if they weren't specified explicitly
+    {
+      newnames<-unique(dat$Site)
+      names(newnames)<-unique(dat$Site)
+    }
+    p<-p+ggplot2::facet_grid(ggplot2::vars(Site),
+                             scales=scales,
+                             labeller=labeller(Site=newnames))
+  }
   
   ggplot2::ggsave(file,p,width=width,height=height,units="cm")
 }
