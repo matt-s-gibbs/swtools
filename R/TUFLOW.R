@@ -81,6 +81,8 @@ ReadHydsta<-function(file,Name="Observed",convertECtogL=FALSE)
 #' @examples TFVPlotagainstHydstra(Sim,Obs,"Salinity (g/L)","salinity.png",order=stations)
 #' @examples newnames<-c("Parnka Point")
 #' @examples names(newnames)<-c("A4260633") #This will change from the station ID to the name Parnka Point. 
+#' @examples names(newnames)<-c("A4260633") #This will change from the station ID to the name Parnka Point.
+
 
 TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,scales="fixed",cols=NULL,newnames=NULL)
 {
