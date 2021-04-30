@@ -64,7 +64,7 @@ read_res.csv <- function(resFile,returnType="df")
   colnames(d) <- c("Date",colHeaders)
   d$Date<-as.Date(d$Date)
   
-  d<-d[!duplicated(as.list(d))] #Source seems to be outputting some functions twice and it causes problems using the data. Remove any duplicate columns
+  d<-d[,!duplicated(colnames(d))] #Source seems to be outputting some functions twice and it causes problems using the data. Remove any duplicate columns
   
   if(returnType=="t")  return(tibble::as_tibble(d))
   if(returnType=="z")   return(zoo::zoo(d,order.by = d$Date))
