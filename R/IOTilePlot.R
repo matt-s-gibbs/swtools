@@ -36,6 +36,8 @@
 #' @examples IOTilePlot(options)
 #' @examples options[['function']]<-function(x) sum(x<2500)/length(x)*100 #proportion of time flow less than 2500
 #' 
+#' @export
+#' 
 IOTilePlot<-function(options)
 {
   dat <- lapply(options[['files']], SWTools::read_res.csv, returnType = "t")
@@ -225,6 +227,9 @@ IOTilePlot<-function(options)
 #' @export
 #'
 #' @examples IODefaults()
+#' 
+#' @export
+
 IODefaults<-function()
 {
   a<-list(TSWidth=15,

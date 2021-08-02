@@ -1,12 +1,11 @@
 Package: SWTools
 Type: Package
 Title: Commonly used tools for DEW Hydrologists
-Version: 0.2
+Version: 0.2.1.0
 Authors@R: person("Matt", "Gibbs", email = "matt.gibbs@sa.gov.au",
     role = c("aut", "cre"))
-Description: Functions to speed up workflow for hydrology in DEW. DEW is specified
-    as the user group, some functions must be run on the DEW network (e.g. Hydstra)
-    or include DEW login information (SILO).
+Description: Functions to speed up workflow for hydrological analysis. 
+    Focused on Australia (SILO climate data), and in particular South Australia (water.data.sa.gov.au hydrological data).
 Depends: R (>= 4.0.0)
 License: GLP-3
 Encoding: UTF-8
@@ -14,21 +13,24 @@ LazyData: true
 Imports:
     httr,
     zoo,
-    ggplot2,
     RColorBrewer,
     dplyr,
-    forcats,
-    reshape2,
-    ggmap,
-    ggrepel,
-    magrittr,
-    hydroTSM,
-    httr,
-    jsonlite,
-    doSNOW,
-    foreach,
+    tidyr,
     tibble,
     purrr,
+    forcats,
+    stringr,
+    lubridate,
+    readr,
+    rlang,
+    rmarkdown,
+    reshape2,
+    ggplot2,
+    ggmap,
+    ggrepel,
     ggforce,
+    magrittr,
+    hydroTSM,
+    jsonlite,
     sf
 RoxygenNote: 7.1.1

@@ -12,6 +12,8 @@
 #' 
 #' @examples VeneerRunSource()
 #' @examples VeneerRunSource("01/07/2017","01/02/2018","NoDams")
+#' 
+#'@export
 
 VeneerRunSource<-function(StartDate=NULL,EndDate=NULL,InputSet=NULL,baseURL="http://localhost:9876")
 {
@@ -42,6 +44,7 @@ VeneerRunSource<-function(StartDate=NULL,EndDate=NULL,InputSet=NULL,baseURL="htt
 #'  
 #'  @examples VeneerSetFunction("f_ScaleFactor",1.2)
 #'  @examples VeneerSetFunction("f_TargetLevel","if($m_Flow<1000,3.2,3.5)") #not tested, but more complex functions should work
+#'  @export
 
 VeneerSetFunction<-function(Name,Expression,baseURL="http://localhost:9876")
 {
@@ -61,6 +64,7 @@ VeneerSetFunction<-function(Name,Expression,baseURL="http://localhost:9876")
 #'  
 #'  @examples data<-data.frame(X=seq(1,5),Y=seq(1,5))
 #'  @examples VeneerSetPiecewise(data,"pw_table")
+#'  @export
 
 VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
 {
@@ -90,6 +94,8 @@ VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
 #'  Get data from a piecewise linear table using a table.
 #'  
 #'  @examples VeneerGetPiecewise(data,"pw_table")
+#'  @export
+
 VeneerGetPiecewise<-function(pw_table,baseURL="http://localhost:9876")
 {
   
@@ -113,16 +119,18 @@ VeneerGetPiecewise<-function(pw_table,baseURL="http://localhost:9876")
 #' Spaces are OK, like in the example below (dont need to insert %20 for example).
 #' 
 #' @examples VeneerGetTS("/runs/latest/location/EndofSystem/element/Downstream Flow/variable/Flow")
+#' 
+#' @export
 
 VeneerGetTS<-function(TSURL,baseURL="http://localhost:9876")
 {
   D<-jsonlite::fromJSON(URLencode(paste0(baseURL,TSURL)))
   B<-zoo::zoo(D$Events$Value,zoo::as.Date(D$Events$Date,format="%m/%d/%Y"))
 
-  if(D$Units=="m³/s") B <- B*86.4 #m3/s to ML/d
-  if(D$Units == "m³") B <- B / 1000 #m3 to ML
-  if(D$Units == "m²") B <- B / 10000 #m2 to ha
-  if(D$Units == "kg/m³") B <- B * 1000 #kg/m³ to mg/L
+  if(D$Units=="m\U00B3/s") B <- B*86.4 #m3/s to ML/d
+  if(D$Units == "m\U00B3") B <- B / 1000 #m3 to ML
+  if(D$Units == "m\U00B2") B <- B / 10000 #m2 to ha
+  if(D$Units == "kg/m\U00B3") B <- B * 1000 #kg/m³ to mg/L
   
   return(B)
 }
@@ -136,6 +144,8 @@ VeneerGetTS<-function(TSURL,baseURL="http://localhost:9876")
 #' 
 #' @examples VeneerGetTSbyVariable() #returns all flow outputs recorded in the latest run
 #' @examples VeneerGetTSbyVariable("Water Surface Elevation",1) 
+#' 
+#' @export
 #' 
 VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://localhost:9876")
 {
@@ -167,6 +177,8 @@ VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://loc
 #' 
 #' @examples VeneerGetTSVariables()
 #' 
+#' @export
+#' 
 VeneerGetTSVariables<-function(run="latest",baseURL="http://localhost:9876")
 {
   Results<-jsonlite::fromJSON(paste0(baseURL,"/runs/",run))
@@ -182,6 +194,8 @@ VeneerGetTSVariables<-function(run="latest",baseURL="http://localhost:9876")
 #' 
 #' @examples VeneerGetTSbyNode("Storage 1")
 #' 
+#' @export
+
 VeneerGetTSbyNode<-function(Node,run="latest",baseURL="http://localhost:9876")
 {
   Results<-jsonlite::fromJSON(paste0(baseURL,"/runs/",run))
@@ -218,6 +232,8 @@ VeneerGetInputSets<-function(baseURL="http://localhost:9876")
 #'@return vector of node names matching the specified node type
 #'
 #'@examples VeneerGetNodesbyType("Weir")
+#'
+#'@export
 
 VeneerGetNodesbyType<-function(NodeType,baseURL="http://localhost:9876")
 {
@@ -238,6 +254,8 @@ VeneerGetNodesbyType<-function(NodeType,baseURL="http://localhost:9876")
 #' @return integer of the latest run number
 #' 
 #' @examples VeneerlatestRunNumber()
+#' @export
+
 VeneerlatestRunNumber<-function(baseURL="http://localhost:9876")
 {
   A<-jsonlite::fromJSON(paste0(baseURL,"/Runs"))

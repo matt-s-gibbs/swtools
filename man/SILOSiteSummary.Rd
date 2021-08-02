@@ -26,4 +26,5 @@ Produce a table summarising  SILO sites
 \examples{
 X<-SILOLoad(c("24001","24002","24003"))
 d<-SILOSummary(X)
+
 }

@@ -1,4 +1,7 @@
-#' Function to load in an Aquarius json file, downloaded from water.data.sa.gov.au, possibly using AWQPDownload()
+source("R/imports.R")
+
+#' 
+#' #' Function to load in an Aquarius json file, downloaded from water.data.sa.gov.au, possibly using AWQPDownload()
 #'
 #'@param filename A file downloaded from the Export Data tab on water.data.sa.gov.au, or using AQWPDownload()
 #'@param qual_codes TRUE/FALSE to return quality codes. Defaults to true
@@ -8,6 +11,10 @@
 #'
 #'@examples AQWPLoad("AQWP.json")
 #'
+#'@importFrom magrittr %>%
+#'@importFrom rlang .data
+#'@export
+
 AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in long format)
 {
   f<-file(filename)
@@ -49,10 +56,10 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
     if(qual_codes)
     {
    
-      dat<-dplyr::left_join(dat %>% dplyr::filter(!stringr::str_detect(Unit,"Qual")),
-                   dat %>% dplyr::filter(stringr::str_detect(Unit,"Qual")) %>% 
-                     dplyr::mutate(Unit=gsub("\\+Qual","",Unit)),by=c("Time","Parameter","Site","Unit")) %>% 
-        dplyr::rename("Value"=Value.x,"Qual"=Value.y)
+      dat<-dplyr::left_join(dat %>% dplyr::filter(!stringr::str_detect(.data$Unit,"Qual")),
+                   dat %>% dplyr::filter(stringr::str_detect(.data$Unit,"Qual")) %>% 
+                     dplyr::mutate(Unit=gsub("\\+Qual","",.data$Unit)),by=c("Time","Parameter","Site","Unit")) %>% 
+        dplyr::rename("Value"=.data$Value.x,"Qual"=.data$Value.y)
     }
   }
   return(dat)
@@ -61,6 +68,10 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 
 #' Function to download data from water.data.sa.gov.au
 #'
+#'@description
+#'#'Note for big datasets, increase download timeout option first using options(timeout=1000000). The default is 60 (seconds)
+#'Valid options will be output if an unexpected input is provided
+#'
 #'@param Location A string or vector of strings, with site numbers, e.g. "A4261001"
 #'@param Dataset  A string or vector of strings, with dataset names, as expected by AWQP, e.g. "Tide Height.Best Available--Continuous"
 #'@param Unit  A string or vector of strings, with units, e.g. "Metres"
@@ -68,13 +79,10 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #'@param Interval Interval of output, e.g. "PointsAsRecorded", or "Daily"
 #'@param Step How many intervals e.g. 15 with Interval="Minutely" returns 15 minute data.
 #'@param Calculation For larger intervals, what calculation to do, e.g. "Aggregate" (average) or "Maximum"
-#'@param Calendar When to start the periods, e.g. "WATERDAY_9AM"
 #'@param DateRange Period of data to return, e.g. "EntirePeriodOfRecord" or "Custom". "Years1" seems to not work on AWQP.
-#'@param StartTime Start Date and Time if DateRange="Custom", in a format that as.POSIXct will convert, e.g %Y-%m-%d %H:%M
-#'@param EndTime End Date and Time if DateRange="Custom", in a format that as.POSIXct will convert, e.g %Y-%m-%d %H:%M
-#'
-#'Note for big datasets, increase download timeout option first using options(timeout=1000000). The default is 60 (seconds)
-#'Valid options will be output if an unexpected input is provided
+#'@param StartTime Start Date and Time if DateRange="Custom", in a format that as.POSIXct will convert, e.g 2000-01-01 00:00
+#'@param EndTime End Date and Time if DateRange="Custom", in a format that as.POSIXct will convert, e.g 2001-01-01 00:00
+#'@param Calendar When to start the periods, e.g. "WATERDAY_9AM"
 #'
 #'@return nothing to the environment. Saves a file to "file", that can then be read in with AQWPLoad()
 #'
@@ -82,7 +90,14 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #'Location=c("A4260633","A4261209","A4260572")
 #'Dataset=rep("Tide Height.Best Available--Continuous",3)
 #'Unit=rep("Metres",3)
-#'AQWPDownload(Location,Dataset,Unit,DateRange="Years1")
+#'S="2020-01-01 00:00"
+#'E="2020-01-01 00:00"
+#'AQWPDownload(Location,Dataset,Unit,DateRange="Custom",StartDate=S,EndDate=E)
+#'
+#'@importFrom magrittr %>%
+#'@importFrom rlang .data
+#'@importFrom utils download.file
+#'@export
 
 AQWPDownload<-function(Location,Dataset,Unit,file="AQWP.json",
                        Interval="Daily",Calculation="Aggregate",Calendar="WATERDAY_9AM",Step=1,
@@ -175,7 +190,7 @@ AQWPDownload<-function(Location,Dataset,Unit,file="AQWP.json",
   }
     
   #lookup Unit ID numbers
-  unitIDs<-tibble::as_tibble(Unit) %>% dplyr::left_join(unitconversion,by=c("value"="Unit")) %>% dplyr::pull(ID)
+  unitIDs<-tibble::as_tibble(Unit) %>% dplyr::left_join(unitconversion,by=c("value"="Unit")) %>% dplyr::pull(.data$ID)
   
   
   if(DateRange=="Custom")

@@ -9,6 +9,8 @@
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOQualityCodes(X,"QualityCodes.png")
+#' 
+#@export
 
 SILOMortonQualityCodes<-function(SILO,filename=NULL)
 {

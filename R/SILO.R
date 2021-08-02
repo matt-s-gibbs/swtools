@@ -1,19 +1,16 @@
-
-pkg.env <- new.env(parent = emptyenv())
-pkg.env$cols <-c("#124734",
-                 "#38A28F",
-                 "#C33B32",
-                 "#E27E44",
-                 "#45494A",
-                 "#2999A3",
-                 "#031D44",
-                 "#92AFD7",
-                 "#4C1E4F",
-                 "#B6174B",
-                 "#53DD6C",
-                 "#364156")
-
-
+# pkg.env <- new.env(parent = emptyenv())
+# pkg.env$cols <-c("#124734",
+#                  "#38A28F",
+#                  "#C33B32",
+#                  "#E27E44",
+#                  "#45494A",
+#                  "#2999A3",
+#                  "#031D44",
+#                  "#92AFD7",
+#                  "#4C1E4F",
+#                  "#B6174B",
+#                  "#53DD6C",
+#                  "#364156")
 
 #' Download SILO data
 #'
@@ -29,7 +26,7 @@ pkg.env$cols <-c("#124734",
 #' @examples SILODownload("24001",path="C:/SILO/")
 #' @examples SILODownload("24001",path="C:/SILO/",startdate="20170701",enddate="20170801")
 #'
-#'
+#' @export
 SILODownload <- function(SiteList, username="noemail@net.com",password="gui",path = getwd(), startdate = "18890101", enddate = NULL,ssl=FALSE) {
 
     if(!dir.exists(path)){
@@ -165,40 +162,20 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
 #' @param path Location where the file is located. Use "/" or "\\\\" for folders. Defaults to getwd() if not specified.
 #' @param startdate Start date of data to load, in format "YYYY-MM-DD". Defaults to start of the file if not provided
 #' @param enddate End date of data to load, in format "YYYY-MM-DD". Defaults to end of the file if not provided
-#' @param nclusters Number of cores to use in parallel to load data. Defaults to 1.
 #'
 #' @return a list of lists of SILO data from each file. Each list has members: tsd - the raw data as a daily zoo object, Site- the name of the site, Station - the station number, Lon- Longitude, and Lat - Latitude
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
-#' @examples plot(X$tsd$Rain)
+#' @export
 
-SILOLoad<-function(sites,path = getwd(), startdate, enddate,nclusters=1){
+SILOLoad<-function(sites,path = getwd(), startdate, enddate){
   
   Data<-list()
   
-  if(nclusters==1)
-  {
-    for(i in 1:length(sites)){
-      Data[[i]]<- SILOImport(sites[i],path,startdate,enddate)
-    }
+  for(i in 1:length(sites))   Data[[i]]<- SILOImport(sites[i],path,startdate,enddate)
     
-  }else
-  {
-  
-  cl<-parallel::makeCluster(nclusters,type = "SOCK") 
-  doSNOW::registerDoSNOW(cl)
-  
-  foreach::foreach(i = 1:length(sites)) %do% {
-    Data[[i]]<- SILOImport(sites[i],path,startdate,enddate)
-    return(Data)
-  }
-  
-  parallel::stopCluster(cl)
-  closeAllConnections()
-  }
   names(Data)<-sites
   return(Data)
-  
   
 }
 
@@ -212,6 +189,8 @@ SILOLoad<-function(sites,path = getwd(), startdate, enddate,nclusters=1){
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOQualityCodes(X,"QualityCodes.png")
+#' 
+#' @export
   
 SILOQualityCodes<-function(SILO,filename=NULL)
 {
@@ -275,6 +254,8 @@ SILOQualityCodes<-function(SILO,filename=NULL)
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOCumulativeDeviation(X,"Cumulative.png")
+#' 
+#' @export
 
 SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
 {
@@ -314,6 +295,8 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
 #' 
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples d<-SILOSummary(X)
+#' 
+#' @export
 
 SILOSiteSummary<-function(SILO)
 {
@@ -338,6 +321,8 @@ SILOSiteSummary<-function(SILO)
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOMap(X,"Locations.png")
+#' 
+#' @export
 
 SILOMap<-function(SILO,filename=NULL)
 {
@@ -369,6 +354,8 @@ SILOMap<-function(SILO,filename=NULL)
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILODoubleMass(X,"DoubleMass.png")
+#' 
+#' @export
 
 SILODoubleMass<-function(SILO,filename=NULL,plotsperpage=4)
 {
@@ -440,7 +427,7 @@ gg_getslopes<-function(dat_dm)
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples SILOReport(X,"C:/Output/MyReport.docx")
 #' 
-#' \code{\link{SILOLoad}}
+#' @export
 
 SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$cols)
 {
@@ -465,6 +452,8 @@ SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$cols)
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOMonthlyRainfall(X,"Span","Monthly.png",c("black","red","#124734"))
+#' 
+#' @export
 
 SILOMonthlyRainfall<-function(SILO,evapcol="Mwet",filename=NULL,cols=pkg.env$cols)
 {

@@ -20,4 +20,5 @@ Plot the quality codes of the SILO rainfall data
 \examples{
 X<-SILOLoad(c("24001","24002","24003"))
 p<-SILOQualityCodes(X,"QualityCodes.png")
+
 }

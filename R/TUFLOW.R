@@ -1,5 +1,5 @@
 #' Read in one variable out of a TFV POINTS File. Assumes the points file ID is a Hydstra site ID.
-#' @param ResultFile-TUFLOW output POINTS file
+#' @param Resultfile TUFLOW output POINTS file
 #' @param parameter - parameter to plot, must be in column heading, e.g. "SAL"
 #' @param RunName - name of model run to add to a column, for ease of combining/plotting
 #' @param stations - list of stations to return, to subset from everything recorded. default to NULL, which will return all.
@@ -7,7 +7,9 @@
 #' 
 #' @return tibble with data in long format, with columns: Time, Site, Value, Data
 #' 
-#' @example X<-TFVGetResults("Results_POINTS.csv","SAL","TFV",c("A4261209","A4261165"))
+#' @examples TFVGetResults("Results_POINTS.csv","SAL","TFV",c("A4261209","A4261165"))
+#' 
+#' @export
 
 TFVGetResults<-function(Resultfile,parameter,RunName,stations=NULL, dailyaverage=FALSE)
 {
@@ -36,35 +38,6 @@ TFVGetResults<-function(Resultfile,parameter,RunName,stations=NULL, dailyaverage
   return(Model)
 }
 
-#' Import data exported using Hydstra hycsv
-#' @param file path to file exported from hycsv, with quality codes on.
-#' @param Name name to give the Data column.
-#' @param convertECtogL Convert EC from Hydstra to g/L using the AWQC equation, (3E-06*EC^2 +0.5517*EC)/1000
-
-#' @return tibble with data in long format, with columns: Time, Site, Value, Data
-#' 
-#' @example ReadHystra("export.csv")
-
-ReadHydsta<-function(file,Name="Observed",convertECtogL=FALSE)
-{
-  #TODO - actually do QA with the quality codes. 
-  
-  #check - is this global?
-  
-  header<-suppressMessages(readr::read_csv(file,n_max=1,col_names=FALSE))
-  dat<-suppressWarnings(readr::read_csv(file,skip=3,
-                                        col_names=as.character(header),
-                                        col_types=readr::cols(Time=readr::col_datetime(format="%d/%m/%Y %H:%M"),.default=readr::col_double())))
-  dat<-dat %>% 
-    dplyr::select(!contains("NA")) %>% 
-    tidyr::gather("Site","Value",-Time) %>% 
-    dplyr::mutate(Data=Name)
-  
-  if(convertECtogL) dat<-dat %>% dplyr::mutate(Value=(3E-06*Value^2 +0.5517*Value)/1000.0)
-  
-  return(dat)
-}
-
 #' ggplot of TFV model runs and observed data
 #' @param Sim modelled output, imported using TFVGetResults()
 #' @param Obs observed data, imported using ReadHydstra()
@@ -81,9 +54,9 @@ ReadHydsta<-function(file,Name="Observed",convertECtogL=FALSE)
 #' 
 #' @examples stations<-c("A4261043", "A4261134","A4261135","A4260572","A4260633","A4261209","A4261165")
 #' @examples TFVPlotagainstHydstra(Sim,Obs,"Salinity (g/L)","salinity.png",order=stations)
-#' @examples newnames<-c("Parnka Point")
-#' @examples names(newnames)<-c("A4260633") #This will change from the station ID to the name Parnka Point. 
-#' @examples names(newnames)<-c("A4260633") #This will change from the station ID to the name Parnka Point.
+
+#' 
+#'@export
 
 
 TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,
