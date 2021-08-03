@@ -14,25 +14,25 @@
 TFVGetResults<-function(Resultfile,parameter,RunName,stations=NULL, dailyaverage=FALSE)
 {
   A<-readr::read_csv(Resultfile)
-  A<-A %>% dplyr::mutate(TIME=as.POSIXct(TIME,format="%d/%m/%Y %H:%M:%S"))
+  A<-A %>% dplyr::mutate(TIME=as.POSIXct(.data$TIME,format="%d/%m/%Y %H:%M:%S"))
   
-  names<-sapply(strsplit(colnames(A %>% dplyr::select(TIME,contains(parameter))),"_"),"[[",1) #strip out everything after "_"
+  names<-sapply(strsplit(colnames(A %>% dplyr::select(.data$TIME,dplyr::contains(parameter))),"_"),"[[",1) #strip out everything after "_"
   if(is.null(stations)) stations<-names[-1] #not time
   names[1]<-"Time"
   
-  Model<-A %>% dplyr::select(TIME,contains(parameter)) %>% 
+  Model<-A %>% dplyr::select(.data$TIME,dplyr::contains(parameter)) %>% 
     rlang::set_names(names) %>% 
-    dplyr::select(Time,all_of(stations)) %>% 
-    tidyr::gather("Site","Value",-Time) %>% 
+    dplyr::select(.data$Time,dplyr::all_of(stations)) %>% 
+    tidyr::gather("Site","Value",-.data$Time) %>% 
     tidyr::drop_na() %>% 
     dplyr::mutate(Data=RunName)
   
   if(dailyaverage)
   {
     Model<-Model %>%
-      dplyr::mutate(Time=floor_date(Time,"day")) %>%
-      dplyr::group_by(Time,ID,Data,Location) %>%
-      dplyr::summarise(Value=mean(Value))
+      dplyr::mutate(Time=lubridate::floor_date(.data$Time,"day")) %>%
+      dplyr::group_by(.data$Time,.data$ID,.data$Data,.data$Location) %>%
+      dplyr::summarise(Value=mean(.data$Value))
   }
   
   return(Model)
@@ -57,6 +57,7 @@ TFVGetResults<-function(Resultfile,parameter,RunName,stations=NULL, dailyaverage
 
 #' 
 #'@export
+#'@importFrom grDevices rgb
 
 
 TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,
@@ -64,10 +65,10 @@ TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,
 {
   
   #trim observed to modelled
-  if(!is.null(Obs)) Obs<-Obs %>% dplyr::filter(Time>=min(Sim$Time)&Time<=max(Sim$Time))
+  if(!is.null(Obs)) Obs<-Obs %>% dplyr::filter(.data$Time>=min(.data$Sim$Time)& .data$Time<=max(.data$Sim$Time))
   dat<-dplyr::bind_rows(Sim,Obs)
   
-  if(!is.null(order)) dat<-dat %>% dplyr::mutate(Site=factor(Site,levels=order))
+  if(!is.null(order)) dat<-dat %>% dplyr::mutate(Site=factor(.data$Site,levels=order))
   
   #colours taken from report template
   if(is.null(cols))
@@ -79,13 +80,13 @@ TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,
   }
   
   p<-ggplot2::ggplot(dat)+
-    ggplot2::geom_line(ggplot2::aes(Time,Value,colour=Data))+
+    ggplot2::geom_line(ggplot2::aes(.data$Time,.data$Value,colour=.data$Data))+
     ggplot2::ylab(ylab)+
     ggplot2::xlab("Date")+
     ggplot2::theme_bw()+
     ggplot2::theme(legend.position = "top",legend.title = NULL)+
     ggplot2::scale_colour_manual(values=cols,name=NULL)+
-    ggplot2::guides(color=guide_legend(nrow=nlegendrow, byrow=TRUE))
+    ggplot2::guides(color=ggplot2::guide_legend(nrow=nlegendrow, byrow=TRUE))
   
   #dont facet if there is only 1 site
   if(length(unique(dat$Site))>1)
@@ -95,9 +96,9 @@ TFVPlotagainstHydstra<-function(Sim,Obs,ylab,file,width=17,height=22,order=NULL,
       newnames<-unique(dat$Site)
       names(newnames)<-unique(dat$Site)
     }
-    p<-p+ggplot2::facet_grid(ggplot2::vars(Site),
+    p<-p+ggplot2::facet_grid(ggplot2::vars(.data$Site),
                              scales=scales,
-                             labeller=labeller(Site=newnames))
+                             labeller=ggplot2::labeller(Site=newnames))
   }
   
   if(!is.na(ylim)) p<-p+ylim(ylim)

@@ -7,11 +7,13 @@
 #'@return nothing to the environment. Shape file saved to path \\ shpname
 #'
 #'@examples SILOThiessens(SILOdata,"C:\\SILO","FinnissTP")
+#'@export
 
 SILOThiessenShp<- function(SILOdata,path,shpname){
   SiteTable <- SILOSiteSummary(SILOdata) #table summarising SILO sites
   SILOLocs <- sf::st_as_sf(SiteTable, coords = c("Longitude","Latitude"))
 
+  . <- NULL #address global variable . warning. bit of a hack.
   # compute Voronoi (Thiessen) polygons
   TPoly <- SILOLocs %>% 
     sf::st_geometry() %>% 

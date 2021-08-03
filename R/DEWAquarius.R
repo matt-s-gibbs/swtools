@@ -1,5 +1,3 @@
-source("R/imports.R")
-
 #' 
 #' #' Function to load in an Aquarius json file, downloaded from water.data.sa.gov.au, possibly using AWQPDownload()
 #'
@@ -11,8 +9,6 @@ source("R/imports.R")
 #'
 #'@examples AQWPLoad("AQWP.json")
 #'
-#'@importFrom magrittr %>%
-#'@importFrom rlang .data
 #'@export
 
 AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in long format)
@@ -92,10 +88,8 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #'Unit=rep("Metres",3)
 #'S="2020-01-01 00:00"
 #'E="2020-01-01 00:00"
-#'AQWPDownload(Location,Dataset,Unit,DateRange="Custom",StartDate=S,EndDate=E)
+#'AQWPDownload(Location,Dataset,Unit,DateRange="Custom",StartTime=S,EndTime=E)
 #'
-#'@importFrom magrittr %>%
-#'@importFrom rlang .data
 #'@importFrom utils download.file
 #'@export
 

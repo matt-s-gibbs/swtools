@@ -1,0 +1,23 @@
+#' SWTools: For SILO and Source
+#'
+#' The SWTools package provides four categories of important functions:
+#' SILO, Aquarius, Source and TUFLOW.
+#' 
+#' @section SILO functions:
+#' The SILO function are for downloading and working with SILO climate data from https://www.longpaddock.qld.gov.au/silo/point-data/
+#' SILOReport() provides some analyses of quality codes and comparisons between stations to check data quality
+#' 
+#' @section Source functions:
+#' The Source functions provide wrappers for Veneer, to work with a model and results from code. 
+#' There are also some helper function for writing SILO data in the correct format, and writing piecewise functions for input sets
+#' 
+#' @section TUFLOW functions:
+#' For plotting POINTS files written by TUFLOW (tested with TUFLOW FV)
+#' 
+#' @section Aquarius functions:
+#' Provides fucntions for downloading and reading in data downloaded from water.data.sa.gov.au
+#'
+#' @docType package
+#' @name SWTools
+#'
+NULL

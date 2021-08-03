@@ -1,16 +1,16 @@
-# pkg.env <- new.env(parent = emptyenv())
-# pkg.env$cols <-c("#124734",
-#                  "#38A28F",
-#                  "#C33B32",
-#                  "#E27E44",
-#                  "#45494A",
-#                  "#2999A3",
-#                  "#031D44",
-#                  "#92AFD7",
-#                  "#4C1E4F",
-#                  "#B6174B",
-#                  "#53DD6C",
-#                  "#364156")
+pkg.env <- new.env(parent = emptyenv())
+pkg.env$cols <-c("#124734",
+                 "#38A28F",
+                 "#C33B32",
+                 "#E27E44",
+                 "#45494A",
+                 "#2999A3",
+                 "#031D44",
+                 "#92AFD7",
+                 "#4C1E4F",
+                 "#B6174B",
+                 "#53DD6C",
+                 "#364156")
 
 #' Download SILO data
 #'
@@ -78,6 +78,8 @@ SILODownload <- function(SiteList, username="noemail@net.com",password="gui",pat
 #'
 #' @examples X<-SILOImport("24001")
 #' @examples plot(X$tsd$Rain)
+#' 
+#' @importFrom utils read.table
 
 
 SILOImport <- function(station, path = getwd(), startdate, enddate) {
@@ -136,14 +138,14 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
   
   # extract on just the dates
   if (missing(startdate)) {
-    startdate <- start(tsd)
+    startdate <- stats::start(tsd)
   }
   
   if (missing(enddate)) {
-    enddate <- end(tsd)
+    enddate <- stats::end(tsd)
   }
   
-  tsd <- window(tsd, start = as.Date(startdate), end = as.Date(enddate))
+  tsd <- stats::window(tsd, start = as.Date(startdate), end = as.Date(enddate))
   
   id<-which(tsd$Srn==0)
   startdata<-zoo::index(tsd[id[1],])
@@ -231,7 +233,7 @@ SILOQualityCodes<-function(SILO,filename=NULL)
   
   #generate the plot
   p<-ggplot2::ggplot(my.data)+
-    ggplot2::geom_tile(ggplot2::aes(x=Index, y=factor(Station),fill = factor(Quality)))+
+    ggplot2::geom_tile(ggplot2::aes(x=.data$Index, y=factor(.data$Station),fill = factor(.data$Quality)))+
     ggplot2::scale_fill_manual(values = cols, name='Quality Code' )+
     ggplot2::theme_bw()+
     ggplot2::ylab("Station")+
@@ -269,7 +271,7 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
   dat<-reshape2::melt(dat,id.vars="date")
   
   p<-ggplot2::ggplot(dat)+
-    ggplot2::geom_line(ggplot2::aes(date,value,col=variable))+
+    ggplot2::geom_line(ggplot2::aes(date,.data$value,col=.data$variable))+
     ggplot2::theme_bw()+
     ggplot2::ylab("Cumulative deviation from mean (mm)")+
     ggplot2::xlab("Date")+
@@ -337,7 +339,7 @@ SILOMap<-function(SILO,filename=NULL)
   
   p<-ggmap::ggmap(sq_map) + 
     ggplot2::geom_point(data = points, color = "red", size = 3) +
-    ggrepel::geom_text_repel(data = points, ggplot2::aes(label = Station))
+    ggrepel::geom_text_repel(data = points, ggplot2::aes(label = .data$Station))
   
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
@@ -354,7 +356,8 @@ SILOMap<-function(SILO,filename=NULL)
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILODoubleMass(X,"DoubleMass.png")
-#' 
+
+#' @importFrom stats lm
 #' @export
 
 SILODoubleMass<-function(SILO,filename=NULL,plotsperpage=4)
@@ -386,11 +389,11 @@ SILODoubleMass<-function(SILO,filename=NULL,plotsperpage=4)
   
     slopes<-gg_getslopes(dat_dm)
   
-    p<-ggplot2::ggplot(dat_dm,ggplot2::aes(rain1,rain2))+
+    p<-ggplot2::ggplot(dat_dm,ggplot2::aes(.data$rain1,.data$rain2))+
       ggplot2::geom_line()+
       ggplot2::geom_smooth(method="lm",se=FALSE,lty="dashed")+
       ggplot2::facet_wrap(~site,ncol=2)+
-      ggplot2::geom_text(data=slopes,ggplot2::aes(x,y,label=signif(slope,3)))+
+      ggplot2::geom_text(data=slopes,ggplot2::aes(.data$x,.data$y,label=signif(.data$slope,3)))+
       ggplot2::theme_bw()+
       ggplot2::xlab("Station Number 1")+
       ggplot2::ylab("Station Number 2")
@@ -479,8 +482,8 @@ evap$month<-month.abb[evap$Index]
 evap$month<-forcats::fct_relevel(evap$month,month.abb)
 
 p<-ggplot2::ggplot()+
-  ggplot2::geom_boxplot(data=dat,ggplot2::aes(month,Value,fill=Series), coef = 500)+
-  ggplot2::geom_line(data=evap,ggplot2::aes(Index,Value,group=Series,colour=Series))+
+  ggplot2::geom_boxplot(data=dat,ggplot2::aes(.data$month,.data$Value,fill=.data$Series), coef = 500)+
+  ggplot2::geom_line(data=evap,ggplot2::aes(.data$Index,.data$Value,group=.data$Series,colour=.data$Series))+
   ggplot2::xlab("Month")+
   ggplot2::ylab("Monthly total (mm)")+
   ggplot2::theme_bw()+

@@ -10,7 +10,7 @@
 #' @examples X<-SILOLoad(c("24001","24002","24003"))
 #' @examples p<-SILOQualityCodes(X,"QualityCodes.png")
 #' 
-#@export
+#' @export
 
 SILOMortonQualityCodes<-function(SILO,filename=NULL)
 {
@@ -37,25 +37,25 @@ SILOMortonQualityCodes<-function(SILO,filename=NULL)
   {
     
     temp<-zoo::fortify.zoo(SILO[[i]]$tsd)
-    temp<-temp %>% dplyr::select(Date=Index,Tmax=Smx,TMin=Smn,Radn=Ssl,VP=Svp,Evap=Sev) %>% 
+    temp<-temp %>% dplyr::select(Date=.data$Index,Tmax=.data$Smx,TMin=.data$Smn,Radn=.data$Ssl,VP=.data$Svp,Evap=.data$Sev) %>% 
       dplyr::mutate(Station=SILO[[i]]$Station,
                     Site=SILO[[i]]$Site)
     my.data<-rbind(my.data,temp)
   }
   
-  my.data<-my.data %>% gather("Variable","Code",-Date,-Station,-Site) %>% 
-    mutate(ID=paste(Station,Variable,sep="-"))
+  my.data<-my.data %>% tidyr::gather("Variable","Code",-.data$Date,-.data$Station,-.data$Site) %>% 
+    dplyr::mutate(ID=paste(.data$Station,.data$Variable,sep="-"))
 
   
   #Add the interpretation for each quality code
-  my.data<-my.data %>% dplyr::left_join(lookup,by="Code")
+  my.data<-my.data %>% dplyr::left_join(.data$lookup,by="Code")
   
   #fix the factor order so the are in order from best to worst, not alphabetical
   my.data$Quality<-forcats::fct_relevel(my.data$Quality,as.character(lookup$Quality))
   
   #generate the plot
   p<-ggplot2::ggplot(my.data)+
-    ggplot2::geom_tile(ggplot2::aes(x=Date, y=factor(ID),fill = factor(Quality)))+
+    ggplot2::geom_tile(ggplot2::aes(x=.data$Date, y=factor(.data$ID),fill = factor(.data$Quality)))+
     ggplot2::scale_fill_manual(values = cols, name='Quality Code' )+
     ggplot2::theme_bw()+
     ggplot2::ylab("Station-Varible")+

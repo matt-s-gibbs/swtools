@@ -7,7 +7,7 @@ Authors@R: person("Matt", "Gibbs", email = "matt.gibbs@sa.gov.au",
 Description: Functions to speed up workflow for hydrological analysis. 
     Focused on Australia (SILO climate data), and in particular South Australia (water.data.sa.gov.au hydrological data).
 Depends: R (>= 4.0.0)
-License: GLP-3
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
@@ -17,7 +17,6 @@ Imports:
     dplyr,
     tidyr,
     tibble,
-    purrr,
     forcats,
     stringr,
     lubridate,
@@ -28,7 +27,6 @@ Imports:
     ggplot2,
     ggmap,
     ggrepel,
-    ggforce,
     magrittr,
     hydroTSM,
     jsonlite,

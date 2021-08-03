@@ -95,6 +95,7 @@ VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
 #'  
 #'  @examples VeneerGetPiecewise(data,"pw_table")
 #'  @export
+#'  @importFrom utils URLencode
 
 VeneerGetPiecewise<-function(pw_table,baseURL="http://localhost:9876")
 {
@@ -121,6 +122,7 @@ VeneerGetPiecewise<-function(pw_table,baseURL="http://localhost:9876")
 #' @examples VeneerGetTS("/runs/latest/location/EndofSystem/element/Downstream Flow/variable/Flow")
 #' 
 #' @export
+#' @importFrom utils URLencode
 
 VeneerGetTS<-function(TSURL,baseURL="http://localhost:9876")
 {
@@ -150,7 +152,7 @@ VeneerGetTS<-function(TSURL,baseURL="http://localhost:9876")
 VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://localhost:9876")
 {
   Results<-jsonlite::fromJSON(paste0(baseURL,"/runs/",run))
-  X<-Results$Results %>% dplyr::filter(RecordingVariable==variable)
+  X<-Results$Results %>% dplyr::filter(.data$RecordingVariable==variable)
   TS<-lapply(X$TimeSeriesUrl,function(x) VeneerGetTS(x,baseURL))
   if(length(TS)>0)
   {
@@ -199,7 +201,7 @@ VeneerGetTSVariables<-function(run="latest",baseURL="http://localhost:9876")
 VeneerGetTSbyNode<-function(Node,run="latest",baseURL="http://localhost:9876")
 {
   Results<-jsonlite::fromJSON(paste0(baseURL,"/runs/",run))
-  X<-Results$Results %>% dplyr::filter(NetworkElement==Node)
+  X<-Results$Results %>% dplyr::filter(.data$NetworkElement==Node)
   TS<-lapply(X$TimeSeriesUrl,function(x) VeneerGetTS(x,baseURL))
   if(length(TS)>0)
   {
@@ -244,7 +246,7 @@ VeneerGetNodesbyType<-function(NodeType,baseURL="http://localhost:9876")
   if(length(iconname)==1 & is.na(iconname)){
     print(paste(NodeType,"not found in the model. Try a different name, capitalisation matters. Search http://localhost:9876/network to see options, look for \"icon\""))
   }else{
-    return(A$features$properties %>% dplyr::filter(icon == iconname) %>% dplyr::select(name))
+    return(A$features$properties %>% dplyr::filter(.data$icon == iconname) %>% dplyr::select(.data$name))
   }
 }
 

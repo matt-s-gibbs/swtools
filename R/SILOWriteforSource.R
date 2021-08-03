@@ -10,6 +10,7 @@
 #' @examples p<-SILOWriteforSource(X,"Rain","Rainfall.csv")
 #' 
 #' @export
+#' @importFrom utils write.csv
 
 SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
 {
@@ -41,7 +42,8 @@ SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
 #'
 #' @examples X = read_res.csv(file.choose(),returnType="df")
 #'
-#'@export
+#' @export
+#' @importFrom utils read.csv
 
 read_res.csv <- function(resFile,returnType="df")
 {
@@ -88,6 +90,7 @@ read_res.csv <- function(resFile,returnType="df")
 #' WritepwtoIS(folder,csvfiles,outputfile)
 #' 
 #' @export
+#' @importFrom utils read.csv
 
 WritepwtoIS<-function(folder,csvfiles,outputfile)
 {

@@ -32,4 +32,5 @@ Import a SILO file
 \examples{
 X<-SILOImport("24001")
 plot(X$tsd$Rain)
+
 }
