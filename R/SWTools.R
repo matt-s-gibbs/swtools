@@ -20,4 +20,6 @@
 #' @docType package
 #' @name SWTools
 #'
+#'@importFrom magrittr %>% 
+#'@importFrom rlang .data
 NULL

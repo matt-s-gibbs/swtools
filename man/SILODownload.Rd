@@ -36,7 +36,8 @@ A file for each station will be saved to path, named station number.txt. Nothing
 Download SILO data
 }
 \examples{
-SILODownload("24001",path="C:/SILO/")
-SILODownload("24001",path="C:/SILO/",startdate="20170701",enddate="20170801")
+SILODownload(c("24001","24002","24003"),
+path="inst/extdata/",
+startdate="20180101",enddate="20200101")
 
 }

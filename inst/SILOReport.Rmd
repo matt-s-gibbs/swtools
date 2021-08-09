@@ -9,7 +9,7 @@ output:
     df_print: kable
 ---
 
-Generated using the R swtools package.
+Generated using the R SWTools package.
 
 #Station Summary
 ```{r echo=FALSE}
@@ -19,6 +19,8 @@ SILOSiteSummary(SILO)
 ##Data quality codes
 ```{r echo=FALSE}
 SILOQualityCodes(SILO)
+
+SILOMortonQualityCodes(SILO)
 ```
 
 ##Map of station locations

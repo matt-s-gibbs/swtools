@@ -10,8 +10,11 @@
 #' 
 #' The console will show any errors returned by Veneer. 
 #' 
-#' @examples VeneerRunSource()
-#' @examples VeneerRunSource("01/07/2017","01/02/2018","NoDams")
+#' @examples 
+#' \dontrun{
+#' VeneerRunSource()
+#' VeneerRunSource("01/07/2017","01/02/2018","NoDams")
+#' }
 #' 
 #'@export
 
@@ -34,17 +37,19 @@ VeneerRunSource<-function(StartDate=NULL,EndDate=NULL,InputSet=NULL,baseURL="htt
     
 }
 
-#' Change a Source function using Veneer
+#'  Update a function value or expression. Function must exist before being updated.
 #' 
 #' @param Name Name of the function without the $, e.g. f_ScaleFactor
 #' @param Expression Expression to change it to, e.g. 1.2
 #' @param baseURL URL of the Veneer server. Defaults to the veneer default.
 #' 
-#'  Update a function value or expression. Function must exist before being updated.
+#' @examples 
+#' \dontrun{
+#'  VeneerSetFunction("f_ScaleFactor",1.2)
+#'  VeneerSetFunction("f_TargetLevel","if($m_Flow<1000,3.2,3.5)")
+#'  }
 #'  
-#'  @examples VeneerSetFunction("f_ScaleFactor",1.2)
-#'  @examples VeneerSetFunction("f_TargetLevel","if($m_Flow<1000,3.2,3.5)") #not tested, but more complex functions should work
-#'  @export
+#'@export
 
 VeneerSetFunction<-function(Name,Expression,baseURL="http://localhost:9876")
 {
@@ -57,14 +62,16 @@ VeneerSetFunction<-function(Name,Expression,baseURL="http://localhost:9876")
 #' Change a Source piecewise table using Veneer
 #' 
 #' @param data A 2 column data.frame or matrix with the data to load into the piecewise table.
-#' @param pw_table The name of the piecewise linear variable, without the $
-#' @param baseURL URL of the Veneer server. Defaults to the veneer default.
+#' @param pw_table The name of the piecewise linear variable, without the "$".
+#' @param baseURL URL of the Veneer server. Defaults to the veneer default. 
 #' 
-#'  Update a piecewise linear table using a table.
+#' @examples 
+#' \dontrun{
+#'  data<-data.frame(X=seq(1,5),Y=seq(1,5))
+#'  VeneerSetPiecewise(data,"pw_table")
+#' }
 #'  
-#'  @examples data<-data.frame(X=seq(1,5),Y=seq(1,5))
-#'  @examples VeneerSetPiecewise(data,"pw_table")
-#'  @export
+#' @export
 
 VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
 {
@@ -89,13 +96,19 @@ VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
 #' @param pw_table The name of the piecewise linear variable, without the $
 #' @param baseURL URL of the Veneer server. Defaults to the veneer default.
 #' 
-#' @return a matrix with the data from the piecewise table
+#' @return a matrix with the data from the piecewise table.
 #' 
-#'  Get data from a piecewise linear table using a table.
+#' some text to hopefully trick
+#' roxygen into working
 #'  
-#'  @examples VeneerGetPiecewise(data,"pw_table")
-#'  @export
-#'  @importFrom utils URLencode
+#' @examples 
+#' \dontrun{
+#' VeneerGetPiecewise(data,"pw_table")
+#' }
+#'  
+#'  
+#' @export
+#' @importFrom utils URLencode
 
 VeneerGetPiecewise<-function(pw_table,baseURL="http://localhost:9876")
 {
@@ -119,7 +132,10 @@ VeneerGetPiecewise<-function(pw_table,baseURL="http://localhost:9876")
 #' 
 #' Spaces are OK, like in the example below (dont need to insert %20 for example).
 #' 
-#' @examples VeneerGetTS("/runs/latest/location/EndofSystem/element/Downstream Flow/variable/Flow")
+#' @examples 
+#' \dontrun{
+#' VeneerGetTS("/runs/latest/location/EndofSystem/element/Downstream Flow/variable/Flow")
+#' }
 #' 
 #' @export
 #' @importFrom utils URLencode
@@ -144,8 +160,11 @@ VeneerGetTS<-function(TSURL,baseURL="http://localhost:9876")
 #' 
 #' @return a zoo time series, with each output as a column
 #' 
-#' @examples VeneerGetTSbyVariable() #returns all flow outputs recorded in the latest run
-#' @examples VeneerGetTSbyVariable("Water Surface Elevation",1) 
+#' @examples 
+#' \dontrun{
+#' VeneerGetTSbyVariable() #returns all flow outputs recorded in the latest run
+#' VeneerGetTSbyVariable("Water Surface Elevation",1) 
+#' }
 #' 
 #' @export
 #' 
@@ -177,7 +196,10 @@ VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://loc
 #' 
 #' @return a vector of variable types (e.g. Downstream flow, Downstream Flow Concentration, water surface elevation)
 #' 
-#' @examples VeneerGetTSVariables()
+#' @examples
+#' \dontrun{
+#'  VeneerGetTSVariables()
+#' }
 #' 
 #' @export
 #' 
@@ -194,7 +216,10 @@ VeneerGetTSVariables<-function(run="latest",baseURL="http://localhost:9876")
 #' 
 #' @return a zoo time series, with each variable as a column
 #' 
-#' @examples VeneerGetTSbyNode("Storage 1")
+#' @examples 
+#' \dontrun{
+#' VeneerGetTSbyNode("Storage 1")
+#' }
 #' 
 #' @export
 
@@ -220,7 +245,12 @@ VeneerGetTSbyNode<-function(Node,run="latest",baseURL="http://localhost:9876")
 #' 
 #' @return vector containing info on Input Sets in the model
 #' 
-#' @examples VeneerGetInputSets()
+#' @examples 
+#' \dontrun{
+#' VeneerGetInputSets()
+#' }
+#' 
+#' @export
 
 VeneerGetInputSets<-function(baseURL="http://localhost:9876")
 {
@@ -233,7 +263,10 @@ VeneerGetInputSets<-function(baseURL="http://localhost:9876")
 #' 
 #'@return vector of node names matching the specified node type
 #'
-#'@examples VeneerGetNodesbyType("Weir")
+#'@examples 
+#'\dontrun{
+#'VeneerGetNodesbyType("Weir")
+#'}
 #'
 #'@export
 
@@ -255,7 +288,11 @@ VeneerGetNodesbyType<-function(NodeType,baseURL="http://localhost:9876")
 #' 
 #' @return integer of the latest run number
 #' 
-#' @examples VeneerlatestRunNumber()
+#' @examples 
+#' \dontrun{
+#' VeneerlatestRunNumber()
+#' }
+#' 
 #' @export
 
 VeneerlatestRunNumber<-function(baseURL="http://localhost:9876")

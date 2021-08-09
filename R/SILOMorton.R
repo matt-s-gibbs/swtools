@@ -7,8 +7,9 @@
 #'
 #' @return a ggplot geom_tile plot of the rainfall quality codes
 #'
-#' @examples X<-SILOLoad(c("24001","24002","24003"))
-#' @examples p<-SILOQualityCodes(X,"QualityCodes.png")
+#' @examples 
+#' X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+#' p<-SILOMortonQualityCodes(X,"QualityCodes.png")
 #' 
 #' @export
 
@@ -48,10 +49,10 @@ SILOMortonQualityCodes<-function(SILO,filename=NULL)
 
   
   #Add the interpretation for each quality code
-  my.data<-my.data %>% dplyr::left_join(.data$lookup,by="Code")
+  my.data<-my.data %>% dplyr::left_join(lookup,by="Code")
   
   #fix the factor order so the are in order from best to worst, not alphabetical
-  my.data$Quality<-forcats::fct_relevel(my.data$Quality,as.character(lookup$Quality))
+  suppressWarnings(my.data$Quality<-forcats::fct_relevel(my.data$Quality,as.character(lookup$Quality)))
   
   #generate the plot
   p<-ggplot2::ggplot(my.data)+
@@ -68,8 +69,4 @@ SILOMortonQualityCodes<-function(SILO,filename=NULL)
   
 }
 
-# site<-"023894"
-# Radn<-bomrang::get_historical(site,type="solar")
-# Tmax<-bomrang::get_historical(site,type="max")
-# Tmin<-bomrang::get_historical(site,type="min")
-# Rain<-bomrang::get_historical(site,type="rain")
+

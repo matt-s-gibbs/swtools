@@ -27,7 +27,7 @@ a ggplot of the monthly rainfall and evaporation.
 Plot a boxplot of monthly rainfall with mean monthly evaporation
 }
 \examples{
-X<-SILOLoad(c("24001","24002","24003"))
+X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
 p<-SILOMonthlyRainfall(X,"Span","Monthly.png",c("black","red","#124734"))
 
 }

@@ -4,7 +4,7 @@
 \alias{SILOImport}
 \title{Import a SILO file}
 \usage{
-SILOImport(station, path = getwd(), startdate, enddate)
+SILOImport(station, path, startdate, enddate)
 }
 \arguments{
 \item{station}{Station number (e.g. "24001") to import. The function expects the file to be called "24001.txt".}
@@ -28,9 +28,4 @@ goodpct - the percentage of good quality coded rainfall data between start and e
 }
 \description{
 Import a SILO file
-}
-\examples{
-X<-SILOImport("24001")
-plot(X$tsd$Rain)
-
 }

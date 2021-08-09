@@ -6,8 +6,9 @@
 #' @param scalefactor factor to scale the data by. Defaults to 1. Useful for Pan evap or rainfall scaling. Could also be a vector, with a value for each station in SILO
 #'
 #'
-#' @examples X<-SILOLoad(c("24001","24002","24003"))
-#' @examples p<-SILOWriteforSource(X,"Rain","Rainfall.csv")
+#' @examples 
+#' X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+#' SILOWriteforSource(X,"Rain","Rainfall.csv")
 #' 
 #' @export
 #' @importFrom utils write.csv
@@ -36,11 +37,12 @@ SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
 #'
 #' @param resFile A character string representing the full file path of the .res.csv file
 #'
-#' @param returnType A character string to set the return type: "z", "t", "df". If not specified or not matching "t" (tibble) or "z" (zoo), data frame returned.
+#' @param returnType A character string to set the return type: "z", "t", "df". If not matching "t" (tibble) or "z" (zoo), data frame returned.
 #'
 #' @return Data in the format selected with all data read in from the Source .res.csv file
 #'
-#' @examples X = read_res.csv(file.choose(),returnType="df")
+#' @examples 
+#' X = read_res.csv("SWTools/extdata/Scenario1.res.csv",returnType="t")
 #'
 #' @export
 #' @importFrom utils read.csv
@@ -84,10 +86,13 @@ read_res.csv <- function(resFile,returnType="df")
 #' The first row should be column names  the same as used in Source, i.e. XValue and YValue
 #' @param outputfile text file to save the lines to
 #' 
-#' @examples folder<-"C:/Source/tables"
+#' @examples 
+#' \dontrun{
+#' folder<-"C:/Source/tables"
 #' csvfiles<-c("LowerLakesOps.pw_LakeTarget.csv","Operations.pw_NA_Lock5_16p8.csv")
 #' outputfile<-"inputset.txt"
 #' WritepwtoIS(folder,csvfiles,outputfile)
+#' }
 #' 
 #' @export
 #' @importFrom utils read.csv

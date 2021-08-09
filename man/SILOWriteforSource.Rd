@@ -19,7 +19,7 @@ SILOWriteforSource(SILO, col, filename, scalefactor = 1)
 Write a csv file that can be loaded into a model, e.g. Source
 }
 \examples{
-X<-SILOLoad(c("24001","24002","24003"))
-p<-SILOWriteforSource(X,"Rain","Rainfall.csv")
+X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+SILOWriteforSource(X,"Rain","Rainfall.csv")
 
 }

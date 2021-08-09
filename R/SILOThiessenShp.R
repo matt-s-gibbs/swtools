@@ -6,7 +6,9 @@
 #'
 #'@return nothing to the environment. Shape file saved to path \\ shpname
 #'
-#'@examples SILOThiessens(SILOdata,"C:\\SILO","FinnissTP")
+#'@examples 
+#'X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+#'SILOThiessenShp(X,".","Theissens")
 #'@export
 
 SILOThiessenShp<- function(SILOdata,path,shpname){

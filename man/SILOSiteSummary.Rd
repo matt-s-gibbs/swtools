@@ -24,7 +24,7 @@ Longitude - Longitude
 Produce a table summarising  SILO sites
 }
 \examples{
-X<-SILOLoad(c("24001","24002","24003"))
-d<-SILOSummary(X)
+X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+d<-SILOSiteSummary(X)
 
 }

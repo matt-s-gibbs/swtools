@@ -23,8 +23,10 @@ pkg.env$cols <-c("#124734",
 #' @param ssl if true set ssl_cipher_list to "RC4-SHA" for file download. Seems to be necessary on some machines. default to FALSE
 #' @return A file for each station will be saved to path, named station number.txt. Nothing is returned to the R environment.
 #'
-#' @examples SILODownload("24001",path="C:/SILO/")
-#' @examples SILODownload("24001",path="C:/SILO/",startdate="20170701",enddate="20170801")
+#' @examples 
+#' SILODownload(c("24001","24002","24003"),
+#' path="inst/extdata/",
+#' startdate="20180101",enddate="20200101")
 #'
 #' @export
 SILODownload <- function(SiteList, username="noemail@net.com",password="gui",path = getwd(), startdate = "18890101", enddate = NULL,ssl=FALSE) {
@@ -76,13 +78,11 @@ SILODownload <- function(SiteList, username="noemail@net.com",password="gui",pat
 #'end - the last date with good quality rainfall data
 #'goodpct - the percentage of good quality coded rainfall data between start and end
 #'
-#' @examples X<-SILOImport("24001")
-#' @examples plot(X$tsd$Rain)
 #' 
 #' @importFrom utils read.table
 
 
-SILOImport <- function(station, path = getwd(), startdate, enddate) {
+SILOImport <- function(station, path, startdate, enddate) {
   
   if(!dir.exists(path)){
     print(paste("Path",path,"Doesn't exist"))
@@ -138,23 +138,21 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
   
   # extract on just the dates
   if (missing(startdate)) {
-    startdate <- stats::start(tsd)
+    startdate <- min(x,na.rm = TRUE)
   }
   
   if (missing(enddate)) {
-    enddate <- stats::end(tsd)
+    enddate <- max(x,na.rm = TRUE)
   }
   
   tsd <- stats::window(tsd, start = as.Date(startdate), end = as.Date(enddate))
   
   id<-which(tsd$Srn==0)
-  startdata<-zoo::index(tsd[id[1],])
-  enddata<-zoo::index(tsd[id[length(id)],])
-  missingdata<-100-length(id)/(as.numeric(enddata-startdata)+1)*100.0
+  missingdata<-100-length(id)/(as.numeric(enddate-startdate)+1)*100.0
   
   
   return(list(tsd = tsd, Site = Site, Station = Station, Lat = Lat, Lon = Lon, Elevation=elevation,
-              start=startdata,end=enddata,missing=missingdata))
+              start=startdate,end=enddate,missing=missingdata))
   
 }
 
@@ -167,7 +165,7 @@ SILOImport <- function(station, path = getwd(), startdate, enddate) {
 #'
 #' @return a list of lists of SILO data from each file. Each list has members: tsd - the raw data as a daily zoo object, Site- the name of the site, Station - the station number, Lon- Longitude, and Lat - Latitude
 #'
-#' @examples X<-SILOLoad(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
 #' @export
 
 SILOLoad<-function(sites,path = getwd(), startdate, enddate){
@@ -189,8 +187,9 @@ SILOLoad<-function(sites,path = getwd(), startdate, enddate){
 #'
 #' @return a ggplot geom_tile plot of the rainfall quality codes
 #'
-#' @examples X<-SILOLoad(c("24001","24002","24003"))
-#' @examples p<-SILOQualityCodes(X,"QualityCodes.png")
+#' @examples
+#' X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+#' p<-SILOQualityCodes(X,"QualityCodes.png")
 #' 
 #' @export
   
@@ -228,8 +227,8 @@ SILOQualityCodes<-function(SILO,filename=NULL)
   #Add the interpretation for each quality code
   my.data<-my.data %>% dplyr::left_join(lookup,by="Code")
   
-  #fix the factor order so the are in order from best to worst, not alphabetical
-  my.data$Quality<-forcats::fct_relevel(my.data$Quality,as.character(lookup$Quality))
+  #fix the factor order so the are in order from best to worst, not alphabetical. Dont warn that some levels aren't used
+  suppressWarnings(my.data$Quality<-forcats::fct_relevel(my.data$Quality,as.character(lookup$Quality)))
   
   #generate the plot
   p<-ggplot2::ggplot(my.data)+
@@ -254,7 +253,7 @@ SILOQualityCodes<-function(SILO,filename=NULL)
 #' 
 #' @return a ggplot  plot of the cumulative deviation from the mean.
 #'
-#' @examples X<-SILOLoad(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
 #' @examples p<-SILOCumulativeDeviation(X,"Cumulative.png")
 #' 
 #' @export
@@ -295,8 +294,8 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
 #' Latitute - Latitude
 #' Longitude - Longitude
 #' 
-#' @examples X<-SILOLoad(c("24001","24002","24003"))
-#' @examples d<-SILOSummary(X)
+#' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+#' @examples d<-SILOSiteSummary(X)
 #' 
 #' @export
 
@@ -321,7 +320,7 @@ SILOSiteSummary<-function(SILO)
 #'
 #' @return a google map of the SILO station locations
 #'
-#' @examples X<-SILOLoad(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
 #' @examples p<-SILOMap(X,"Locations.png")
 #' 
 #' @export
@@ -354,7 +353,7 @@ SILOMap<-function(SILO,filename=NULL)
 #'
 #' @return a list of ggplot objects that plot of the double mass curves of each station in the SILO list against each other. The double mass plot is on the bottom diagonal, and the slope of the line for each case in the upper diagonal. Each list element contains plotsperpage (default to 4) double mass plots, to allow them to be plotted on multiple pages
 #'
-#' @examples X<-SILOLoad(c("24001","24002","24003"))
+#' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
 #' @examples p<-SILODoubleMass(X,"DoubleMass.png")
 
 #' @importFrom stats lm
@@ -427,8 +426,8 @@ gg_getslopes<-function(dat_dm)
 #' @param path Optional. Folder to save the report to, defaults to current working directory
 #' @param cols Optional. vector of colours to use for the monthly rainfall and cumulative deviation plots. Must be at least as long as the number of sites in the SILO list.
 #'
-#' @examples X<-SILOLoad(c("24001","24002","24003"))
-#' @examples SILOReport(X,"C:/Output/MyReport.docx")
+#' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+#' @examples SILOReport(X,"MyReport.docx")
 #' 
 #' @export
 
@@ -453,8 +452,9 @@ SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$cols)
 #'
 #' @return a ggplot of the monthly rainfall and evaporation.
 #'
-#' @examples X<-SILOLoad(c("24001","24002","24003"))
-#' @examples p<-SILOMonthlyRainfall(X,"Span","Monthly.png",c("black","red","#124734"))
+#' @examples 
+#' X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+#' p<-SILOMonthlyRainfall(X,"Span","Monthly.png",c("black","red","#124734"))
 #' 
 #' @export
 
