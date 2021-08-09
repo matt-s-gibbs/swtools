@@ -19,7 +19,9 @@ SILOReport(SILO, filename, path = getwd(), cols = pkg.env$cols)
 Write SILO data report to word document
 }
 \examples{
+\dontrun{
 X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
-SILOReport(X,"MyReport.docx")
+SILOReport(X,"MyReport.docx") #requires pandoc installed
+}
 
 }

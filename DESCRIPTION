@@ -19,8 +19,6 @@ Imports:
     tibble,
     forcats,
     stringr,
-    lubridate,
-    readr,
     rlang,
     rmarkdown,
     reshape2,

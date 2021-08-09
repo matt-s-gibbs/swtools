@@ -426,8 +426,11 @@ gg_getslopes<-function(dat_dm)
 #' @param path Optional. Folder to save the report to, defaults to current working directory
 #' @param cols Optional. vector of colours to use for the monthly rainfall and cumulative deviation plots. Must be at least as long as the number of sites in the SILO list.
 #'
-#' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
-#' @examples SILOReport(X,"MyReport.docx")
+#' @examples 
+#' \dontrun{
+#' X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+#' SILOReport(X,"MyReport.docx") #requires pandoc installed
+#' }
 #' 
 #' @export
 

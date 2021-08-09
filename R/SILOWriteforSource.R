@@ -29,14 +29,11 @@ SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
   }
 }
 
-# Function to Read a Source .res.csv File
-
-# Returns data (as a Data Frame,  Zoo, or tibble) as a time Series with all Results
-
+#' Function to Read a Source .res.csv File
+#' Returns data (as a Data Frame,  Zoo, or tibble) as a time Series with all Results
 #' Read Source .res.csv file into a data table or zoo time series
 #'
 #' @param resFile A character string representing the full file path of the .res.csv file
-#'
 #' @param returnType A character string to set the return type: "z", "t", "df". If not matching "t" (tibble) or "z" (zoo), data frame returned.
 #'
 #' @return Data in the format selected with all data read in from the Source .res.csv file
