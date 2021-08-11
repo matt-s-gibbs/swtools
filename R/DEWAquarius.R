@@ -69,7 +69,7 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #'
 #'@param Location A string or vector of strings, with site numbers, e.g. "A4261001"
 #'@param Dataset  A string or vector of strings, with dataset names, as expected by AWQP, e.g. "Tide Height.Best Available--Continuous"
-#'@param Unit  A string or vector of strings, with units, e.g. "Metres"
+#'@param Unit  A string or vector of strings, with units, e.g. "Metres" or "mg/L". If only 1 is string is provided it will be used for each site in Location
 #'@param file Location and name of json file to download
 #'@param Interval Interval of output, e.g. "PointsAsRecorded", or "Daily"
 #'@param Step How many intervals e.g. 15 with Interval="Minutely" returns 15 minute data.
@@ -178,8 +178,16 @@ AQWPDownload<-function(Location,Dataset,Unit,file="AQWP.json",
   
   if(length(Location)!=length(Dataset) | length(Location)!=length(Unit))
   {
-    print("Length of Location, Dataset and Unit do not match")
-    return(-1)
+    if(length(Dataset)==1 & length(Unit)==1)
+    {
+      Dataset=rep(Dataset,length(Location))
+      Unit=rep(Unit,length(Location))
+      
+    }else
+    {
+      print("Length of Location, Dataset and Unit do not match")
+      return(-1)
+    }
   }
     
   #lookup Unit ID numbers
@@ -209,5 +217,8 @@ AQWPDownload<-function(Location,Dataset,Unit,file="AQWP.json",
   link<-gsub(" ","%20",link)
   
   #increase download timeout, website can be s l o w for long or high frequency dataset
-  download.file(link,file)
+  X<-httr::GET(link)
+  bin <- httr::content(X, "raw")
+  writeBin(bin, file)
+  
 }

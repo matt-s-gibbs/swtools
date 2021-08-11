@@ -23,7 +23,7 @@ AQWPDownload(
 
 \item{Dataset}{A string or vector of strings, with dataset names, as expected by AWQP, e.g. "Tide Height.Best Available--Continuous"}
 
-\item{Unit}{A string or vector of strings, with units, e.g. "Metres"}
+\item{Unit}{A string or vector of strings, with units, e.g. "Metres" or "mg/L". If only 1 is string is provided it will be used for each site in Location}
 
 \item{file}{Location and name of json file to download}
 
