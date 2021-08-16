@@ -7,7 +7,7 @@
 #'
 #'
 #' @examples 
-#' X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+#' X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 #' SILOWriteforSource(X,"Rain",tempfile("Rainfall",fileext=".csv"))
 #' 
 #' @export
@@ -39,7 +39,7 @@ SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
 #' @return Data in the format selected with all data read in from the Source .res.csv file
 #'
 #' @examples 
-#' X = read_res.csv("SWTools/extdata/Scenario1.res.csv",returnType="t")
+#' X = read_res.csv("./SWTools/extdata/Scenario1.res.csv",returnType="t")
 #'
 #' @export
 #' @importFrom utils read.csv

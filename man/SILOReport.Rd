@@ -22,7 +22,7 @@ SILOMortonQualityCodes(). SILOMap(), SILOMonthlyRainfall(), SILOCumulativeDeviat
 }
 \examples{
 \dontrun{
-X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 SILOReport(X,"MyReport.docx") #requires pandoc installed
 }
 

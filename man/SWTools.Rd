@@ -3,7 +3,7 @@
 \docType{package}
 \name{SWTools}
 \alias{SWTools}
-\title{SWTools: For Australian hydrologists}
+\title{SWTools: Helper Tools for Australian Hydrologists}
 \description{
 Functions to speed up workflow for hydrological analysis. 
 Focused on Australian climate data (SILO climate data), hydrological models (eWater Source) and South Australian hydrological data 

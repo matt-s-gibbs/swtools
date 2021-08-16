@@ -1,5 +1,5 @@
 ## Test environments
-* Local Windows 10, R version 4.0.3 x86_64-w64-mingw32 (64-bit)
+* Local Windows 10, R version 4.0.3 and 4.1.1 x86_64-w64-mingw32 (64-bit)
 * github actions MacOSX R version 4.1.0, x86_64-apple-darwin17.0 (64-bit)
 * win-builder (devel)
 

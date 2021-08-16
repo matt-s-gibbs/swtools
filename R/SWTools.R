@@ -1,4 +1,4 @@
-#' SWTools: For Australian hydrologists
+#' SWTools: Helper Tools for Australian Hydrologists
 #'
 #' Functions to speed up workflow for hydrological analysis. 
 #' Focused on Australian climate data (SILO climate data), hydrological models (eWater Source) and South Australian hydrological data 

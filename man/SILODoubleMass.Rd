@@ -20,6 +20,6 @@ a list of ggplot objects that plot of the double mass curves of each station in 
 Plot double mass curves of each rainfall site against each other
 }
 \examples{
-X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 p<-SILODoubleMass(X)
 }

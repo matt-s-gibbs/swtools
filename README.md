@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SWTools: For Australian hydrologists
+# SWTools: Helper Tools for Australian Hydrologists
 
 <!-- badges: start -->
 
@@ -68,13 +68,8 @@ devtools::install_github("matt-s-gibbs/swtools")
 ```
 
 <!-- ## Example -->
-
 <!-- This is a basic example which shows you how to solve a common problem: -->
-
 <!-- ```{r example} -->
-
 <!-- library(SWTools) -->
-
 <!-- ## basic example code -->
-
 <!-- ``` -->

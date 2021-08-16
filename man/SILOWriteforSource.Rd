@@ -19,7 +19,7 @@ SILOWriteforSource(SILO, col, filename, scalefactor = 1)
 Write a SILO time series to a csv file in the format expected by eWater Source
 }
 \examples{
-X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
+X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 SILOWriteforSource(X,"Rain",tempfile("Rainfall",fileext=".csv"))
 
 }

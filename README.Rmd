@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# SWTools: For Australian hydrologists
+# SWTools: Helper Tools for Australian Hydrologists
 
 <!-- badges: start -->
   [![R-CMD-check](https://github.com/matt-s-gibbs/swtools/workflows/R-CMD-check/badge.svg)](https://github.com/matt-s-gibbs/swtools/actions)

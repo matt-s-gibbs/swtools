@@ -22,6 +22,6 @@ Returns data (as a Data Frame,  Zoo, or tibble) as a time Series with all Result
 Read Source .res.csv file into a data table or zoo time series
 }
 \examples{
-X = read_res.csv("SWTools/extdata/Scenario1.res.csv",returnType="t")
+X = read_res.csv("./SWTools/extdata/Scenario1.res.csv",returnType="t")
 
 }
