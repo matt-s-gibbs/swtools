@@ -201,7 +201,7 @@ SILOLoad<-function(sites,path = getwd(), startdate, enddate){
 #'
 #' @examples
 #' X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
-#' p<-SILOQualityCodes(X,"QualityCodes.png")
+#' p<-SILOQualityCodes(X)
 #' 
 #' @export
   
@@ -266,7 +266,7 @@ SILOQualityCodes<-function(SILO,filename=NULL)
 #' @return a ggplot  plot of the cumulative deviation from the mean.
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
-#' @examples p<-SILOCumulativeDeviation(X,"Cumulative.png")
+#' @examples p<-SILOCumulativeDeviation(X)
 #' 
 #' @export
 
@@ -335,7 +335,7 @@ SILOSiteSummary<-function(SILO)
 #' @return a google map of the SILO station locations
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
-#' @examples p<-SILOMap(X,"Locations.png")
+#' @examples p<-SILOMap(X)
 #' 
 #' @export
 
@@ -368,7 +368,7 @@ SILOMap<-function(SILO,filename=NULL)
 #' @return a list of ggplot objects that plot of the double mass curves of each station in the SILO list against each other. The double mass plot is on the bottom diagonal, and the slope of the line for each case in the upper diagonal. Each list element contains plotsperpage (default to 4) double mass plots, to allow them to be plotted on multiple pages
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
-#' @examples p<-SILODoubleMass(X,"DoubleMass.png")
+#' @examples p<-SILODoubleMass(X)
 
 #' @importFrom stats lm
 #' @export
@@ -472,7 +472,7 @@ SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$cols)
 #'
 #' @examples 
 #' X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
-#' p<-SILOMonthlyRainfall(X,"Span","Monthly.png",c("black","red","#124734"))
+#' p<-SILOMonthlyRainfall(X,"Span",cols=c("black","red","#124734"))
 #' 
 #' @export
 

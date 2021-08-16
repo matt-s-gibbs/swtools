@@ -8,7 +8,7 @@
 #'
 #' @examples 
 #' X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
-#' SILOWriteforSource(X,"Rain","Rainfall.csv")
+#' SILOWriteforSource(X,"Rain",tempfile("Rainfall",fileext=".csv"))
 #' 
 #' @export
 #' @importFrom utils write.csv

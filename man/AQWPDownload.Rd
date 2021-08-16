@@ -55,6 +55,7 @@ Dataset=rep("Tide Height.Best Available--Continuous",3)
 Unit=rep("Metres",3)
 S="2020-01-01 00:00"
 E="2020-01-02 00:00"
-AQWPDownload(Location,Dataset,Unit,DateRange="Custom",StartTime=S,EndTime=E)
+AQWPDownload(Location,Dataset,Unit,DateRange="Custom",
+StartTime=S,EndTime=E,file=tempfile("AQWP",fileext=".json"))
 
 }

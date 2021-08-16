@@ -20,6 +20,8 @@ A tibble with the data in the file
 Function to load in an Aquarius json file, downloaded from water.data.sa.gov.au, possibly using AWQPDownload()
 }
 \examples{
+\dontrun{
 AQWPLoad("AQWP.json")
+}
 
 }

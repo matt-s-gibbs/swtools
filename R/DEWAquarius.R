@@ -6,7 +6,10 @@
 #'
 #'@return A tibble with the data in the file
 #'
-#'@examples AQWPLoad("AQWP.json")
+#'@examples 
+#'\dontrun{
+#'AQWPLoad("AQWP.json")
+#'}
 #'
 #'@export
 
@@ -88,7 +91,8 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #'Unit=rep("Metres",3)
 #'S="2020-01-01 00:00"
 #'E="2020-01-02 00:00"
-#'AQWPDownload(Location,Dataset,Unit,DateRange="Custom",StartTime=S,EndTime=E)
+#'AQWPDownload(Location,Dataset,Unit,DateRange="Custom",
+#'StartTime=S,EndTime=E,file=tempfile("AQWP",fileext=".json"))
 #'
 #'@importFrom utils download.file
 #'@export
