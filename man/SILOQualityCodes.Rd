@@ -9,7 +9,7 @@ SILOQualityCodes(SILO, filename = NULL)
 \arguments{
 \item{SILO}{a list of sites with SILO data, as created by SILOLoad()}
 
-\item{filename}{optional, filename to write a plot of the rainfall quality codes to, including extension. Filename can include full path or sub folders.}
+\item{filename}{optional, filename to save a plot of the rainfall quality codes to, including extension (e.g. .png). Filename can include full path or sub folders.}
 }
 \value{
 a ggplot geom_tile plot of the rainfall quality codes

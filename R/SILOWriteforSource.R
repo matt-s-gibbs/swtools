@@ -1,7 +1,7 @@
-#' Write a csv file that can be loaded into a model, e.g. Source
+#' Write a SILO time series to a csv file in the format expected by eWater Source
 #'
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
-#' @param col Name of a column in a silo file to write out
+#' @param col Name of a column in a silo file to write out, e.g. Rain
 #' @param filename file to write to.
 #' @param scalefactor factor to scale the data by. Defaults to 1. Useful for Pan evap or rainfall scaling. Could also be a vector, with a value for each station in SILO
 #'
@@ -29,7 +29,7 @@ SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
   }
 }
 
-#' Function to Read a Source .res.csv File
+#' Function to inport a Source .res.csv File
 #' Returns data (as a Data Frame,  Zoo, or tibble) as a time Series with all Results
 #' Read Source .res.csv file into a data table or zoo time series
 #'
@@ -75,12 +75,12 @@ read_res.csv <- function(resFile,returnType="df")
   
 }
 
-#' Write an input set line for a piecewise lookup table
+#' Write an input set line for a piecewise lookup table from a csv file
 #' 
-#' @param folder Folder for where are the csv files with the lookup table
+#' @param folder Folder for where are the csv files with the lookup tables
 #' @param csvfiles vector of files to turn into an input set line. 
-#' File name should be the name of the pw table in Source, including the folder name if necessary. 
-#' The first row should be column names  the same as used in Source, i.e. XValue and YValue
+#' File name should be the name of the pw table in Source, including the folder name if necessary, separated by "." (see example). 
+#' The first row in the file should be column names, the same as used in Source, i.e. XValue and YValue
 #' @param outputfile text file to save the lines to
 #' 
 #' @examples 

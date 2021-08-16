@@ -2,21 +2,21 @@
 % Please edit documentation in R/SILOWriteforSource.R
 \name{SILOWriteforSource}
 \alias{SILOWriteforSource}
-\title{Write a csv file that can be loaded into a model, e.g. Source}
+\title{Write a SILO time series to a csv file in the format expected by eWater Source}
 \usage{
 SILOWriteforSource(SILO, col, filename, scalefactor = 1)
 }
 \arguments{
 \item{SILO}{a list of sites with SILO data, as created by SILOLoad()}
 
-\item{col}{Name of a column in a silo file to write out}
+\item{col}{Name of a column in a silo file to write out, e.g. Rain}
 
 \item{filename}{file to write to.}
 
 \item{scalefactor}{factor to scale the data by. Defaults to 1. Useful for Pan evap or rainfall scaling. Could also be a vector, with a value for each station in SILO}
 }
 \description{
-Write a csv file that can be loaded into a model, e.g. Source
+Write a SILO time series to a csv file in the format expected by eWater Source
 }
 \examples{
 X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")

@@ -20,7 +20,7 @@ VeneerRunSource(
 
 \item{baseURL}{URL of the Veneer server. Defaults to the veneer default.
 
-If not set, the configuration parmaters (StartDate, EndDate, InputSet), whatever is specified
+If not set, the configuration parameters (StartDate, EndDate, InputSet), was is specified
 in the Source configuration in the GUI will be used.
 
 The console will show any errors returned by Veneer.}

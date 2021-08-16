@@ -2,21 +2,21 @@
 % Please edit documentation in R/SILOWriteforSource.R
 \name{WritepwtoIS}
 \alias{WritepwtoIS}
-\title{Write an input set line for a piecewise lookup table}
+\title{Write an input set line for a piecewise lookup table from a csv file}
 \usage{
 WritepwtoIS(folder, csvfiles, outputfile)
 }
 \arguments{
-\item{folder}{Folder for where are the csv files with the lookup table}
+\item{folder}{Folder for where are the csv files with the lookup tables}
 
 \item{csvfiles}{vector of files to turn into an input set line. 
-File name should be the name of the pw table in Source, including the folder name if necessary. 
-The first row should be column names  the same as used in Source, i.e. XValue and YValue}
+File name should be the name of the pw table in Source, including the folder name if necessary, separated by "." (see example). 
+The first row in the file should be column names, the same as used in Source, i.e. XValue and YValue}
 
 \item{outputfile}{text file to save the lines to}
 }
 \description{
-Write an input set line for a piecewise lookup table
+Write an input set line for a piecewise lookup table from a csv file
 }
 \examples{
 \dontrun{

@@ -64,13 +64,14 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #' Function to download data from water.data.sa.gov.au
 #'
 #'@description
-#'Note for big datasets, increase download timeout option first using options(timeout=1000000). The default is 60 (seconds)
-#'Valid options will be output if an unexpected input is provided
+#'For most inputs, valid options will be returned if an unexpected input is provided. 
+#'The exception are \strong{Location} and \strong{Dataset}, if the location, or dataset for that location, don't exist no data will be returned.
+#'Browse the Export tab on water.data.sa.gov.au to find \strong{Location} and \strong{Dataset} that exists.
 #'
 #'@param Location A string or vector of strings, with site numbers, e.g. "A4261001"
 #'@param Dataset  A string or vector of strings, with dataset names, as expected by AWQP, e.g. "Tide Height.Best Available--Continuous"
 #'@param Unit  A string or vector of strings, with units, e.g. "Metres" or "mg/L". If only 1 is string is provided it will be used for each site in Location
-#'@param file Location and name of json file to download
+#'@param file Location and name of json file to download. Defaults to "AQWP.json".
 #'@param Interval Interval of output, e.g. "PointsAsRecorded", or "Daily"
 #'@param Step How many intervals e.g. 15 with Interval="Minutely" returns 15 minute data.
 #'@param Calculation For larger intervals, what calculation to do, e.g. "Aggregate" (average) or "Maximum"

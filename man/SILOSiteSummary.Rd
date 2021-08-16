@@ -11,14 +11,16 @@ SILOSiteSummary(SILO)
 }
 \value{
 a dataframe with the following columns
-Site - site name
-Station - station number
-StartDate - date of the first good quality rainfall data
-EndDate - date of the last good quality rainfall data
-PctMissing - percentage of days that do not have good quality code between StartDate and EndDate
-AnnualRainfall - Mean annual rainfall in mm
-Latitute - Latitude
-Longitude - Longitude
+\describe{
+\item{Site}{site name}
+\item{Station}{station number}
+\item{StartDate}{date of the first good quality rainfall data}
+\item{EndDate}{date of the last good quality rainfall data}
+\item{PctMissing}{percentage of days that do not have good quality code between StartDate and EndDate}
+\item{AnnualRainfall}{Mean annual rainfall in mm}
+\item{Latitute}{Latitude}
+\item{Longitude}{Longitude}
+}
 }
 \description{
 Produce a table summarising  SILO sites

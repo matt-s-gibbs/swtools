@@ -13,9 +13,6 @@ VeneerGetPiecewise(pw_table, baseURL = "http://localhost:9876")
 }
 \value{
 a matrix with the data from the piecewise table.
-
-some text to hopefully trick
-roxygen into working
 }
 \description{
 Get data from a Source piecewise table using Veneer

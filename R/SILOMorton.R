@@ -1,9 +1,11 @@
 #' Plot the quality codes of the input data for Morton's Evap calculations
 #'
-#'In development.
+#' Produces a tile plot displaying the quality codes for variables that are input to the 
+#' calculation of Morton's evapoartion equations, being maximum and minimum temperature, solar radiation and vapor pressure (derived from wet bulb temperature).
+#' Evaporation is also plotted, if the site has pan observations.
 #'
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
-#' @param filename optional, filename to write a plot of the rainfall quality codes to, including extension. Filename can include full path or sub folders.
+#' @param filename optional, filename to write a plot of the rainfall quality codes to, including extension (e.g. png). Filename can include full path or sub folders.
 #'
 #' @return a ggplot geom_tile plot of the rainfall quality codes
 #'

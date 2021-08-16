@@ -7,7 +7,7 @@
 VeneerSetFunction(Name, Expression, baseURL = "http://localhost:9876")
 }
 \arguments{
-\item{Name}{Name of the function without the $, e.g. f_ScaleFactor}
+\item{Name}{Name of the function without the "$", e.g. f_ScaleFactor}
 
 \item{Expression}{Expression to change it to, e.g. 1.2}
 

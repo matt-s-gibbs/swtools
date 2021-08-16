@@ -5,7 +5,7 @@
 #' @param InputSet Optional. Input set to use
 #' @param baseURL URL of the Veneer server. Defaults to the veneer default.
 #' 
-#' If not set, the configuration parmaters (StartDate, EndDate, InputSet), whatever is specified
+#' If not set, the configuration parameters (StartDate, EndDate, InputSet), was is specified
 #' in the Source configuration in the GUI will be used.
 #' 
 #' The console will show any errors returned by Veneer. 
@@ -39,7 +39,7 @@ VeneerRunSource<-function(StartDate=NULL,EndDate=NULL,InputSet=NULL,baseURL="htt
 
 #'  Update a function value or expression. Function must exist before being updated.
 #' 
-#' @param Name Name of the function without the $, e.g. f_ScaleFactor
+#' @param Name Name of the function without the "$", e.g. f_ScaleFactor
 #' @param Expression Expression to change it to, e.g. 1.2
 #' @param baseURL URL of the Veneer server. Defaults to the veneer default.
 #' 
@@ -98,8 +98,7 @@ VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
 #' 
 #' @return a matrix with the data from the piecewise table.
 #' 
-#' some text to hopefully trick
-#' roxygen into working
+#' 
 #'  
 #' @examples 
 #' \dontrun{

@@ -16,7 +16,17 @@ SILOLoad(sites, path = getwd(), startdate, enddate)
 \item{enddate}{End date of data to load, in format "YYYY-MM-DD". Defaults to end of the file if not provided}
 }
 \value{
-a list of lists of SILO data from each file. Each list has members: tsd - the raw data as a daily zoo object, Site- the name of the site, Station - the station number, Lon- Longitude, and Lat - Latitude
+a list of data from the file, with members: 
+\describe{
+\item{tsd}{the raw data as a daily zoo object} 
+\item{Site}{the name of the site}
+\item{Station}{the station number}
+\item{Lon}{Longitude}
+\item{Lat}{Latitude}
+\item{start}{the first date with good quality rainfall data}
+\item{end}{the last date with good quality rainfall data}
+\item{goodpct}{the percentage of good quality coded rainfall data between start and end}
+}
 }
 \description{
 Import multiple SILO files

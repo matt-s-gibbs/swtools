@@ -14,7 +14,7 @@ SILOMonthlyRainfall(
 \arguments{
 \item{SILO}{a list of sites with SILO data, as created by SILOLoad()}
 
-\item{evapcol}{name of an evaporation column to print, defaults to "MWet".}
+\item{evapcol}{name of an evaporation column to plot, defaults to "MWet".}
 
 \item{filename}{optional, filename to write the plot to, including extension. Filename can include full path or sub folders.}
 

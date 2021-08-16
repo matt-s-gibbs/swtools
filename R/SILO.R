@@ -21,6 +21,7 @@ pkg.env$cols <-c("#124734",
 #' @param startdate First day of data, in the format "YYYYMMDD". Will default to the first day of the record "18890101" if not specified
 #' @param enddate Last day of data, in the format "YYYYMMDD". Will default to yesterday if not specified
 #' @param ssl if true set ssl_cipher_list to "RC4-SHA" for file download. Seems to be necessary on some machines. default to FALSE
+
 #' @return A file for each station will be saved to path, named station number.txt. Nothing is returned to the R environment.
 #'
 #' @examples 
@@ -69,15 +70,16 @@ SILODownload <- function(SiteList, username="noemail@net.com",password="gui",pat
 #' @param enddate End date of data to load, in format "YYYY-MM-DD". Defaults to end of the file if not provided
 #'
 #' @return a list of data from the file, with members: 
-#' tsd - the raw data as a daily zoo object, 
-#' Site- the name of the site, 
-#' Station - the station number,
-#'Lon- Longitude,
-#'Lat - Latitude,
-#'start - the first date with good quality rainfall data
-#'end - the last date with good quality rainfall data
-#'goodpct - the percentage of good quality coded rainfall data between start and end
-#'
+#' \describe{
+#' \item{tsd}{the raw data as a daily zoo object} 
+#' \item{Site}{the name of the site}
+#' \item{Station}{the station number}
+#' \item{Lon}{Longitude}
+#' \item{Lat}{Latitude}
+#' \item{start}{the first date with good quality rainfall data}
+#' \item{end}{the last date with good quality rainfall data}
+#' \item{goodpct}{the percentage of good quality coded rainfall data between start and end}
+#'}
 #' 
 #' @importFrom utils read.table
 
@@ -163,7 +165,17 @@ SILOImport <- function(station, path, startdate, enddate) {
 #' @param startdate Start date of data to load, in format "YYYY-MM-DD". Defaults to start of the file if not provided
 #' @param enddate End date of data to load, in format "YYYY-MM-DD". Defaults to end of the file if not provided
 #'
-#' @return a list of lists of SILO data from each file. Each list has members: tsd - the raw data as a daily zoo object, Site- the name of the site, Station - the station number, Lon- Longitude, and Lat - Latitude
+#' @return a list of data from the file, with members: 
+#' \describe{
+#' \item{tsd}{the raw data as a daily zoo object} 
+#' \item{Site}{the name of the site}
+#' \item{Station}{the station number}
+#' \item{Lon}{Longitude}
+#' \item{Lat}{Latitude}
+#' \item{start}{the first date with good quality rainfall data}
+#' \item{end}{the last date with good quality rainfall data}
+#' \item{goodpct}{the percentage of good quality coded rainfall data between start and end}
+#'}
 #'
 #' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
 #' @export
@@ -183,7 +195,7 @@ SILOLoad<-function(sites,path = getwd(), startdate, enddate){
 #' Plot the quality codes of the SILO rainfall data
 #'
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
-#' @param filename optional, filename to write a plot of the rainfall quality codes to, including extension. Filename can include full path or sub folders.
+#' @param filename optional, filename to save a plot of the rainfall quality codes to, including extension (e.g. .png). Filename can include full path or sub folders.
 #'
 #' @return a ggplot geom_tile plot of the rainfall quality codes
 #'
@@ -248,7 +260,7 @@ SILOQualityCodes<-function(SILO,filename=NULL)
 #' Plot the cumulative deviation from the mean for each silo station on one plot
 #'
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
-#' @param filename optional, filename to write the plot to, including extension. Filename can include full path or sub folders.
+#' @param filename optional, filename to write the plot to, including extension (e.g. .png). Filename can include full path or sub folders.
 #' @param cols optional, a vector of colours to use for the plotting
 #' 
 #' @return a ggplot  plot of the cumulative deviation from the mean.
@@ -285,14 +297,16 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
 #'
 #' @return a dataframe with the following columns
-#' Site - site name
-#' Station - station number
-#' StartDate - date of the first good quality rainfall data
-#' EndDate - date of the last good quality rainfall data
-#' PctMissing - percentage of days that do not have good quality code between StartDate and EndDate
-#' AnnualRainfall - Mean annual rainfall in mm
-#' Latitute - Latitude
-#' Longitude - Longitude
+#' \describe{
+#' \item{Site}{site name}
+#' \item{Station}{station number}
+#' \item{StartDate}{date of the first good quality rainfall data}
+#' \item{EndDate}{date of the last good quality rainfall data}
+#' \item{PctMissing}{percentage of days that do not have good quality code between StartDate and EndDate}
+#' \item{AnnualRainfall}{Mean annual rainfall in mm}
+#' \item{Latitute}{Latitude}
+#' \item{Longitude}{Longitude}
+#' }
 #' 
 #' @examples X<-SILOLoad(c("24001","24002","24003"),path="SWTools/extdata")
 #' @examples d<-SILOSiteSummary(X)
@@ -419,7 +433,8 @@ gg_getslopes<-function(dat_dm)
   return(slopes)
 }
 
-#' Write SILO data report to word document
+#' Write SILO data report to word document. The report includes output from SILOSiteSummary(), SILOQualityCodes(), 
+#' SILOMortonQualityCodes(). SILOMap(), SILOMonthlyRainfall(), SILOCumulativeDeviation() and SILODoubleMass().
 #'
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
 #' @param filename filename to write the report to.
@@ -449,7 +464,7 @@ SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$cols)
 #' Plot a boxplot of monthly rainfall with mean monthly evaporation
 #'
 #' @param SILO a list of sites with SILO data, as created by SILOLoad()
-#' @param evapcol name of an evaporation column to print, defaults to "MWet".
+#' @param evapcol name of an evaporation column to plot, defaults to "MWet".
 #' @param filename optional, filename to write the plot to, including extension. Filename can include full path or sub folders.
 #' @param cols optional, a vector of colours to use for the plotting
 #'

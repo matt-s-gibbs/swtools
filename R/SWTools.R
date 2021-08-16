@@ -1,21 +1,30 @@
-#' SWTools: For SILO and Source
+#' SWTools: For Australian hydrologists
 #'
-#' The SWTools package provides four categories of important functions:
-#' SILO, Aquarius, Source and TUFLOW.
+#' Functions to speed up workflow for hydrological analysis. 
+#' Focused on Australian climate data (SILO climate data), hydrological models (eWater Source) and South Australian hydrological data 
+#' (from \href{water.data.sa.gov.au}{Water Data SA}).
 #' 
 #' @section SILO functions:
-#' The SILO function are for downloading and working with SILO climate data from https://www.longpaddock.qld.gov.au/silo/point-data/
-#' SILOReport() provides some analyses of quality codes and comparisons between stations to check data quality
 #' 
-#' @section Source functions:
-#' The Source functions provide wrappers for Veneer, to work with a model and results from code. 
-#' There are also some helper function for writing SILO data in the correct format, and writing piecewise functions for input sets
+#' SILO is a database of Australian climate data from 1889 to the present. It provides daily meteorological datasets for a range of climate variables 
+#' in ready-to-use formats suitable for biophysical modelling, research and climate applications \href{https://www.longpaddock.qld.gov.au/silo/}{SILO Website}.
 #' 
-#' @section TUFLOW functions:
-#' For plotting POINTS files written by TUFLOW (tested with TUFLOW FV)
+#' These functions allow SILO data to be downloaded from the \href{https://www.longpaddock.qld.gov.au/silo/}{SILO Website}, imported into R, 
+#' calculate some basic statistics and undertake some quality assurance tests to easily visualise how much data has been interpolated, and to compare nearby sites to identify potential data issues.
+#' \code{\link{SILODownload}},\code{\link{SILOLoad}} and \code{\link{SILOReport}} functions allow a vector of SILO sites to be downloaded and summarised in a Microsoft Word report.
+#' 
+#' @section Source and Veneer functions:
+#' \href{https://ewater.org.au/products/ewater-source/}{eWater Source} is the Australia's national hydrological modelling platform, and is increasing in use around the world.
+#' Functions are included to write SILO climate data to the format expected for Source \code{\link{SILOWriteforSource}},
+#'  and reading in model outputs, \code{\link{read_res.csv}}.
+#' 
+#' \href{https://www.flowmatters.com.au/articles/introducing_veneer.html}{Veneer} is a RESTful API for interacting with Source models.
+#' Functions are included that are wrappers for Veneer, to build URLs to get or set data in the Source model, and process the json object returned.
 #' 
 #' @section Aquarius functions:
-#' Provides fucntions for downloading and reading in data downloaded from water.data.sa.gov.au
+#' South Australia's hydrological data is hosted on \href{water.data.sa.gov.au}{Water Data SA}. 
+#' The \href{https://water.data.sa.gov.au/Data/Export}{Export link} creates URLs that enable multiple datasets to be downloaded.
+#' \code{\link{AQWPDownload}} builds these URLs to download data in json format, and \code{\link{AWQPLoad}} loads this json file into the R interface.
 #'
 #' @docType package
 #' @name SWTools

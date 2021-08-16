@@ -25,7 +25,7 @@ AQWPDownload(
 
 \item{Unit}{A string or vector of strings, with units, e.g. "Metres" or "mg/L". If only 1 is string is provided it will be used for each site in Location}
 
-\item{file}{Location and name of json file to download}
+\item{file}{Location and name of json file to download. Defaults to "AQWP.json".}
 
 \item{Interval}{Interval of output, e.g. "PointsAsRecorded", or "Daily"}
 
@@ -45,8 +45,9 @@ AQWPDownload(
 nothing to the environment. Saves a file to "file", that can then be read in with AQWPLoad()
 }
 \description{
-Note for big datasets, increase download timeout option first using options(timeout=1000000). The default is 60 (seconds)
-Valid options will be output if an unexpected input is provided
+For most inputs, valid options will be returned if an unexpected input is provided. 
+The exception are \strong{Location} and \strong{Dataset}, if the location, or dataset for that location, don't exist no data will be returned.
+Browse the Export tab on water.data.sa.gov.au to find \strong{Location} and \strong{Dataset} that exists.
 }
 \examples{
 Location=c("A4260633","A4261209","A4260572")

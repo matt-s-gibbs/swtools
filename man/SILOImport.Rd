@@ -17,14 +17,16 @@ SILOImport(station, path, startdate, enddate)
 }
 \value{
 a list of data from the file, with members: 
-tsd - the raw data as a daily zoo object, 
-Site- the name of the site, 
-Station - the station number,
-Lon- Longitude,
-Lat - Latitude,
-start - the first date with good quality rainfall data
-end - the last date with good quality rainfall data
-goodpct - the percentage of good quality coded rainfall data between start and end
+\describe{
+\item{tsd}{the raw data as a daily zoo object} 
+\item{Site}{the name of the site}
+\item{Station}{the station number}
+\item{Lon}{Longitude}
+\item{Lat}{Latitude}
+\item{start}{the first date with good quality rainfall data}
+\item{end}{the last date with good quality rainfall data}
+\item{goodpct}{the percentage of good quality coded rainfall data between start and end}
+}
 }
 \description{
 Import a SILO file
