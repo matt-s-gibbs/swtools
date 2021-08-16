@@ -3,7 +3,7 @@
 \docType{package}
 \name{SWTools}
 \alias{SWTools}
-\title{SWTools: For SILO and Source}
+\title{SWTools: For Australian hydrologists}
 \description{
 Functions to speed up workflow for hydrological analysis. 
 Focused on Australian climate data (SILO climate data), hydrological models (eWater Source) and South Australian hydrological data 
@@ -22,11 +22,11 @@ calculate some basic statistics and undertake some quality assurance tests to ea
 
 \section{Source and Veneer functions}{
 
-\href{https://ewater.org.au/products/ewater-source/}{eWater Source} is the Australia\'s national hydrological modelling platform, and is increasing in use around the world.
+\href{https://ewater.org.au/products/ewater-source/}{eWater Source} is the Australia's national hydrological modelling platform, and is increasing in use around the world.
 Functions are included to write SILO climate data to the format expected for Source \code{\link{SILOWriteforSource}},
  and reading in model outputs, \code{\link{read_res.csv}}.
 
-[Veneer](https://www.flowmatters.com.au/articles/introducing_veneer.html) is a RESTful API for interacting with Source models.
+\href{https://www.flowmatters.com.au/articles/introducing_veneer.html}{Veneer} is a RESTful API for interacting with Source models.
 Functions are included that are wrappers for Veneer, to build URLs to get or set data in the Source model, and process the json object returned.
 }
 
@@ -34,6 +34,6 @@ Functions are included that are wrappers for Veneer, to build URLs to get or set
 
 South Australia's hydrological data is hosted on \href{water.data.sa.gov.au}{Water Data SA}. 
 The \href{https://water.data.sa.gov.au/Data/Export}{Export link} creates URLs that enable multiple datasets to be downloaded.
-\code{\link{AQWPDownload}} builds these URLs to download data in json format, and \code{\link{AWQPLoad}} loads this json file into the R interface
+\code{\link{AQWPDownload}} builds these URLs to download data in json format, and \code{\link{AQWPLoad}} loads this json file into the R interface.
 }
 
