@@ -11,7 +11,7 @@
 Functions to speed up workflow for hydrological analysis. Focused on
 Australian climate data (SILO climate data), hydrological models (eWater
 Source) and South Australian hydrological data (from [Water Data
-SA](water.data.sa.gov.au)).
+SA](https://water.data.sa.gov.au)).
 
 ## SILO functions:
 
@@ -45,11 +45,12 @@ in the Source model, and process the json object returned.
 ## Aquarius functions:
 
 South Australia’s hydrological data is hosted on [Water Data
-SA](water.data.sa.gov.au), powered by an Aquatic Informatics Aquarius
-database. The [Export link](https://water.data.sa.gov.au/Data/Export)
-creates URLs that enable multiple datasets to be downloaded.
-*AQWPDownload* builds these URLs to download data in json format, and
-*AWQPLoad* loads this json file into the R interface.
+SA](https://water.data.sa.gov.au), powered by an Aquatic Informatics
+Aquarius database. The [Export
+link](https://water.data.sa.gov.au/Data/Export) creates URLs that enable
+multiple datasets to be downloaded. *AQWPDownload* builds these URLs to
+download data in json format, and *AWQPLoad* loads this json file into
+the R interface.
 
 ## Installation
 

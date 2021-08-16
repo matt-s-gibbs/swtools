@@ -1,6 +1,6 @@
-#' Function to load in an Aquarius json file, downloaded from water.data.sa.gov.au, possibly using AWQPDownload()
+#' Function to load in an Aquarius json file, downloaded from https://water.data.sa.gov.au, possibly using AWQPDownload()
 #'
-#'@param filename A file downloaded from the Export Data tab on water.data.sa.gov.au, or using AQWPDownload()
+#'@param filename A file downloaded from the Export Data tab on https://water.data.sa.gov.au, or using AQWPDownload()
 #'@param qual_codes TRUE/FALSE to return quality codes. Defaults to true
 #'@param long_format TRUE/FALSE to return data in long format, rather than wide (e.g. a spreadsheet). Long is useful for plotting with ggplot
 #'
@@ -64,12 +64,12 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 }
 
 
-#' Function to download data from water.data.sa.gov.au
+#' Function to download data from https://water.data.sa.gov.au
 #'
 #'@description
 #'For most inputs, valid options will be returned if an unexpected input is provided. 
 #'The exception are \strong{Location} and \strong{Dataset}, if the location, or dataset for that location, don't exist no data will be returned.
-#'Browse the Export tab on water.data.sa.gov.au to find \strong{Location} and \strong{Dataset} that exists.
+#'Browse the Export tab on https://water.data.sa.gov.au to find \strong{Location} and \strong{Dataset} that exists.
 #'
 #'@param Location A string or vector of strings, with site numbers, e.g. "A4261001"
 #'@param Dataset  A string or vector of strings, with dataset names, as expected by AWQP, e.g. "Tide Height.Best Available--Continuous"

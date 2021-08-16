@@ -2,12 +2,12 @@
 % Please edit documentation in R/DEWAquarius.R
 \name{AQWPLoad}
 \alias{AQWPLoad}
-\title{Function to load in an Aquarius json file, downloaded from water.data.sa.gov.au, possibly using AWQPDownload()}
+\title{Function to load in an Aquarius json file, downloaded from https://water.data.sa.gov.au, possibly using AWQPDownload()}
 \usage{
 AQWPLoad(filename, qual_codes = TRUE, long_format = TRUE)
 }
 \arguments{
-\item{filename}{A file downloaded from the Export Data tab on water.data.sa.gov.au, or using AQWPDownload()}
+\item{filename}{A file downloaded from the Export Data tab on https://water.data.sa.gov.au, or using AQWPDownload()}
 
 \item{qual_codes}{TRUE/FALSE to return quality codes. Defaults to true}
 
@@ -17,7 +17,7 @@ AQWPLoad(filename, qual_codes = TRUE, long_format = TRUE)
 A tibble with the data in the file
 }
 \description{
-Function to load in an Aquarius json file, downloaded from water.data.sa.gov.au, possibly using AWQPDownload()
+Function to load in an Aquarius json file, downloaded from https://water.data.sa.gov.au, possibly using AWQPDownload()
 }
 \examples{
 \dontrun{

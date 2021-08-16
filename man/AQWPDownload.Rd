@@ -2,7 +2,7 @@
 % Please edit documentation in R/DEWAquarius.R
 \name{AQWPDownload}
 \alias{AQWPDownload}
-\title{Function to download data from water.data.sa.gov.au}
+\title{Function to download data from https://water.data.sa.gov.au}
 \usage{
 AQWPDownload(
   Location,
@@ -47,7 +47,7 @@ nothing to the environment. Saves a file to "file", that can then be read in wit
 \description{
 For most inputs, valid options will be returned if an unexpected input is provided. 
 The exception are \strong{Location} and \strong{Dataset}, if the location, or dataset for that location, don't exist no data will be returned.
-Browse the Export tab on water.data.sa.gov.au to find \strong{Location} and \strong{Dataset} that exists.
+Browse the Export tab on https://water.data.sa.gov.au to find \strong{Location} and \strong{Dataset} that exists.
 }
 \examples{
 Location=c("A4260633","A4261209","A4260572")

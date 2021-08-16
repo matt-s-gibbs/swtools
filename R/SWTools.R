@@ -2,7 +2,7 @@
 #'
 #' Functions to speed up workflow for hydrological analysis. 
 #' Focused on Australian climate data (SILO climate data), hydrological models (eWater Source) and South Australian hydrological data 
-#' (from \href{water.data.sa.gov.au}{Water Data SA}).
+#' (from \href{https://water.data.sa.gov.au}{Water Data SA}).
 #' 
 #' @section SILO functions:
 #' 
@@ -22,7 +22,7 @@
 #' Functions are included that are wrappers for Veneer, to build URLs to get or set data in the Source model, and process the json object returned.
 #' 
 #' @section Aquarius functions:
-#' South Australia's hydrological data is hosted on \href{water.data.sa.gov.au}{Water Data SA}. 
+#' South Australia's hydrological data is hosted on \href{https://water.data.sa.gov.au}{Water Data SA}. 
 #' The \href{https://water.data.sa.gov.au/Data/Export}{Export link} creates URLs that enable multiple datasets to be downloaded.
 #' \code{\link{AQWPDownload}} builds these URLs to download data in json format, and \code{\link{AQWPLoad}} loads this json file into the R interface.
 #'
