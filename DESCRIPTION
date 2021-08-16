@@ -1,12 +1,12 @@
 Package: SWTools
 Type: Package
-Title: Helper tools for Australian hydrologists
+Title: Helper Tools for Australian Hydrologists
 Version: 0.2.1.0
 Authors@R: person("Matt", "Gibbs", email = "gibbs.ms@gmail.com",
     role = c("aut", "cre"))
 URL: https://github.com/matt-s-gibbs/SWTools
 BugReports: https://github.com/matt-s-gibbs/swtools/issues
-Description: Functions to speed up workflow for hydrological analysis. 
+Description: Functions to speed up work flow for hydrological analysis. 
     Focused on Australian climate data (SILO climate data), hydrological models (eWater Source) and in particular South Australia (water.data.sa.gov.au hydrological data).
 Depends: R (>= 4.0.0)
 License: GPL-3

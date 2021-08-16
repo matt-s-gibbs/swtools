@@ -6,9 +6,11 @@
 #' @param scalefactor factor to scale the data by. Defaults to 1. Useful for Pan evap or rainfall scaling. Could also be a vector, with a value for each station in SILO
 #'
 #'
-#' @examples 
+#' @examples  
+#' \dontrun{
 #' X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 #' SILOWriteforSource(X,"Rain",tempfile("Rainfall",fileext=".csv"))
+#' }
 #' 
 #' @export
 #' @importFrom utils write.csv
@@ -38,8 +40,10 @@ SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
 #'
 #' @return Data in the format selected with all data read in from the Source .res.csv file
 #'
-#' @examples 
+#' @examples  
+#' \dontrun{
 #' X = read_res.csv("./SWTools/extdata/Scenario1.res.csv",returnType="t")
+#' }
 #'
 #' @export
 #' @importFrom utils read.csv

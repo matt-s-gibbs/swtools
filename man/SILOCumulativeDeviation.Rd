@@ -20,7 +20,9 @@ a ggplot  plot of the cumulative deviation from the mean.
 Plot the cumulative deviation from the mean for each silo station on one plot
 }
 \examples{
+\dontrun{
 X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 p<-SILOCumulativeDeviation(X)
+}
 
 }

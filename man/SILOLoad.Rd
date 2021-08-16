@@ -32,5 +32,7 @@ a list of data from the file, with members:
 Import multiple SILO files
 }
 \examples{
+\dontrun{
 X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
+}
 }

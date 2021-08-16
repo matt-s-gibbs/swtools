@@ -26,7 +26,9 @@ a dataframe with the following columns
 Produce a table summarising  SILO sites
 }
 \examples{
+\dontrun{
 X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 d<-SILOSiteSummary(X)
+}
 
 }

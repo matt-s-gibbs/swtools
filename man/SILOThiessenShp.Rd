@@ -20,6 +20,9 @@ nothing to the environment. Shape file saved to path \\ shpname
 Function to generate Thiessen polygons from SILO sites
 }
 \examples{
+ 
+\dontrun{
 X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 SILOThiessenShp(X,tempdir(),"Theissens")
+}
 }

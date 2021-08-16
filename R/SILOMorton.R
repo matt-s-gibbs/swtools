@@ -9,9 +9,11 @@
 #'
 #' @return a ggplot geom_tile plot of the rainfall quality codes
 #'
-#' @examples 
+#' @examples  
+#' \dontrun{
 #' X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 #' p<-SILOMortonQualityCodes(X)
+#' }
 #' 
 #' @export
 

@@ -20,7 +20,10 @@ calculation of Morton's evaporation equations, being maximum and minimum tempera
 Evaporation is also plotted, if the site has pan observations.
 }
 \examples{
+ 
+\dontrun{
 X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 p<-SILOMortonQualityCodes(X)
+}
 
 }
