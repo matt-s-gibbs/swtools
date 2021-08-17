@@ -15,6 +15,9 @@ The first row in the file should be column names, the same as used in Source, i.
 
 \item{outputfile}{text file to save the lines to}
 }
+\value{
+Nothing to the R environment. Input set lines are written to "outputfile".
+}
 \description{
 Write an input set line for a piecewise lookup table from a csv file
 }

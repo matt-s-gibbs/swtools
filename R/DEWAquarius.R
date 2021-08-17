@@ -86,13 +86,13 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #'@return nothing to the environment. Saves a file to "file", that can then be read in with AQWPLoad()
 #'
 #'@examples
-#'Location=c("A4260633","A4261209","A4260572")
-#'Dataset=rep("Tide Height.Best Available--Continuous",3)
-#'Unit=rep("Metres",3)
-#'S="2020-01-01 00:00"
-#'E="2020-01-02 00:00"
-#'AQWPDownload(Location,Dataset,Unit,DateRange="Custom",
-#'StartTime=S,EndTime=E,file=tempfile("AQWP",fileext=".json"))
+#' Location=c("A4260633","A4261209","A4260572")
+#' Dataset=rep("Tide Height.Best Available--Continuous",3)
+#' Unit=rep("Metres",3)
+#' S="2020-01-01 00:00"
+#' E="2020-01-02 00:00"
+#' AQWPDownload(Location,Dataset,Unit,DateRange="Custom",
+#' StartTime=S,EndTime=E,file=tempfile("AQWP",fileext=".json"))
 #'
 #'@importFrom utils download.file
 #'@export
@@ -144,40 +144,34 @@ AQWPDownload<-function(Location,Dataset,Unit,file="AQWP.json",
   
   if(!any(stringr::str_detect(DateRanges,DateRange)))
   {
-    print(paste("Bad Date range. Options are:",paste(DateRanges,collapse = ", ")))
-    return(-1)
+    stop(paste("Bad Date range. Options are:",paste(DateRanges,collapse = ", ")))
   }
   
   if(!any(stringr::str_detect(Calendars,Calendar)))
   {
-    print(paste("Bad Calendar range. Options are:",paste(Calendars,collapse = ", ")))
-    return(-1)
+    stop(paste("Bad Calendar range. Options are:",paste(Calendars,collapse = ", ")))
   }
   
   if(!any(stringr::str_detect(Interval,Intervals)))
   {
-    print(paste("Bad Interval. Options are:",paste(Intervals,collapse = ", ")))
-    return(-1)
+    stop(paste("Bad Interval. Options are:",paste(Intervals,collapse = ", ")))
   }
   
   if(!any(stringr::str_detect(Calculation,Calculations)))
   {
-    print(paste("Bad Calculation. Options are:",paste(Calculations,collapse = ", ")))
-    return(-1)
+    stop(paste("Bad Calculation. Options are:",paste(Calculations,collapse = ", ")))
   }
   
   if(Interval=="PointsAsRecorded" & Calculation!="Instantaneous")
   {
-    print("calculation must be Instantaneous for points as recorded data")
-    return(-1)
+    stop("calculation must be Instantaneous for points as recorded data")
   }
   
   for(theunit in Unit)
   {
     if(!any(stringr::str_detect(theunit,unitconversion$Unit)))
     {
-      print(paste("Unit",theunit,"not supported. Options are:",paste(sort(unitconversion$Unit),collapse=", ")))
-      return(-1)
+      stop(paste("Unit",theunit,"not supported. Options are:",paste(sort(unitconversion$Unit),collapse=", ")))
     }
   }
   
@@ -190,8 +184,7 @@ AQWPDownload<-function(Location,Dataset,Unit,file="AQWP.json",
       
     }else
     {
-      print("Length of Location, Dataset and Unit do not match")
-      return(-1)
+      stop("Length of Location, Dataset and Unit do not match")
     }
   }
     

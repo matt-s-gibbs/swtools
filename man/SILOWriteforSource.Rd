@@ -15,6 +15,9 @@ SILOWriteforSource(SILO, col, filename, scalefactor = 1)
 
 \item{scalefactor}{factor to scale the data by. Defaults to 1. Useful for Pan evap or rainfall scaling. Could also be a vector, with a value for each station in SILO}
 }
+\value{
+Nothing to the R environment. SILO data is written to "filename".
+}
 \description{
 Write a SILO time series to a csv file in the format expected by eWater Source
 }

@@ -37,7 +37,7 @@ Download SILO data
 }
 \examples{
 SILODownload(c("24001","24002","24003"),
-path="inst/extdata/",
+path=tempdir(),
 startdate="20180101",enddate="20200101")
 
 }

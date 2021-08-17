@@ -13,6 +13,9 @@ VeneerSetPiecewise(data, pw_table, baseURL = "http://localhost:9876")
 
 \item{baseURL}{URL of the Veneer server. Defaults to the veneer default.}
 }
+\value{
+Nothing to the R environment.
+}
 \description{
 Change a Source piecewise table using Veneer
 }

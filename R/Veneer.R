@@ -5,6 +5,8 @@
 #' @param InputSet Optional. Input set to use
 #' @param baseURL URL of the Veneer server. Defaults to the veneer default.
 #' 
+#' @return Nothing to the R environment.
+#' 
 #' If not set, the configuration parameters (StartDate, EndDate, InputSet), was is specified
 #' in the Source configuration in the GUI will be used.
 #' 
@@ -43,6 +45,8 @@ VeneerRunSource<-function(StartDate=NULL,EndDate=NULL,InputSet=NULL,baseURL="htt
 #' @param Expression Expression to change it to, e.g. 1.2
 #' @param baseURL URL of the Veneer server. Defaults to the veneer default.
 #' 
+#' @return Nothing to the R environment.
+#' 
 #' @examples 
 #' \dontrun{
 #'  VeneerSetFunction("f_ScaleFactor",1.2)
@@ -65,6 +69,8 @@ VeneerSetFunction<-function(Name,Expression,baseURL="http://localhost:9876")
 #' @param pw_table The name of the piecewise linear variable, without the "$".
 #' @param baseURL URL of the Veneer server. Defaults to the veneer default. 
 #' 
+#' @return Nothing to the R environment.
+#' 
 #' @examples 
 #' \dontrun{
 #'  data<-data.frame(X=seq(1,5),Y=seq(1,5))
@@ -77,8 +83,7 @@ VeneerSetPiecewise<-function(data,pw_table,baseURL="http://localhost:9876")
 {
   if(ncol(data)!=2)
   {
-    print("Data for piecewise linear must have 2 columns")
-    return()
+    stop("Data for piecewise linear must have 2 columns")
   }
   X<-list()
   X[["Entries"]]<-as.matrix(data)
@@ -184,8 +189,8 @@ VeneerGetTSbyVariable<-function(variable="Flow",run="latest",baseURL="http://loc
     return(TS)
   }else
   {
-    print(paste("No results for variable",variable,"found for run",run))
-    print(paste("Recorded variables are:",paste(unique(Results$Results$RecordingVariable))))
+    stop(paste("No results for variable",variable,"found for run",run,"\n",
+      "Recorded variables are:",paste(unique(Results$Results$RecordingVariable))))
   }
 }
 
@@ -234,8 +239,8 @@ VeneerGetTSbyNode<-function(Node,run="latest",baseURL="http://localhost:9876")
     return(TS)
   }else
   {
-    print(paste("No results for node",Node,"found for run",run))
-    print(paste("Recorded Nodes are:",paste(unique(Results$Results$NetworkElement))))
+    stop(paste("No results for node",Node,"found for run",run,"\n",
+      "Recorded Nodes are:",paste(unique(Results$Results$NetworkElement))))
   }
 }
 
@@ -276,7 +281,7 @@ VeneerGetNodesbyType<-function(NodeType,baseURL="http://localhost:9876")
   #find the name of the nodetype
   iconname<-A$features$properties$icon[grep(NodeType,A$features$properties$icon)[1]]
   if(length(iconname)==1 & is.na(iconname)){
-    print(paste(NodeType,"not found in the model. Try a different name, capitalisation matters. Search http://localhost:9876/network to see options, look for \"icon\""))
+    stop(paste(NodeType,"not found in the model. Try a different name, capitalisation matters. Search http://localhost:9876/network to see options, look for \"icon\""))
   }else{
     return(A$features$properties %>% dplyr::filter(.data$icon == iconname) %>% dplyr::select(.data$name))
   }

@@ -1,3 +1,9 @@
+## Resubmission
+This is a resubmission. In this version I have:
+* Added \value tags to all function documentation. 
+* Converted print statments used for error checking to warning() or stop() depending if the error is fatal.
+* Added a WORDLIST file to address check notes for spelling errors in DESCRIPTION
+
 ## Test environments
 * Local Windows 10, R version 4.0.3 and 4.1.1 x86_64-w64-mingw32 (64-bit)
 * github actions MacOSX R version 4.1.0, x86_64-apple-darwin17.0 (64-bit)

@@ -14,7 +14,7 @@ SILOThiessenShp(SILOdata, path, shpname)
 \item{shpname}{- filename to save ESRI shapefile (no extension)}
 }
 \value{
-nothing to the environment. Shape file saved to path \\ shpname
+A simple feature geometry (sf::sfc object) of the polgyons created. Shape file saved to path \\ shpname
 }
 \description{
 Function to generate Thiessen polygons from SILO sites
@@ -23,6 +23,10 @@ Function to generate Thiessen polygons from SILO sites
  
 \dontrun{
 X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
-SILOThiessenShp(X,tempdir(),"Theissens")
+p<-SILOThiessenShp(X,tempdir(),"Theissens")
+a<-SILOSiteSummary(X)
+ggplot(p)+geom_sf(aes(fill=AnnualRainfall))+
+geom_point(data=a,aes(Longitude,Latitude))+
+geom_text(data=a,aes(Longitude,Latitude,label=Site),nudge_y = 0.02)
 }
 }

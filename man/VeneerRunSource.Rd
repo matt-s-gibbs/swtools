@@ -18,12 +18,15 @@ VeneerRunSource(
 
 \item{InputSet}{Optional. Input set to use}
 
-\item{baseURL}{URL of the Veneer server. Defaults to the veneer default.
+\item{baseURL}{URL of the Veneer server. Defaults to the veneer default.}
+}
+\value{
+Nothing to the R environment.
 
 If not set, the configuration parameters (StartDate, EndDate, InputSet), was is specified
 in the Source configuration in the GUI will be used.
 
-The console will show any errors returned by Veneer.}
+The console will show any errors returned by Veneer.
 }
 \description{
 Run Source using Veneer

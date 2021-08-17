@@ -13,6 +13,9 @@ VeneerSetFunction(Name, Expression, baseURL = "http://localhost:9876")
 
 \item{baseURL}{URL of the Veneer server. Defaults to the veneer default.}
 }
+\value{
+Nothing to the R environment.
+}
 \description{
 Update a function value or expression. Function must exist before being updated.
 }

@@ -5,6 +5,7 @@
 #' @param filename file to write to.
 #' @param scalefactor factor to scale the data by. Defaults to 1. Useful for Pan evap or rainfall scaling. Could also be a vector, with a value for each station in SILO
 #'
+#' @return Nothing to the R environment. SILO data is written to "filename".
 #'
 #' @examples  
 #' \dontrun{
@@ -24,7 +25,7 @@ SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
   
   #if scalefactor is a vector of factors, do matrix multiplication
   if(length(scalefactor)>1){
-    if(ncol(dat)!=length(scalefactor)) print(paste("number of scaling factors,",length(scalefactor),",does not match number of columns,",ncol(dat)))
+    if(ncol(dat)!=length(scalefactor)) warning(paste("number of scaling factors,",length(scalefactor),",does not match number of columns,",ncol(dat)))
     write.csv(dat %*% scalefactor,filename,row.names = format(zoo::index(dat),"%d/%m/%Y"),quote = FALSE)  
   }else  {
     write.csv(dat * scalefactor,filename,row.names = format(zoo::index(dat),"%d/%m/%Y"),quote = FALSE)
@@ -86,6 +87,8 @@ read_res.csv <- function(resFile,returnType="df")
 #' File name should be the name of the pw table in Source, including the folder name if necessary, separated by "." (see example). 
 #' The first row in the file should be column names, the same as used in Source, i.e. XValue and YValue
 #' @param outputfile text file to save the lines to
+#' 
+#' @return Nothing to the R environment. Input set lines are written to "outputfile".
 #' 
 #' @examples 
 #' \dontrun{

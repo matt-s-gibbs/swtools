@@ -4,12 +4,16 @@
 #'@param  path - file path to save Thiessen polygon shapefile
 #'@param  shpname - filename to save ESRI shapefile (no extension)
 #'
-#'@return nothing to the environment. Shape file saved to path \\ shpname
+#'@return A simple feature geometry (sf::sfc object) of the polgyons created. Shape file saved to path \\ shpname
 #'
 #'@examples  
 #' \dontrun{
 #'X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
-#'SILOThiessenShp(X,tempdir(),"Theissens")
+#'p<-SILOThiessenShp(X,tempdir(),"Theissens")
+#'a<-SILOSiteSummary(X)
+#'ggplot(p)+geom_sf(aes(fill=AnnualRainfall))+
+#'geom_point(data=a,aes(Longitude,Latitude))+
+#'geom_text(data=a,aes(Longitude,Latitude,label=Site),nudge_y = 0.02)
 #'}
 #'@export
 
@@ -34,7 +38,7 @@ SILOThiessenShp<- function(SILOdata,path,shpname){
   sf::st_write(TPolyCRS,dsn=path,layer=shpname,driver="ESRI Shapefile",delete_layer = TRUE) #Export shapefile
   
   TPoly_annrain <- sf::st_set_geometry(SILOLocs, "polys")["AnnualRainfall"] #For visual display only
-  print(plot(TPoly_annrain)) #Plot Thiessen polygons against annual rainfall totals
+ return(TPoly_annrain) #Plot Thiessen polygons against annual rainfall totals
   }
 
 

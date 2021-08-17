@@ -26,15 +26,14 @@ pkg.env$cols <-c("#124734",
 #'
 #' @examples 
 #' SILODownload(c("24001","24002","24003"),
-#' path="inst/extdata/",
+#' path=tempdir(),
 #' startdate="20180101",enddate="20200101")
 #'
 #' @export
 SILODownload <- function(SiteList, username="noemail@net.com",password="gui",path = getwd(), startdate = "18890101", enddate = NULL,ssl=FALSE) {
 
     if(!dir.exists(path)){
-        print(paste("Path",path,"Doesn't exist"))
-        return(-1)
+        stop(paste("Path",path,"Doesn't exist"))
     }
 
     #if no end date provided, use yesterday
@@ -87,8 +86,7 @@ SILODownload <- function(SiteList, username="noemail@net.com",password="gui",pat
 SILOImport <- function(station, path, startdate, enddate) {
   
   if(!dir.exists(path)){
-    print(paste("Path",path,"Doesn't exist"))
-    return(-1)
+    stop(paste("Path",path,"Doesn't exist"))
   }
   
   filename <- paste0(path, "/", station, ".txt")
@@ -400,8 +398,7 @@ SILODoubleMass<-function(SILO,filename=NULL,plotsperpage=4)
     for(j in (i+1):length(dat))
     {
       if(length(dat[[i]])!=length(dat[[j]])){
-        print("Data lengths need to be the same for Double Mass to work. Specify dates in SILOLoad() so a common date range is covered")
-        return(-1)
+        stop("Data lengths need to be the same for Double Mass to work. Specify dates in SILOLoad() so a common date range is covered")
       }
       temp<-data.frame(rain1=dat[[i]],rain2=dat[[j]],site=paste0(names(dat)[i],"-",names(dat)[j]))
       dat_dm<-rbind(dat_dm,temp)
@@ -458,6 +455,8 @@ gg_getslopes<-function(dat_dm)
 #' @param path Optional. Folder to save the report to, defaults to current working directory
 #' @param cols Optional. vector of colours to use for the monthly rainfall and cumulative deviation plots. Must be at least as long as the number of sites in the SILO list.
 #'
+#' @return Nothing to the environment. A word document report is written to "filename".
+#' 
 #' @examples 
 #' \dontrun{
 #' X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
@@ -472,8 +471,7 @@ SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$cols)
   cols<-cols
   if(length(SILO)>length(cols))
   {
-    print("You need to specify more colours for the number of sites, use the cols= argument")
-    return()
+    stop("You need to specify more colours for the number of sites, use the cols= argument")
   }
   file<-system.file("SILOReport.Rmd", package="SWTools")
   rmarkdown::render(file,output_file = paste0(path,"/",filename))

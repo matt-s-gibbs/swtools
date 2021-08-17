@@ -16,6 +16,9 @@ SILOReport(SILO, filename, path = getwd(), cols = pkg.env$cols)
 
 \item{cols}{Optional. vector of colours to use for the monthly rainfall and cumulative deviation plots. Must be at least as long as the number of sites in the SILO list.}
 }
+\value{
+Nothing to the environment. A word document report is written to "filename".
+}
 \description{
 Write SILO data report to word document. The report includes output from SILOSiteSummary(), SILOQualityCodes(), 
 SILOMortonQualityCodes(). SILOMap(), SILOMonthlyRainfall(), SILOCumulativeDeviation() and SILODoubleMass().
