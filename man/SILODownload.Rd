@@ -36,8 +36,10 @@ A file for each station will be saved to path, named station number.txt. Nothing
 Download SILO data
 }
 \examples{
+\dontrun{
 SILODownload(c("24001","24002","24003"),
 path=tempdir(),
 startdate="20180101",enddate="20200101")
+}
 
 }

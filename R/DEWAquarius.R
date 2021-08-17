@@ -86,6 +86,7 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #'@return nothing to the environment. Saves a file to "file", that can then be read in with AQWPLoad()
 #'
 #'@examples
+#'\dontrun{
 #' Location=c("A4260633","A4261209","A4260572")
 #' Dataset=rep("Tide Height.Best Available--Continuous",3)
 #' Unit=rep("Metres",3)
@@ -93,6 +94,7 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #' E="2020-01-02 00:00"
 #' AQWPDownload(Location,Dataset,Unit,DateRange="Custom",
 #' StartTime=S,EndTime=E,file=tempfile("AQWP",fileext=".json"))
+#' }
 #'
 #'@importFrom utils download.file
 #'@export

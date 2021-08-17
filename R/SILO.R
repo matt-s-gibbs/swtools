@@ -25,9 +25,11 @@ pkg.env$cols <-c("#124734",
 #' @return A file for each station will be saved to path, named station number.txt. Nothing is returned to the R environment.
 #'
 #' @examples 
+#' \dontrun{
 #' SILODownload(c("24001","24002","24003"),
 #' path=tempdir(),
 #' startdate="20180101",enddate="20200101")
+#' }
 #'
 #' @export
 SILODownload <- function(SiteList, username="noemail@net.com",password="gui",path = getwd(), startdate = "18890101", enddate = NULL,ssl=FALSE) {
