@@ -3,9 +3,10 @@ This is a re-submission. In this version I have:
 
 * Added value tags to all function documentation. 
 * Converted print() statements used for error checking to warning() or stop() depending if the error is fatal.
-* Configured aspell to prevent spelling errors notes in DESCRIPTION
+* Configured aspell to prevent spelling errors notes in DESCRIPTION.
+* Ensured word list is an actual .rds file, not plain text.
 
-Thankyou for the quick review and helpful comments.
+Thankyou for picking up the rds file issue.
 
 ## Test environments
 * Local Windows 10, R version 4.1.1 x86_64-w64-mingw32 (64-bit)
