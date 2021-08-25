@@ -4,6 +4,8 @@ Title: Helper Tools for Australian Hydrologists
 Version: 0.2.1.0
 Authors@R: person("Matt", "Gibbs", email = "gibbs.ms@gmail.com",
     role = c("aut", "cre"))
+Author: Matt Gibbs [aut, cre]
+Maintainer: Matt Gibbs <gibbs.ms@gmail.com>
 URL: https://github.com/matt-s-gibbs/SWTools
 BugReports: https://github.com/matt-s-gibbs/swtools/issues
 Description: Functions to speed up work flow for hydrological analysis. 
