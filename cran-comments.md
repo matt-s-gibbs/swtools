@@ -11,7 +11,7 @@ Thankyou for picking up the rds file issue.
 ## Test environments
 * Local Windows 10, R version 4.1.1 x86_64-w64-mingw32 (64-bit)
 * github actions MacOSX R version 4.1.0, x86_64-apple-darwin17.0 (64-bit)
-* R-hub Ubuntu Linux 20.04.1 LTS, R-release, GCC.
+* R-hub Ubuntu Linux, Fedora Linux and Windows Server 2008 R2
 * win-builder (devel and release) x86_64-w64-mingw32
 
 ## R CMD check results
@@ -19,11 +19,21 @@ Thankyou for picking up the rds file issue.
 ### Github actions MacOSX
 No ERRORs, WARNINGS or NOTEs
 
-### Win-builder
-No ERRORs, WARNINGS or NOTEs
+### Win-builder devel and release
+One NOTE:
 
-### R-hub Ubuntu linux
-No ERRORs, WARNINGS or NOTEs
+>* checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
+
+### R-hub
+* Windows Server 2008 R2 SP1, R-devel, 32/64 bit
+* Ubuntu Linux 20.04.1 LTS, R-release, GCC
+* Fedora Linux, R-devel, clang, gfortran
+
+One NOTE:
+
+>* checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
 
 ### Local Windows 10
 one WARNING:
