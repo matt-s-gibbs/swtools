@@ -20,20 +20,26 @@ Thankyou for picking up the rds file issue.
 No ERRORs, WARNINGS or NOTEs
 
 ### Win-builder devel and release
-One NOTE:
+Two NOTEs:
 
 >* checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
+
+>* checking LazyData ... NOTE
+  'LazyData' is specified without a 'data' directory
 
 ### R-hub
 * Windows Server 2008 R2 SP1, R-devel, 32/64 bit
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC
 * Fedora Linux, R-devel, clang, gfortran
 
-One NOTE:
+Two NOTEs:
 
 >* checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
+
+>* checking LazyData ... NOTE
+  'LazyData' is specified without a 'data' directory
 
 ### Local Windows 10
 one WARNING:
