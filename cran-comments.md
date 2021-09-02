@@ -1,10 +1,12 @@
 ## Resubmission
 This is a re-submission. In this version I have:
+* Omitted LazyData from DESCRIPTION to prevent NOTE about no data folder
 
+Previous submissions have:
 * Added value tags to all function documentation. 
 * Converted print() statements used for error checking to warning() or stop() depending if the error is fatal.
 * Configured aspell to prevent spelling errors notes in DESCRIPTION.
-* Ensured word list is an actual .rds file, not plain text.
+* Ensured word list is a .rds file, not plain text.
 
 Thankyou for picking up the rds file issue.
 
@@ -20,26 +22,20 @@ Thankyou for picking up the rds file issue.
 No ERRORs, WARNINGS or NOTEs
 
 ### Win-builder devel and release
-Two NOTEs:
+One NOTE:
 
 >* checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
-
->* checking LazyData ... NOTE
-  'LazyData' is specified without a 'data' directory
 
 ### R-hub
 * Windows Server 2008 R2 SP1, R-devel, 32/64 bit
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC
 * Fedora Linux, R-devel, clang, gfortran
 
-Two NOTEs:
+One NOTE:
 
 >* checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
-
->* checking LazyData ... NOTE
-  'LazyData' is specified without a 'data' directory
 
 ### Local Windows 10
 one WARNING:
