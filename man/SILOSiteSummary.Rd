@@ -20,6 +20,7 @@ a dataframe with the following columns
 \item{AnnualRainfall}{Mean annual rainfall in mm}
 \item{Latitute}{Latitude}
 \item{Longitude}{Longitude}
+\item{Elevation}{Elevation}
 }
 }
 \description{

@@ -141,10 +141,16 @@ SILOImport <- function(station, path, startdate, enddate) {
   # extract on just the dates
   if (missing(startdate)) {
     startdate <- min(x,na.rm = TRUE)
+  }else
+  {
+    startdate <- as.Date(startdate)
   }
   
   if (missing(enddate)) {
     enddate <- max(x,na.rm = TRUE)
+  }else
+  {
+    enddate <- as.Date(enddate)
   }
   
   tsd <- stats::window(tsd, start = as.Date(startdate), end = as.Date(enddate))
@@ -221,7 +227,7 @@ SILOQualityCodes<-function(SILO,filename=NULL)
                                "interpolated from daily observations using anomaly interpolation method",
                                "interpolated daily observations",
                                "interpolated long term average",
-                               "synthetic pan evaporation"))
+                               "Derived using data from other climate variables"))
   
   #colours to shade codes, green to red
   cols<-rev(RColorBrewer::brewer.pal(7,"RdYlGn"))
@@ -314,6 +320,7 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
 #' \item{AnnualRainfall}{Mean annual rainfall in mm}
 #' \item{Latitute}{Latitude}
 #' \item{Longitude}{Longitude}
+#' \item{Elevation}{Elevation}
 #' }
 #' 
 #' @examples
@@ -324,17 +331,18 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
 #' 
 #' @export
 
-SILOSiteSummary<-function(SILO)
+SILOSiteSummary<-function (SILO) 
 {
-  X<-data.frame(Site=sapply(SILO,function(x) x$Site),
-                Station=sapply(SILO,function(x) x$Station),
-                StartDate=as.Date(sapply(SILO,function(x) x$start),origin="1970-01-01"),
-                EndDate=as.Date(sapply(SILO,function(x) x$end),origin="1970-01-01"),
-                PctMissing=round(sapply(SILO,function(x) x$missing),digits = 2),
-                AnnualRainfall=round(sapply(SILO,function(x) mean(x$tsd$Rain)*365.25),digits = 0),
-                Latitude=sapply(SILO,function(x) x$Lat),
-                Longitude=sapply(SILO,function(x) x$Lon))
-  
+  X <- data.frame(Site = sapply(SILO, function(x) x$Site), 
+                  Station = sapply(SILO, function(x) x$Station), 
+                  StartDate = as.Date(sapply(SILO,function(x) min(index(x$tsd)[x$tsd$Srn==0])),origin="1970-01-01"), 
+                  EndDate = as.Date(sapply(SILO, function(x) max(index(x$tsd)[x$tsd$Srn==0])),origin="1970-01-01"), 
+                  PctMissing = round(sapply(SILO, function(x) x$missing), 
+                                     digits = 2), AnnualRainfall = round(sapply(SILO, 
+                                                                                function(x) mean(x$tsd$Rain) * 365.25), digits = 0), 
+                  Latitude = sapply(SILO, function(x) x$Lat), Longitude = sapply(SILO, 
+                                                                                 function(x) x$Lon),
+                  Elevation = sapply(SILO, function(x) x$Elevation))
   return(X)
 }
 
