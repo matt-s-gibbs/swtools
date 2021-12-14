@@ -31,5 +31,7 @@ Imports:
     magrittr,
     hydroTSM,
     jsonlite,
-    sf
+    sf,
+    lubridate,
+    segmented
 RoxygenNote: 7.1.2

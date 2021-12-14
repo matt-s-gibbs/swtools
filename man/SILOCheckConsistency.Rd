@@ -7,16 +7,20 @@
 SILOCheckConsistency(X, folder = "Plots", pvallim = 0.05, changelim = 0.025)
 }
 \arguments{
-\item{X}{A list of SILO station data, in the format created by \code{\link{SWTools}}}
+\item{X}{A list of SILO station data, in the format created by \code{\link[SWTools]{SILOLoad}}}
 
 \item{folder}{Path to folder to save resulting images to. Will be created if it doesn't exist}
 
 \item{pvallim}{p value limit of the break point detection to display the double mass break point. Defaults to p=0.05}
 
-\item{changelim}{significant slope limit display the double mass break point. Defaults to a slope of 0.025 (2.5% change in slope)}
+\item{changelim}{significant slope limit display the double mass break point. Defaults to a slope change of 0.025}
 }
 \value{
-Nothing to the R environment. A figure for each station in \code{X} is saved to \code{folder}.
+Nothing to the R environment. A figure for each station in \code{X} is saved to \code{folder}. There are 4 panels on the figure:
+item 
+item
+item double mass, colours represent the median quality code for each year, with the same colour palette as \code{\link[SWtools]{SILOQUalityCodes}}
+item
 }
 \description{
 Compute tests on rainfall double mass curves and cumulative deviation in annual rainfall totals to test for consistency bewteen a rainfall station and the average of another group of stations.

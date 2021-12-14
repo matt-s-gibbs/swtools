@@ -25,12 +25,16 @@
 #' 
 #' Muggeo, V.M.R. (2003) Estimating regression models with unknown break-points. Statistics in Medicine 22, 3055–3071.
 #'
-#' @param X A list of SILO station data, in the format created by \code{\link{SWTools}}
+#' @param X A list of SILO station data, in the format created by \code{\link[SWTools]{SILOLoad}}
 #' @param folder Path to folder to save resulting images to. Will be created if it doesn't exist
 #' @param pvallim p value limit of the break point detection to display the double mass break point. Defaults to p=0.05
-#' @param changelim significant slope limit display the double mass break point. Defaults to a slope of 0.025 (2.5% change in slope)
+#' @param changelim significant slope limit display the double mass break point. Defaults to a slope change of 0.025
 #'
-#' @return Nothing to the R environment. A figure for each station in \code{X} is saved to \code{folder}.
+#' @return Nothing to the R environment. A figure for each station in \code{X} is saved to \code{folder}. There are 4 panels on the figure:
+#' item 
+#' item
+#' item double mass, colours represent the median quality code for each year, with the same colour palette as \code{\link[SWtools]{SILOQUalityCodes}}
+#' item
 #' @export
 #'
 #' @examples
@@ -51,8 +55,8 @@ colcode <- rev(RColorBrewer::brewer.pal(7, "RdYlGn"))
 colcode<-tibble::tibble(cols=c(colcode, colcode[1]),code=lookup$Code)
 
 #extract the rainfall data
-rain<-zoo::zoo(sapply(X,function(x) x$tsd$Rain),index(X[[1]]$tsd))
-qual<-zoo::zoo(sapply(X,function(x) x$tsd$Srn),index(X[[1]]$tsd))
+rain<-zoo::zoo(sapply(X,function(x) x$tsd$Rain),zoo::index(X[[1]]$tsd))
+qual<-zoo::zoo(sapply(X,function(x) x$tsd$Srn),zoo::index(X[[1]]$tsd))
 
 if(!dir.exists(folder)) dir.create(folder)
 
@@ -61,11 +65,11 @@ for(station in 1:ncol(rain))
   
   stationname<-names(rain)[station]
   
-  png(paste0(folder,"/",stationname,"-QA.png"),width=24,height=16,units="cm",res=300)
-  par(mfrow=c(2,2), mai = c(1, 1, 0.2, 0.1))
+  grDevices::png(paste0(folder,"/",stationname,"-QA.png"),width=24,height=16,units="cm",res=300)
+  graphics::par(mfrow=c(2,2), mai = c(1, 1, 0.2, 0.1))
 
   s1<-hydroTSM::daily2annual(rain[,station],FUN=sum)
-  pointcol<-hydroTSM::daily2annual(qual[,station],FUN=median)
+  pointcol<-hydroTSM::daily2annual(qual[,station],FUN=stats::median)
   pointcol<-tibble::tibble(code=as.numeric(pointcol)) %>% dplyr::left_join(colcode,by=c("code"))
   
   if(ncol(rain)>2)
@@ -86,10 +90,10 @@ for(station in 1:ncol(rain))
   plot(s2,s1,xlab="Average of other stations (mm)",ylab=paste("Station",stationname,"(mm)"),
        main="Annual Rainfall",
        xlim=range,ylim=range)
-  abline(out.lm)
-  grid()
+  graphics::abline(out.lm)
+  graphics::grid()
   label<-paste0("Slope=",round(out.lm$coefficients[1],3))
-  text(mean(s2)*1.25,mean(s1)*0.9,label)
+  graphics::text(mean(s2)*1.25,mean(s1)*0.9,label)
   
   #elipse calcs
   # Create Table of z Values for ellipsis
@@ -100,7 +104,7 @@ for(station in 1:ncol(rain))
   p <- 80 # p is the level of confidence required
   pZ <- Zp[match(p,Zp[,1]),2] # Z value at p
   alpha <- n/2
-  beta <- (n/(n-1)^0.5)*pZ*sd(eps1)
+  beta <- (n/(n-1)^0.5)*pZ*stats::sd(eps1)
   elipse80 <- sqrt(abs((beta^2)*(1-((1:n-alpha)/alpha)^2)))
   
   p <- 95 # p is the level of confidence required
@@ -112,14 +116,14 @@ for(station in 1:ncol(rain))
   ymin<-min(-elipse95,cumsum(eps1))
   ymax<-max(elipse95,cumsum(eps1))
   
-  plot(index(s2),cumsum(eps1),xlab="year",ylab="Cumulative rainfall residuals (mm)",
+  plot(zoo::index(s2),cumsum(eps1),xlab="year",ylab="Cumulative rainfall residuals (mm)",
        main="Residuals of annual rainfall to straight line",ylim=c(ymin,ymax))
-  lines(index(s2),elipse80,col="grey")
-  lines(index(s2),-elipse80,col="grey")
-  lines(index(s2),elipse95)
-  lines(index(s2),-elipse95)
-  text(index(s2)[floor(length(s2)/2)],max(elipse80)*0.9,"80%",col="grey")
-  text(index(s2)[floor(length(s2)/2)],max(elipse95)*0.95,"95%")
+  graphics::lines(zoo::index(s2),elipse80,col="grey")
+  graphics::lines(zoo::index(s2),-elipse80,col="grey")
+  graphics::lines(zoo::index(s2),elipse95)
+  graphics::lines(zoo::index(s2),-elipse95)
+  graphics::text(zoo::index(s2)[floor(length(s2)/2)],max(elipse80)*0.9,"80%",col="grey")
+  graphics::text(zoo::index(s2)[floor(length(s2)/2)],max(elipse95)*0.95,"95%")
  
   #now double mass
   
@@ -140,7 +144,7 @@ for(station in 1:ncol(rain))
        pch=19,
        xlab="Average of other stations (mm)",ylab=paste("Station",stationname,"(mm)"),
        main="Double mass curve")
-  grid()
+  graphics::grid()
   #if significant
   if(pval<pvallim & abs(o.seg$coefficients[2])>changelim & (length(o.seg$coefficients)>1))
   {
@@ -152,7 +156,7 @@ for(station in 1:ncol(rain))
     
     years<-array(0,3)
     psi<-segmented::confint.segmented(o.seg)
-    for(i in 1:3) years[i]<-substr(index(s2[(max(which(s2<psi[i])))]),1,4)
+    for(i in 1:3) years[i]<-substr(zoo::index(s2[(max(which(s2<psi[i])))]),1,4)
     
     label<-paste0("\nBreakpoint: ",years[1],"[",years[2],",",years[3],"]") #need to convert to the index of these rainfall totals
     label<-paste0(label,"\nChange in slope:",round(o.seg$coefficients[2],3))
@@ -160,17 +164,17 @@ for(station in 1:ncol(rain))
   }
   x=max(dati$x)*0.5
   y=max(dati$y)*0.85
-  text(x,y,label)
+  graphics::text(x,y,label)
   
   
   #residuals from double mass
   point<-which(abs(out.lm$residual)==max(abs(out.lm$residuals)))
-  plot(index(s1),out.lm$residuals,xlab="year",main="Residuals of double mass to straight line",
+  plot(zoo::index(s1),out.lm$residuals,xlab="year",main="Residuals of double mass to straight line",
        ylab="Cumulative rainfall residuals (mm)")
-  x=ifelse(index(s1)[point]+5*365>max(index(s1)),index(s1)[point]-5*365,index(s1)[point]+5*365)
-  text(x,out.lm$residuals[point],substr(index(s1)[point],1,4))
+  x=ifelse(zoo::index(s1)[point]+5*365>max(zoo::index(s1)),zoo::index(s1)[point]-5*365,zoo::index(s1)[point]+5*365)
+  graphics::text(x,out.lm$residuals[point],substr(zoo::index(s1)[point],1,4))
   
-  graphics.off()
+  grDevices::graphics.off()
 }
 }
 
