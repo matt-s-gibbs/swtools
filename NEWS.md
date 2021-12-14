@@ -1,3 +1,10 @@
+# SWTools 0.2.2.0
+* Two functions added: SILOCheckConsistency() and SILOCorrectSite(). 
+* SILOCheckConsistency provides homogeneity on plots that are similar to previously calculated by SILODoubleMass() and SILOCumulativeDeviation()
+* If a change in a rainfall station is detected using SILOCheckConsistency, SILOCorrectSite() can be used to correct the data
+* SILOReport() has been changed to use SILOCheckConsistency() instead of SILODoubleMass() and SILOCumulativeDeviation()
+* Updates to SILOSiteSummary to correctly report start and end date, as well as the station elevation
+
 # SWTools 0.2.1.0
 
 * First release to CRAN

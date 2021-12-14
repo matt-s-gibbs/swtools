@@ -66,7 +66,7 @@ graphics::abline(lm_second,col="blue")
 corrections<-tibble::tibble(year=lubridate::year(index(rain_correct)),orig=as.numeric(rain_correct),corrected=as.numeric(rain_correct),reference=as.numeric(rain_reference))
 
 data=data.frame(x=rain_reference)
-x=stats::predict(lm_first,data)-predict(lm_second,data)
+x=stats::predict(lm_first,data)-stats::predict(lm_second,data)
 
 corrections<-corrections %>%  dplyr::mutate(correction=x) %>% 
   dplyr::rowwise() %>%
@@ -83,7 +83,7 @@ daily<-daily %>% dplyr::mutate(year=lubridate::year(.data$Date)) %>%
   dplyr::left_join(corrections %>%dplyr:: select(year,factor),by="year") %>% 
   dplyr::mutate(Rain=.data$Rain*factor)
 
-X[[s_correct]]$tsd$Rain<-daily %>% dplyr::pull(Rain)
+X[[s_correct]]$tsd$Rain<-daily %>% dplyr::pull(.data$Rain)
 
 return(X)
 }
