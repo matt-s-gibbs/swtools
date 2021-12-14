@@ -63,7 +63,7 @@ graphics::abline(lm_first,col="red")
 graphics::abline(lm_second,col="blue")
 
 #calculate an annual scaling factor
-corrections<-tibble::tibble(year=lubridate::year(index(rain_correct)),orig=as.numeric(rain_correct),corrected=as.numeric(rain_correct),reference=as.numeric(rain_reference))
+corrections<-tibble::tibble(year=lubridate::year(zoo::index(rain_correct)),orig=as.numeric(rain_correct),corrected=as.numeric(rain_correct),reference=as.numeric(rain_reference))
 
 data=data.frame(x=rain_reference)
 x=stats::predict(lm_first,data)-stats::predict(lm_second,data)
@@ -80,7 +80,7 @@ daily<-X[[s_correct]]$tsd$Rain
 daily<-tibble::tibble(Date=zoo::index(daily),Rain=as.numeric(daily))
 
 daily<-daily %>% dplyr::mutate(year=lubridate::year(.data$Date)) %>% 
-  dplyr::left_join(corrections %>%dplyr:: select(year,factor),by="year") %>% 
+  dplyr::left_join(corrections %>%dplyr::select(.data$year,.data$factor),by="year") %>% 
   dplyr::mutate(Rain=.data$Rain*factor)
 
 X[[s_correct]]$tsd$Rain<-daily %>% dplyr::pull(.data$Rain)

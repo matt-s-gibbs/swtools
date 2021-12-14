@@ -335,8 +335,8 @@ SILOSiteSummary<-function (SILO)
 {
   X <- data.frame(Site = sapply(SILO, function(x) x$Site), 
                   Station = sapply(SILO, function(x) x$Station), 
-                  StartDate = as.Date(sapply(SILO,function(x) min(index(x$tsd)[x$tsd$Srn==0])),origin="1970-01-01"), 
-                  EndDate = as.Date(sapply(SILO, function(x) max(index(x$tsd)[x$tsd$Srn==0])),origin="1970-01-01"), 
+                  StartDate = as.Date(sapply(SILO,function(x) min(zoo::index(x$tsd)[x$tsd$Srn==0])),origin="1970-01-01"), 
+                  EndDate = as.Date(sapply(SILO, function(x) max(zoo::index(x$tsd)[x$tsd$Srn==0])),origin="1970-01-01"), 
                   PctMissing = round(sapply(SILO, function(x) x$missing), 
                                      digits = 2), AnnualRainfall = round(sapply(SILO, 
                                                                                 function(x) mean(x$tsd$Rain) * 365.25), digits = 0), 

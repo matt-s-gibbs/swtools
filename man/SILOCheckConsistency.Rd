@@ -23,14 +23,14 @@ item double mass, colours represent the median quality code for each year, with 
 item
 }
 \description{
-Compute tests on rainfall double mass curves and cumulative deviation in annual rainfall totals to test for consistency bewteen a rainfall station and the average of another group of stations.
+Compute tests on rainfall double mass curves and cumulative deviation in annual rainfall totals to test for consistency between a rainfall station and the average of another group of stations.
 Non-homogeneity can occur for a number of reasons, such as interception from vegetation or buildings over time, moving of a station location, or due to interpolation of missing data or station closure
 }
 \details{
 Two tests are calculated by \code{SILOCheckConsistency}, which are outlined in [Annex 4](https://www.fao.org/3/x0490e/x0490e0l.htm#annex%204.%20statistical%20analysis%20of%20weather%20data%20sets%201) of Allen et al. (1998).
 
 The first considers the residual errors in annual rainfall at a station, compared to the straight line (intercept=0) regression with the average annual rainfall from the other sites in \code{X}. 
-The residuals should follow a normal distribution with mean zero and standard deviation s_{y,x}. The annual rainfall data is plotted to visually assess the requirement homoscedescity (constant variance).
+The residuals should follow a normal distribution with mean zero and standard deviation s_{y,x}. The annual rainfall data is plotted to visually assess the homoscedasticity requirement (constant variance).
 Ellipses for 80% and 95% confidence in rejecting the homogeneity hypothesis are plotted on the cumulative residuals figure. 
 
 The second test tests for a break point in the plot of cumulative annual rainfall, commonly referred to as a double-mass analysis. 
@@ -38,8 +38,10 @@ This analysis is outlined in Allen et al. (1998) and also Chang and Lee (1974). 
 is assessed using the method of Muggeo (2003), as provided in \link[segmented]{segmented}.
 }
 \examples{
+\dontrun{
 X<-SILOLoad(c("24001","24002","24003"),path="./SWTools/extdata")
 SILOCheckConsistency(X,tempdir())
+}
 }
 \references{
 Chang, M., and Lee, R. (1974) Objective double-mass analysis, Water Resour. Res., 10( 6), 1123– 1126, doi:10.1029/WR010i006p01123.
