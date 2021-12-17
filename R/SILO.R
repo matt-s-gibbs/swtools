@@ -224,7 +224,7 @@ SILOQualityCodes<-function(SILO,filename=NULL)
                                "Nearby station, data from BoM",
                                "Deaccumulated using nearby station",
                                "Deaccumulated using interpolated data",
-                               "interpolated from daily observations using anomaly interpolation method",
+                               "interpolated from daily observations\nusing anomaly interpolation method",
                                "interpolated daily observations",
                                "interpolated long term average",
                                "Derived using data from other climate variables"))
@@ -261,9 +261,11 @@ SILOQualityCodes<-function(SILO,filename=NULL)
     ggplot2::ylab("Station")+
     ggplot2::xlab("Date")+
     ggplot2::theme(legend.position = "top") + 
-    ggplot2::guides(fill = ggplot2::guide_legend(nrow = length(unique(my.data$Code)))) 
+   # ggplot2::guides(fill = ggplot2::guide_legend(nrow = length(unique(my.data$Code))))  + 
+    ggplot2::guides(fill = ggplot2::guide_legend(ncol=2))  + 
+    ggplot2::theme(text = ggplot2::element_text(size = 10)) 
   
-  if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
+  if(!is.null(filename))  ggplot2::ggsave(filename,p,width=19,height=12,units="cm",compression="lzw",dpi = 1000)
   return(p)
   
 }
@@ -484,7 +486,7 @@ SILOReport<-function(SILO,filename,path=getwd(),cols=pkg.env$cols)
     stop("You need to specify more colours for the number of sites, use the cols= argument")
   }
   file<-system.file("SILOReport.Rmd", package="SWTools")
-  rmarkdown::render(file,output_file = paste0(path,"/",filename))
+  rmarkdown::render(file,output_file = filename,output_dir=path)
 }
 #' Plot a boxplot of monthly rainfall with mean monthly evaporation
 #'

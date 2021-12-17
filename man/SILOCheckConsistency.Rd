@@ -4,7 +4,7 @@
 \alias{SILOCheckConsistency}
 \title{Check for homogeneity between SILO rainfall station data}
 \usage{
-SILOCheckConsistency(X, folder = "Plots", pvallim = 0.05, changelim = 0.025)
+SILOCheckConsistency(X, folder = NA, pvallim = 0.05, changelim = 0.025)
 }
 \arguments{
 \item{X}{A list of SILO station data, in the format created by \code{\link[SWTools]{SILOLoad}}}
@@ -16,10 +16,10 @@ SILOCheckConsistency(X, folder = "Plots", pvallim = 0.05, changelim = 0.025)
 \item{changelim}{significant slope limit display the double mass break point. Defaults to a slope change of 0.025}
 }
 \value{
-Nothing to the R environment. A figure for each station in \code{X} is saved to \code{folder}. There are 4 panels on the figure:
+If folder is not specified (or \code{NA}) the plots are shown in the R environment. If folder is specified, a figure for each station in \code{X} is saved to \code{folder}. There are 4 panels on the figure:
 item 
 item
-item double mass, colours represent the median quality code for each year, with the same colour palette as \code{\link[SWtools]{SILOQUalityCodes}}
+item double mass, colours represent the median quality code for each year, with the same colour palette as \code{\link[SWTools]{SILOQualityCodes}}
 item
 }
 \description{

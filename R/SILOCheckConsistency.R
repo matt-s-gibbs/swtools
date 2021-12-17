@@ -30,11 +30,14 @@
 #' @param pvallim p value limit of the break point detection to display the double mass break point. Defaults to p=0.05
 #' @param changelim significant slope limit display the double mass break point. Defaults to a slope change of 0.025
 #'
-#' @return Nothing to the R environment. A figure for each station in \code{X} is saved to \code{folder}. There are 4 panels on the figure:
-#' item 
-#' item
-#' item double mass, colours represent the median quality code for each year, with the same colour palette as \code{\link[SWtools]{SILOQUalityCodes}}
-#' item
+#' @return If folder is not specified (or \code{NA}) the plots are shown in the R environment. If folder is specified, a figure for each station in \code{X} is saved to \code{folder}. There are 4 panels on the figure:
+#' \itemize{
+#' \item{}{Annual rainfall for a given station, against the average across all stations in \code{X} (except the station presented).}
+#' \item{}{Cumulative residuals of the annual rainfall from the straight line regression shown in the first pannel. Assuming the residuals are are independent random variables, this figure include ellipses representing 80th and 95th percentile that the hypothesis that there is no change in slope can be rejected.}
+#' \item{}{double mass curve, plotting the cumulative annual rainfall for the station against the station average. If a breakpoint is identified, this is displayed on the plot.The colours represent the median quality code for each year, with the same colour palette as \code{\link[SWTools]{SILOQualityCodes}}}
+#' \item{}{Residuals of the cumulative rainfall from the straight line fitted to the double mass curve.}
+#' } 
+#'
 #' @export
 #'
 #' @examples
@@ -43,7 +46,7 @@
 #' SILOCheckConsistency(X,tempdir())
 #' }
 
-SILOCheckConsistency<-function(X,folder="Plots",pvallim=0.05,changelim=0.025)
+SILOCheckConsistency<-function(X,folder=NA,pvallim=0.05,changelim=0.025)
 {
 
 #point colours
@@ -60,15 +63,18 @@ colcode<-tibble::tibble(cols=c(colcode, colcode[1]),code=lookup$Code)
 rain<-zoo::zoo(sapply(X,function(x) x$tsd$Rain),zoo::index(X[[1]]$tsd))
 qual<-zoo::zoo(sapply(X,function(x) x$tsd$Srn),zoo::index(X[[1]]$tsd))
 
-if(!dir.exists(folder)) dir.create(folder)
+if(!is.na(folder))
+{
+  if(!dir.exists(folder)) dir.create(folder)
+}
 
 for(station in 1:ncol(rain))
 {
   
   stationname<-names(rain)[station]
   
-  grDevices::png(paste0(folder,"/",stationname,"-QA.png"),width=24,height=16,units="cm",res=300)
-  graphics::par(mfrow=c(2,2), mai = c(1, 1, 0.2, 0.1))
+  if(!is.na(folder)) grDevices::tiff(paste0(folder,"/",stationname,"-QA.tiff"),width=19,height=16,units="cm",res=1000,compression="lzw")
+  graphics::par(mfrow=c(2,2), mai = c(0.8, 0.8, 0.3, 0.1))
 
   s1<-hydroTSM::daily2annual(rain[,station],FUN=sum)
   pointcol<-hydroTSM::daily2annual(qual[,station],FUN=stats::median)
@@ -90,8 +96,8 @@ for(station in 1:ncol(rain))
   
   range=c(min(s1,s2),max(s1,s2))
   plot(s2,s1,xlab="Average of other stations (mm)",ylab=paste("Station",stationname,"(mm)"),
-       main="Annual Rainfall",
        xlim=range,ylim=range)
+  graphics::title(main="Annual rainfall",cex.main=1)
   graphics::abline(out.lm)
   graphics::grid()
   label<-paste0("Slope=",round(out.lm$coefficients[1],3))
@@ -119,7 +125,8 @@ for(station in 1:ncol(rain))
   ymax<-max(elipse95,cumsum(eps1))
   
   plot(zoo::index(s2),cumsum(eps1),xlab="year",ylab="Cumulative rainfall residuals (mm)",
-       main="Residuals of annual rainfall to straight line",ylim=c(ymin,ymax))
+       ylim=c(ymin,ymax))
+  graphics::title(main="Residuals of annual rainfall to straight line",cex.main=1)
   graphics::lines(zoo::index(s2),elipse80,col="grey")
   graphics::lines(zoo::index(s2),-elipse80,col="grey")
   graphics::lines(zoo::index(s2),elipse95)
@@ -144,8 +151,8 @@ for(station in 1:ncol(rain))
   plot(dati$x,dati$y,
        col=pointcol$cols,
        pch=19,
-       xlab="Average of other stations (mm)",ylab=paste("Station",stationname,"(mm)"),
-       main="Double mass curve")
+       xlab="Average of other stations (mm)",ylab=paste("Station",stationname,"(mm)"))
+  graphics::title(main="Double mass curve",cex.main=1)
   graphics::grid()
   #if significant
   if(pval<pvallim & abs(o.seg$coefficients[2])>changelim & (length(o.seg$coefficients)>1))
@@ -171,12 +178,14 @@ for(station in 1:ncol(rain))
   
   #residuals from double mass
   point<-which(abs(out.lm$residual)==max(abs(out.lm$residuals)))
-  plot(zoo::index(s1),out.lm$residuals,xlab="year",main="Residuals of double mass to straight line",
+  plot(zoo::index(s1),out.lm$residuals,xlab="year",
        ylab="Cumulative rainfall residuals (mm)")
+  graphics::title(main="Residuals of double mass to straight line",cex.main=1)
   x=ifelse(zoo::index(s1)[point]+5*365>max(zoo::index(s1)),zoo::index(s1)[point]-5*365,zoo::index(s1)[point]+5*365)
   graphics::text(x,out.lm$residuals[point],substr(zoo::index(s1)[point],1,4))
   
-  grDevices::graphics.off()
+  if(!is.na(folder)) grDevices::graphics.off()
+  print(paste("Station",stationname)) #this adds a caption and space between plots when using SILOReport(), so the first figure stays with the heading
 }
 }
 

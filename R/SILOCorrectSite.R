@@ -24,7 +24,8 @@
 #' @param year_start first year of data (before \code{year_break}) to to develop the first linear regression between \code{s_correct} and \code{s_reference}. Defaults to the start of the dataset
 #' @param year_end last year of data (after \code{year_break}) to to develop the second linear regression between \code{s_correct} and \code{s_reference}. Defaults to the end of the dataset
 #' @param after TRUE/FALSE value, indicating if the homogeneous data to develop the relationship to correct the non-homogeneous data is after the breakpoint (\code{TRUE}) or before (\code{FALSE}).
-#'
+#' @param plot if specified, the file (including path if necessary) to save a scatter plot of the annual rainfall totals, including regression equations used to correct the non-homogeneous data.
+#' 
 #' @return A list with the same structure as \code{X}, with the element for \code{s_correct} updated with the corrections on one side of the breakpoint year.
 #' @export
 #'
@@ -36,7 +37,7 @@
 #' X<-SILOCorrectSite(X,"23313","23705",1970,after=FALSE)
 #' }
 #' 
-SILOCorrectSite<-function(X,s_correct,s_reference,year_break,year_start=NULL,year_end=NULL,after=TRUE)
+SILOCorrectSite<-function(X,s_correct,s_reference,year_break,year_start=NULL,year_end=NULL,after=TRUE,plot=NA)
 {
 if(is.null(X[[s_correct]])) stop(paste("SILO list does not contain",s_correct))
 if(is.null(X[[s_reference]])) stop(paste("SILO list does not contain",s_reference))
@@ -50,17 +51,31 @@ if(is.null(year_start)) year_start=min(lubridate::year(rain_correct))
 if(year_start>year_break | year_start>year_end) stop("start year is not the earliest year")
 if(year_end<year_break) stop("end year must be later than break year")
 
-data=data.frame(x=zoo:::window.zoo(rain_reference,start=as.Date(paste0(year_start,"-01-01")),end=as.Date(paste0(year_break,"-01-01"))),
-                y=zoo:::window.zoo(rain_correct,start=as.Date(paste0(year_start,"-01-01")),end=as.Date(paste0(year_break,"-01-01"))))
+data=data.frame(x=stats::window(rain_reference,start=as.Date(paste0(year_start,"-01-01")),end=as.Date(paste0(year_break,"-01-01"))),
+                y=stats::window(rain_correct,start=as.Date(paste0(year_start,"-01-01")),end=as.Date(paste0(year_break,"-01-01"))))
 lm_first<-lm(y~x,data=data)
 
-data<-data.frame(x=zoo:::window.zoo(rain_reference,start=as.Date(paste0(year_break,"-01-01")),end=as.Date(paste0(year_end,"-01-01"))),
-                 y=zoo:::window.zoo(rain_correct,start=as.Date(paste0(year_break,"-01-01")),end=as.Date(paste0(year_end,"-01-01"))))
+data<-data.frame(x=stats::window(rain_reference,start=as.Date(paste0(year_break,"-01-01")),end=as.Date(paste0(year_end,"-01-01"))),
+                 y=stats::window(rain_correct,start=as.Date(paste0(year_break,"-01-01")),end=as.Date(paste0(year_end,"-01-01"))))
 lm_second<-lm(y~x,data=data)
 
-plot(rain_reference,rain_correct)
-graphics::abline(lm_first,col="red")
-graphics::abline(lm_second,col="blue")
+if(!is.na(plot))
+{
+  grDevices::tiff(paste0(plot,".tiff"),width=9,height=9,units="cm",res=1000,compression="lzw")
+  graphics::par( mai = c(0.8, 0.8, 0.1, 0.1))
+  
+  plot(rain_reference,rain_correct,
+       xlab=paste("Station",s_reference,"(mm/year)"),
+       ylab=paste("Station",s_correct,"(mm/year)"),
+       cex.lab=0.8, cex.axis=0.8,
+       pch=21,cex=0.5)
+  graphics::abline(lm_first,col="red")
+  graphics::abline(lm_second,col="blue")
+  graphics::legend(min(rain_reference)*1.01, max(rain_correct)*0.99, 
+                   legend=c(paste0(year_start,"-",year_break),paste0(year_break,"-",year_end)),
+        col=c("red", "blue"), lty=1,cex=0.5)
+  grDevices::graphics.off()
+}
 
 #calculate an annual scaling factor
 corrections<-tibble::tibble(year=lubridate::year(zoo::index(rain_correct)),orig=as.numeric(rain_correct),corrected=as.numeric(rain_correct),reference=as.numeric(rain_reference))
