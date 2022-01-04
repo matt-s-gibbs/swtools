@@ -1,14 +1,5 @@
 ## Resubmission
-This is a re-submission. In this version I have:
-* Omitted LazyData from DESCRIPTION to prevent NOTE about no data folder
-
-Previous submissions have:
-* Added value tags to all function documentation. 
-* Converted print() statements used for error checking to warning() or stop() depending if the error is fatal.
-* Configured aspell to prevent spelling errors notes in DESCRIPTION.
-* Ensured word list is a .rds file, not plain text.
-
-Thankyou for picking up the rds file issue.
+This is a new version with two new functions.
 
 ## Test environments
 * Local Windows 10, R version 4.1.1 x86_64-w64-mingw32 (64-bit)
@@ -28,7 +19,15 @@ One NOTE:
 Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
 
 ### R-hub
-* Windows Server 2008 R2 SP1, R-devel, 32/64 bit
+
+* Windows Server 2022, R-devel, 64 bit
+
+One NOTE:
+
+>* checking for detritus in the temp directory ... NOTE
+Found the following files/directories:
+  'lastMiKTeXException'
+
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC
 * Fedora Linux, R-devel, clang, gfortran
 

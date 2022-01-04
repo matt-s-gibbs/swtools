@@ -11,7 +11,8 @@ SILOCorrectSite(
   year_break,
   year_start = NULL,
   year_end = NULL,
-  after = TRUE
+  after = TRUE,
+  plot = NA
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ SILOCorrectSite(
 \item{year_end}{last year of data (after \code{year_break}) to to develop the second linear regression between \code{s_correct} and \code{s_reference}. Defaults to the end of the dataset}
 
 \item{after}{TRUE/FALSE value, indicating if the homogeneous data to develop the relationship to correct the non-homogeneous data is after the breakpoint (\code{TRUE}) or before (\code{FALSE}).}
+
+\item{plot}{if specified, the file (including path if necessary) to save a scatter plot of the annual rainfall totals, including regression equations used to correct the non-homogeneous data.}
 }
 \value{
 A list with the same structure as \code{X}, with the element for \code{s_correct} updated with the corrections on one side of the breakpoint year.
