@@ -11,14 +11,11 @@ This is a new version with two new functions and some bug fixes.
 
 ## Github actions MacOSX
 
-0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+Status: OK
 
 ## Win-builder devel and release
 
-One NOTE:
-
->* checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
-Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
+Status: OK
 
 ## R-hub
 
@@ -30,15 +27,15 @@ One NOTE:
 Found the following files/directories:
   'lastMiKTeXException'
   
-I have run devtools::check(manual=TRUE) locally to try and reproduce this without success. As it does not turn up on other checks, assuming it is a R-hub Windows server pdflatex issue.
+I have run devtools::Check(manual=TRUE) locally to try and reproduce this without success. As it does not turn up on other checks, assuming it is a R-hub Windows server issue.
 
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC
+
+Status: OK
+
 * Fedora Linux, R-devel, clang, gfortran
 
-One NOTE:
-
->* checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
-Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
+Status: OK
 
 ## Local Windows 10
 
