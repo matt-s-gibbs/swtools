@@ -32,7 +32,7 @@ SILOWriteforSource<-function(SILO,col,filename,scalefactor=1)
   }
 }
 
-#' Function to inport a Source .res.csv File
+#' Function to import a Source .res.csv File
 #' Returns data (as a Data Frame,  Zoo, or tibble) as a time Series with all Results
 #' Read Source .res.csv file into a data table or zoo time series
 #'
