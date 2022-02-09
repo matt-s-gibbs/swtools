@@ -15,7 +15,10 @@ Status: OK
 
 ## Win-builder devel and release
 
-Status: OK
+One NOTE:
+
+>* checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
 
 ## R-hub
 
