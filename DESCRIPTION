@@ -1,7 +1,7 @@
 Package: SWTools
 Type: Package
 Title: Helper Tools for Australian Hydrologists
-Version: 0.2.2.0
+Version: 0.2.3.0
 Authors@R: person("Matt", "Gibbs", email = "gibbs.ms@gmail.com",
     role = c("aut", "cre"))
 Author: Matt Gibbs [aut, cre]
@@ -16,9 +16,9 @@ Encoding: UTF-8
 Imports:
     httr,
     zoo,
-    RColorBrewer,
     dplyr,
     tidyr,
+    readr,
     tibble,
     forcats,
     stringr,
@@ -27,11 +27,11 @@ Imports:
     reshape2,
     ggplot2,
     ggmap,
-    ggrepel,
     magrittr,
     hydroTSM,
     jsonlite,
     sf,
+    sp,
     lubridate,
     segmented
 RoxygenNote: 7.1.2

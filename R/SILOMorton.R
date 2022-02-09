@@ -30,8 +30,9 @@ SILOMortonQualityCodes<-function(SILO,filename=NULL)
                                "interpolated long term average",
                                "synthetic pan evaporation"))
   
-  #colours to shade codes, green to red
-  cols<-rev(RColorBrewer::brewer.pal(7,"RdYlGn"))
+  #colours to shade codes, green to red, derived from
+  #rev(RColorBrewer::brewer.pal(7,"RdYlGn"))
+  cols<-c("#1A9850", "#91CF60", "#D9EF8B", "#FFFFBF", "#FEE08B", "#FC8D59", "#D73027")
   cols<-c(cols,cols[1]) #add 8th item for span
   names(cols)<-lookup$Quality
 

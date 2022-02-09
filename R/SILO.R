@@ -229,8 +229,9 @@ SILOQualityCodes<-function(SILO,filename=NULL)
                                "interpolated long term average",
                                "Derived using data from other climate variables"))
   
-  #colours to shade codes, green to red
-  cols<-rev(RColorBrewer::brewer.pal(7,"RdYlGn"))
+  #colours to shade codes, green to red, derived from
+  #rev(RColorBrewer::brewer.pal(7,"RdYlGn"))
+  cols<-c("#1A9850", "#91CF60", "#D9EF8B", "#FFFFBF", "#FEE08B", "#FC8D59", "#D73027")
   cols<-c(cols,cols[1]) #add 8th item for span
   names(cols)<-lookup$Quality
   
@@ -376,7 +377,7 @@ SILOMap<-function(SILO,filename=NULL)
   
   p<-ggmap::ggmap(sq_map) + 
     ggplot2::geom_point(data = points, color = "red", size = 3) +
-    ggrepel::geom_text_repel(data = points, ggplot2::aes(label = .data$Station))
+    ggplot2::geom_text(data = points, ggplot2::aes(label = .data$Station))
   
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)

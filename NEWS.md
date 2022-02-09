@@ -1,3 +1,7 @@
+# SWTools 0.2.3.0
+* Added SILOSitesfromPolygon to find sites within a shapefile
+* some dependancies removed to reduce number of packages installed (RColorBrewer and ggrepel)
+
 # SWTools 0.2.2.0
 
 * Two functions added: SILOCheckConsistency() and SILOCorrectSite(). 

@@ -56,7 +56,10 @@ lookup <- data.frame(Code = c(0, 23, 13, 15, 35, 25, 75,
                                                "Deaccumulated using interpolated data", "interpolated from daily observations\nusing anomaly interpolation method", 
                                                "interpolated daily observations", "interpolated long term average", 
                                                "synthetic pan evaporation"))
-colcode <- rev(RColorBrewer::brewer.pal(7, "RdYlGn"))
+
+#colours to shade codes, green to red, derived from
+#rev(RColorBrewer::brewer.pal(7,"RdYlGn"))
+colcode<-c("#1A9850", "#91CF60", "#D9EF8B", "#FFFFBF", "#FEE08B", "#FC8D59", "#D73027")
 colcode<-tibble::tibble(cols=c(colcode, colcode[1]),code=lookup$Code)
 
 #extract the rainfall data
