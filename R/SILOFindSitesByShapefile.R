@@ -37,11 +37,12 @@ SILOSitesfromPolygon<-function(shpFile,ssl=FALSE)
   p<-sp::SpatialPoints(coords=cbind(X$Longitud,X$Latitude),proj4string=sp::CRS("+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs",doCheckCRSArgs=FALSE))
   
   area = sf::st_read(shpFile)
+  area = sf::st_transform(area,"+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs")
   #area<- as(area, 'Spatial')
   area<-sf::as_Spatial(area)
   
   stations<-sp::over(p,area,returnList = FALSE)
   
-  stations<-X[!is.na(stations$OBJECTID),]
+  stations<-X[!is.na(stations[,1]),]
   return(stations)
 }

@@ -1,4 +1,9 @@
+# SWTools 0.2.3.1
+
+* Fix SILOSitesfromPolygon to handle polygon shape file with a projection other than that used by SILO stations
+
 # SWTools 0.2.3.0
+
 * Added SILOSitesfromPolygon to find sites within a shapefile
 * some dependencies removed to reduce number of packages installed (RColorBrewer and ggrepel)
 

@@ -4,7 +4,7 @@
 \alias{SILOThiessenShp}
 \title{Function to generate Thiessen polygons from SILO sites}
 \usage{
-SILOThiessenShp(SILOdata, path, shpname)
+SILOThiessenShp(SILOdata, path, shpname, boundary = NULL)
 }
 \arguments{
 \item{SILOdata}{- data loaded from SILO based on site list}
@@ -12,9 +12,14 @@ SILOThiessenShp(SILOdata, path, shpname)
 \item{path}{- file path to save Thiessen polygon shapefile}
 
 \item{shpname}{- filename to save ESRI shapefile (no extension)}
+
+\item{boundary}{- optional filename(including path) of a boundary, e.g. catchment boundary, to apply.}
 }
 \value{
 A simple feature geometry (sf::sfc object) of the polgyons created. Shape file saved to path \\ shpname
+
+If boundary is specified weights are written to the attribute table of the polygon return, which can be extracted with
+\code{st_drop_geometry(returnedfeature[c("Station","weights")])}
 }
 \description{
 Function to generate Thiessen polygons from SILO sites

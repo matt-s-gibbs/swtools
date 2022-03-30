@@ -2,7 +2,7 @@
 % Please edit documentation in R/SILOWriteforSource.R
 \name{read_res.csv}
 \alias{read_res.csv}
-\title{Function to inport a Source .res.csv File
+\title{Function to import a Source .res.csv File
 Returns data (as a Data Frame,  Zoo, or tibble) as a time Series with all Results
 Read Source .res.csv file into a data table or zoo time series}
 \usage{
@@ -17,7 +17,7 @@ read_res.csv(resFile, returnType = "df")
 Data in the format selected with all data read in from the Source .res.csv file
 }
 \description{
-Function to inport a Source .res.csv File
+Function to import a Source .res.csv File
 Returns data (as a Data Frame,  Zoo, or tibble) as a time Series with all Results
 Read Source .res.csv file into a data table or zoo time series
 }

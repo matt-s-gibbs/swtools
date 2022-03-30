@@ -1,6 +1,6 @@
 # Resubmission
 
-This is a new version with two new functions and some bug fixes.
+This is a minor update for one bug fix.
 
 # Test environments
 

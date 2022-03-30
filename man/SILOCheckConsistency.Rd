@@ -19,7 +19,7 @@ SILOCheckConsistency(X, folder = NA, pvallim = 0.05, changelim = 0.025)
 If folder is not specified (or \code{NA}) the plots are shown in the R environment. If folder is specified, a figure for each station in \code{X} is saved to \code{folder}. There are 4 panels on the figure:
 \itemize{
 \item{}{Annual rainfall for a given station, against the average across all stations in \code{X} (except the station presented).}
-\item{}{Cumulative residuals of the annual rainfall from the straight line regression shown in the first pannel. Assuming the residuals are are independent random variables, this figure include ellipses representing 80th and 95th percentile that the hypothesis that there is no change in slope can be rejected.}
+\item{}{Cumulative residuals of the annual rainfall from the straight line regression shown in the first panel. Assuming the residuals are are independent random variables, this figure include ellipses representing 80th and 95th percentile that the hypothesis that there is no change in slope can be rejected.}
 \item{}{double mass curve, plotting the cumulative annual rainfall for the station against the station average. If a breakpoint is identified, this is displayed on the plot.The colours represent the median quality code for each year, with the same colour palette as \code{\link[SWTools]{SILOQualityCodes}}}
 \item{}{Residuals of the cumulative rainfall from the straight line fitted to the double mass curve.}
 }
