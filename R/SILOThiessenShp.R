@@ -3,7 +3,7 @@
 #'@param SILOdata - data loaded from SILO based on site list
 #'@param  path - file path to save Thiessen polygon shapefile
 #'@param  shpname - filename to save ESRI shapefile (no extension)
-#'@param boundary - optional filename(including path) of a boundary, e.g. catchment boundary, to apply.
+#'@param boundary - optional either a filename(including path) of a boundary, e.g. catchment boundary, to apply, or the boundary as a sfc_MULTIPOLYGON object
 #'
 #'@return A simple feature geometry (sf::sfc object) of the polgyons created. Shape file saved to path \\ shpname
 #'
@@ -25,14 +25,17 @@ SILOThiessenShp<- function(SILOdata,path,shpname,boundary=NULL){
   SiteTable <- SILOSiteSummary(SILOdata) #table summarising SILO sites
   SILOLocs <- sf::st_as_sf(SiteTable, coords = c("Longitude","Latitude"))
   
-  if(!is.null(boundary))
+  if(is.character(boundary))
   {
     area<-sf::st_read(boundary,stringsAsFactors=FALSE)
     area<-area$geometry
-  }else
+  }else if(is.null(boundary))
   {
     area<-sf::st_polygon() #empty polygon used for boundary of Thiessen
   }
+  
+  if(!inherits(area,"sfc_MULTIPOLYGON")) stop(paste("Boundary not created, possibly couldn't read in",boundary))
+  if(length(area)>1) stop(paste(boundary,"has",nrow(area),"features, only 1 supported"))
   
   . <- NULL #address global variable . warning. bit of a hack.
   
@@ -52,7 +55,7 @@ SILOThiessenShp<- function(SILOdata,path,shpname,boundary=NULL){
   if(!is.null(boundary))
   {
     area<-sf::st_transform(area,sf::st_crs(TPolyCRS))
-    TpolyCRS<-sf::st_intersection(TPolyCRS,area)
+    TpolyCRS<-suppressMessages(sf::st_intersection(TPolyCRS,area))
     TpolyCRS$AlbersArea<-sf::st_area(TpolyCRS)
     TpolyCRS$weights<-as.numeric(TpolyCRS$AlbersArea/sum(TpolyCRS$AlbersArea))
   }

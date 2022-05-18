@@ -13,7 +13,7 @@ SILOThiessenShp(SILOdata, path, shpname, boundary = NULL)
 
 \item{shpname}{- filename to save ESRI shapefile (no extension)}
 
-\item{boundary}{- optional filename(including path) of a boundary, e.g. catchment boundary, to apply.}
+\item{boundary}{- optional either a filename(including path) of a boundary, e.g. catchment boundary, to apply, or the boundary as a sfc_MULTIPOLYGON object}
 }
 \value{
 A simple feature geometry (sf::sfc object) of the polgyons created. Shape file saved to path \\ shpname

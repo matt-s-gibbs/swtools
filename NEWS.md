@@ -1,3 +1,8 @@
+# SWTools 0.2.3.2
+
+* Add buffer parameter to SILOSitesfromPolygon to find SILO sites that might be slightly outside the polygon provided.
+* Add SILOWriteFunctionsforSource function to bulk write SILO input for Source based on Thiessen polygons, creating functions to load for each time series and to weight them for each subcatchment, and a table to point each functional unit in each subcatchment to these functions using the Rainfall-Runoff model feature editor.
+
 # SWTools 0.2.3.1
 
 * Fix SILOSitesfromPolygon to handle polygon shape file with a projection other than that used by SILO stations
