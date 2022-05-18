@@ -2,6 +2,11 @@
 #'
 #' @param shpFile location to a shapefile to search within for SILO sites
 #' @param ssl See SILODownload, if true if true sets ssl_cipher_list="RC4-SHA" for httr::GET()
+#' @param buffer distance in km to buffer the shapefile to look for sites outside the catchment
+#' 
+#' The buffer distance is approximate for a couple of reasons: the shapefile is projected to match SILO site coordinates,
+#' WGS84 and sf::st_buffer does not correctly buffer longitude/latitude data. sdaf
+#' Also the input distance in km is converted to degrees using the conversion at the equator of 0.008.
 #'
 #' @return a table of site information including site numbers found within the polygon
 #' @export
@@ -14,7 +19,7 @@
 #' startdate="20180101",enddate="20200101")
 #' X<-SILOLoad(Sites$Number,path=tempdir())
 #' }
-SILOSitesfromPolygon<-function(shpFile,ssl=FALSE)
+SILOSitesfromPolygon<-function(shpFile,ssl=FALSE,buffer=0)
 {
   #find stations within 10,000 km of Alice Springs (15590), i.e. all of them.
   siteToOpen<-"https://www.longpaddock.qld.gov.au/cgi-bin/silo/PatchedPointDataset.php?format=near&station=15590&radius=10000&sortby=name"
@@ -38,6 +43,13 @@ SILOSitesfromPolygon<-function(shpFile,ssl=FALSE)
   
   area = sf::st_read(shpFile)
   area = sf::st_transform(area,"+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs")
+  
+  if(buffer>0)
+  {
+    sf::sf_use_s2(FALSE) #ignores errors if input shapefile is not spherical
+    #  area <- sf::st_union(area)
+    area <- suppressMessages(suppressWarnings(sf::st_buffer(area,buffer*0.008))) #convert km to degrees at the equator. Could improve this and get latitude from the shp file
+  }
   #area<- as(area, 'Spatial')
   area<-sf::as_Spatial(area)
   
