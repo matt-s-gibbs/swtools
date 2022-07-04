@@ -232,7 +232,7 @@ SILOQualityCodes<-function(SILO,filename=NULL)
   #colours to shade codes, green to red, derived from
   #rev(RColorBrewer::brewer.pal(7,"RdYlGn"))
   cols<-c("#1A9850", "#91CF60", "#D9EF8B", "#FFFFBF", "#FEE08B", "#FC8D59", "#D73027")
-  cols<-c(cols,cols[1]) #add 8th item for span
+  cols<-c(cols,"#2b83ba") #add 8th item for span from a different colour palette
   names(cols)<-lookup$Quality
   
   #pull out the quality code column for each dataset in the list
