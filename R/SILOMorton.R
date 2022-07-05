@@ -67,7 +67,8 @@ SILOMortonQualityCodes<-function(SILO,filename=NULL)
     ggplot2::ylab("Station-Varible")+
     ggplot2::xlab("Date")+
     ggplot2::theme(legend.position = "top") + 
-    ggplot2::guides(fill = ggplot2::guide_legend(nrow = length(unique(my.data$Code)))) + 
+    #ggplot2::guides(fill = ggplot2::guide_legend(nrow = length(unique(my.data$Code)))) +
+    ggplot2::guides(fill = ggplot2::guide_legend(ncol=2))  + 
     ggplot2::theme(text = ggplot2::element_text(size = 10)) 
   
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=19,height=19,units="cm",compression="lzw",dpi = 1000)
