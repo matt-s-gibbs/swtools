@@ -104,7 +104,7 @@ AQWPDownload<-function(Location,Dataset,Unit,file="AQWP.json",
                        DateRange="EntirePeriodOfRecord",StartTime=NULL,EndTime=NULL)
 {
   DateRanges<-c("EntirePeriodOfRecord","OverlappingPeriodOfRecord","Today","Days7","Days30","Months6","Years1","Custom")
-  Calendars<-c("WATERDAY_6AM","CALENDARYEAR","WATERDAY_9AM")
+  Calendars<-c("WATERDAY6AM","CALENDARYEAR","WATERDAY9AM")
   Intervals<-c("PointsAsRecorded","Minutely","Hourly","Daily","Monthly","Yearly")
   Calculations<-c("Instantaneous","Aggregate","Minimum","Maximum")
   
@@ -205,7 +205,7 @@ AQWPDownload<-function(Location,Dataset,Unit,file="AQWP.json",
                "&TimeZone=9.5&Calendar=",Calendar,
                "&Interval=",Interval,
                "&Step=",Step,
-               "&ExportFormat=json&TimeAligned=True&RoundData=False&IncludeGradeCodes=True&IncludeApprovalLevels=False&IncludeInterpolationTypes=False")
+               "&ExportFormat=json&TimeAligned=True&RoundData=False&IncludeGradeCodes=True&IncludeApprovalLevels=False&IncludeQualifiers=False&IncludeInterpolationTypes=False")
   
   for(i in 1:(length(Location)))
   {
