@@ -64,7 +64,7 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 }
 
 
-#' Function to download data from https://water.data.sa.gov.au
+#' Function to download data from https://water.data.sa.gov.au 
 #'
 #'@description
 #'For most inputs, valid options will be returned if an unexpected input is provided. 
