@@ -11,7 +11,7 @@ AQWPDownload(
   file = "AQWP.json",
   Interval = "Daily",
   Calculation = "Aggregate",
-  Calendar = "WATERDAY_9AM",
+  Calendar = "CALENDARYEAR",
   Step = 1,
   DateRange = "EntirePeriodOfRecord",
   StartTime = NULL,
@@ -31,7 +31,7 @@ AQWPDownload(
 
 \item{Calculation}{For larger intervals, what calculation to do, e.g. "Aggregate" (average) or "Maximum"}
 
-\item{Calendar}{When to start the periods, e.g. "WATERDAY_9AM"}
+\item{Calendar}{When to start the periods, e.g. "WATERDAY9AM"}
 
 \item{Step}{How many intervals e.g. 15 with Interval="Minutely" returns 15 minute data.}
 
@@ -42,7 +42,7 @@ AQWPDownload(
 \item{EndTime}{End Date and Time if DateRange="Custom", in a format that as.POSIXct will convert, e.g 2001-01-02 00:00}
 }
 \value{
-nothing to the environment. Saves a file to "file", that can then be read in with AQWPLoad()
+The lnk created to download the data, which is useful for debugging. The data is saved to "file", that can then be read in with AQWPLoad()
 }
 \description{
 For most inputs, valid options will be returned if an unexpected input is provided. 

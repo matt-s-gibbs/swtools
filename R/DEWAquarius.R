@@ -18,7 +18,19 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
   f<-file(filename)
   json<-readLines(f,warn=FALSE)
   close(f)
+  
+  if(!jsonlite::validate(json)) #sometime AQQP fails and returns HTML
+  {
+    warning("file does not contain json. water.data.sa.gov.au may have failed, even if the request was valid. Check the download and try again. returned NULL")
+    return(NULL)
+  }
   X<-jsonlite::fromJSON(json)
+  
+  if(X$NumRows<1)
+  {
+    warning(paste("successful query but no data returned for the site, parameter and dates requested for",X$Datasets$Identifier))
+    return(NULL)
+  }
   
   colnames<-paste(X$Datasets$LocationIdentifier,X$Datasets$Parameter,X$Datasets$Unit,sep="_")
   Time<-X$Rows$Timestamp
@@ -81,9 +93,9 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #'@param DateRange Period of data to return, e.g. "EntirePeriodOfRecord" or "Custom". "Years1" seems to not work on AWQP.
 #'@param StartTime Start Date and Time if DateRange="Custom", in a format that as.POSIXct will convert, e.g 2000-01-01 00:00
 #'@param EndTime End Date and Time if DateRange="Custom", in a format that as.POSIXct will convert, e.g 2001-01-02 00:00
-#'@param Calendar When to start the periods, e.g. "WATERDAY_9AM"
+#'@param Calendar When to start the periods, e.g. "WATERDAY9AM"
 #'
-#'@return nothing to the environment. Saves a file to "file", that can then be read in with AQWPLoad()
+#'@return The lnk created to download the data, which is useful for debugging. The data is saved to "file", that can then be read in with AQWPLoad()
 #'
 #'@examples
 #'\dontrun{
@@ -100,7 +112,7 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #'@export
 
 AQWPDownload<-function(Location,Dataset,Unit,file="AQWP.json",
-                       Interval="Daily",Calculation="Aggregate",Calendar="WATERDAY_9AM",Step=1,
+                       Interval="Daily",Calculation="Aggregate",Calendar="CALENDARYEAR",Step=1,
                        DateRange="EntirePeriodOfRecord",StartTime=NULL,EndTime=NULL)
 {
   DateRanges<-c("EntirePeriodOfRecord","OverlappingPeriodOfRecord","Today","Days7","Days30","Months6","Years1","Custom")
@@ -220,5 +232,6 @@ AQWPDownload<-function(Location,Dataset,Unit,file="AQWP.json",
   X<-httr::GET(link)
   bin <- httr::content(X, "raw")
   writeBin(bin, file)
+  return(link)
   
 }
