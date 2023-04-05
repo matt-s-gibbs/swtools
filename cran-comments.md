@@ -1,28 +1,28 @@
 # Resubmission
 
-This is a minor update to functionality.
+This is a minor update to the plotting of a figure.
 
 # Test environments
 
-* Local Windows 10, R version 4.1.0 x86_64-w64-mingw32 (64-bit)
-* github actions MacOSX R version 4.1.0, x86_64-apple-darwin17.0 (64-bit)
-* R-hub solaris-x86-patched
-* win-builder (devel and release) x86_64-w64-mingw32
+* Local Windows 10, R version 4.1.3 x86_64-w64-mingw32 (64-bit)
+* github actions MacOSX R version 4.2.3, x86_64-apple-darwin17.0 (64-bit)
+* R-hub Ubuntu Linux 20.04.1 LTS R release
+* win-builder (devel 4.3.0 and release 4.2.3) x86_64-w64-mingw32
 
 ## Github actions MacOSX
 
 Status: OK
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
 ## Win-builder devel and release
 
+Staus: OK
 One NOTE:
 
 >* checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
 
 ## R-hub
-
-* solaris-x86-patched
 
 Status: OK
 
