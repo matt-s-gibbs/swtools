@@ -1,3 +1,7 @@
+# SWTools 0.2.5.0
+
+* Add colours to match the before and after periods in SILOCorrectSite
+
 # SWTools 0.2.4.0
 
 * Add buffer parameter to SILOSitesfromPolygon to find SILO sites that might be slightly outside the polygon provided.

@@ -45,18 +45,21 @@ if(is.null(X[[s_reference]])) stop(paste("SILO list does not contain",s_referenc
 rain_correct<-hydroTSM::daily2annual(X[[s_correct]]$tsd$Rain,FUN=sum)
 rain_reference<-hydroTSM::daily2annual(X[[s_reference]]$tsd$Rain,FUN=sum)
 
+col<-zoo::index(hydroTSM::daily2annual(X[[s_correct]]$tsd$Rain,FUN=sum))
+col=ifelse(col<as.Date(paste0(year_break,"-01-01")),"red","blue")
+
 if(is.null(year_end)) year_end=max(lubridate::year(rain_correct))
 if(is.null(year_start)) year_start=min(lubridate::year(rain_correct))
 
 if(year_start>year_break | year_start>year_end) stop("start year is not the earliest year")
 if(year_end<year_break) stop("end year must be later than break year")
 
-data=data.frame(x=stats::window(rain_reference,start=as.Date(paste0(year_start,"-01-01")),end=as.Date(paste0(year_break,"-01-01"))),
-                y=stats::window(rain_correct,start=as.Date(paste0(year_start,"-01-01")),end=as.Date(paste0(year_break,"-01-01"))))
+data=data.frame(x=stats::window(rain_reference,start=as.Date(paste0(year_start,"-01-01")),end=as.Date(paste0(year_break-1,"-12-31"))),
+                y=stats::window(rain_correct,start=as.Date(paste0(year_start,"-01-01")),end=as.Date(paste0(year_break-1,"-12-31"))))
 lm_first<-lm(y~x,data=data)
 
-data<-data.frame(x=stats::window(rain_reference,start=as.Date(paste0(year_break,"-01-01")),end=as.Date(paste0(year_end,"-01-01"))),
-                 y=stats::window(rain_correct,start=as.Date(paste0(year_break,"-01-01")),end=as.Date(paste0(year_end,"-01-01"))))
+data<-data.frame(x=stats::window(rain_reference,start=as.Date(paste0(year_break,"-01-01")),end=as.Date(paste0(year_end,"-12-31"))),
+                 y=stats::window(rain_correct,start=as.Date(paste0(year_break,"-01-01")),end=as.Date(paste0(year_end,"-12-31"))))
 lm_second<-lm(y~x,data=data)
 
 if(!is.na(plot))
@@ -65,14 +68,16 @@ if(!is.na(plot))
   graphics::par( mai = c(0.8, 0.8, 0.1, 0.1))
   
   plot(rain_reference,rain_correct,
+       bg=col,col=col,
        xlab=paste("Station",s_reference,"(mm/year)"),
        ylab=paste("Station",s_correct,"(mm/year)"),
        cex.lab=0.8, cex.axis=0.8,
        pch=21,cex=0.5)
+  
   graphics::abline(lm_first,col="red")
   graphics::abline(lm_second,col="blue")
   graphics::legend(min(rain_reference)*1.01, max(rain_correct)*0.99, 
-                   legend=c(paste0(year_start,"-",year_break),paste0(year_break,"-",year_end)),
+                   legend=c(paste0(year_start,"-",year_break-1),paste0(year_break,"-",year_end)),
         col=c("red", "blue"), lty=1,cex=0.5)
   grDevices::graphics.off()
 }
