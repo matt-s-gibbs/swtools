@@ -1,0 +1,16 @@
+citHeader("To cite SWTools in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "The SWTools R package for SILO data acquisition, homogeneity testing and correction",
+  author   = c(person(c("Matt", "S."), "Gibbs",email="matt.gibbs@csiro.au"),
+               person(c("Mark"), "Bates"),
+               person(c("Jai"), "Vaze")),
+  journal  = "Australasian Journal of Water Resources",
+  year     = 2023,
+  volume   = NA,
+  number   = NA,
+  pages    = 13,
+  url      = "https://doi.org/10.1080/13241583.2023.2214989",
+  textVersion = paste("Gibbs MS, Alcorn M & Vaze J (2023) The SWTools R package for SILO data acquisition, homogeneity testing and correction, Australasian Journal of Water Resources, DOI: 10.1080/13241583.2023.2214989")
+)
