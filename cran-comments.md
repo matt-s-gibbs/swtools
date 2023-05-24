@@ -1,6 +1,6 @@
 # Resubmission
 
-This is a minor update to the plotting of a figure.
+This update coincides with an accepted publication.
 
 # Test environments
 

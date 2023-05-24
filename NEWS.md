@@ -1,3 +1,7 @@
+# SWTools 1.0
+
+* 1.0 release to align with [AJWR publication](https://doi.org/10.1080/13241583.2023.2214989)
+
 # SWTools 0.2.5.0
 
 * Add colours to match the before and after periods in SILOCorrectSite

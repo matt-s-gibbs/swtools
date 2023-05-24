@@ -1,10 +1,10 @@
 citHeader("To cite SWTools in publications use:")
 
-citEntry(
-  entry    = "Article",
+bibentry(
+  bibtype    = "Article",
   title    = "The SWTools R package for SILO data acquisition, homogeneity testing and correction",
   author   = c(person(c("Matt", "S."), "Gibbs",email="matt.gibbs@csiro.au"),
-               person(c("Mark"), "Bates"),
+               person(c("Mark"), "Alcorn"),
                person(c("Jai"), "Vaze")),
   journal  = "Australasian Journal of Water Resources",
   year     = 2023,
