@@ -31,4 +31,5 @@
 #'
 #'@importFrom magrittr %>% 
 #'@importFrom rlang .data
+#' @aliases SWTools-package
 NULL

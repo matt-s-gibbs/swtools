@@ -3,6 +3,7 @@
 \docType{package}
 \name{SWTools}
 \alias{SWTools}
+\alias{SWTools-package}
 \title{SWTools: Helper Tools for Australian Hydrologists}
 \description{
 Functions to speed up workflow for hydrological analysis. 

@@ -1,6 +1,6 @@
 # Resubmission
 
-This update coincides with an accepted publication.
+Minor update to add PKGNAME-package \alias
 
 # Test environments
 

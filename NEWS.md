@@ -1,3 +1,7 @@
+# SWTools 1.0.1
+
+* Very minor update to add @aliases to package documentation
+
 # SWTools 1.0
 
 * 1.0 release to align with [AJWR publication](https://doi.org/10.1080/13241583.2023.2214989)
