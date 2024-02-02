@@ -19,11 +19,11 @@
 #'
 #' @references 
 #' 
-#' Chang, M., and Lee, R. (1974) Objective double-mass analysis, Water Resour. Res., 10( 6), 1123– 1126, doi:10.1029/WR010i006p01123.
+#' Chang, M., and Lee, R. (1974) Objective double-mass analysis, Water Resour. Res., 10( 6), 1123-1126, doi:10.1029/WR010i006p01123.
 #' 
 #' Allan, R., Pereira, L. and Smith, M. (1998) Crop evapotranspiration-Guidelines for computing crop water requirements-FAO Irrigation and drainage paper 56. 
 #' 
-#' Muggeo, V.M.R. (2003) Estimating regression models with unknown break-points. Statistics in Medicine 22, 3055–3071.
+#' Muggeo, V.M.R. (2003) Estimating regression models with unknown break-points. Statistics in Medicine 22, 3055-3071.
 #'
 #' @param X A list of SILO station data, in the format created by \code{\link[SWTools]{SILOLoad}}
 #' @param folder Path to folder to save resulting images to. Will be created if it doesn't exist
@@ -32,10 +32,10 @@
 #'
 #' @return If folder is not specified (or \code{NA}) the plots are shown in the R environment. If folder is specified, a figure for each station in \code{X} is saved to \code{folder}. There are 4 panels on the figure:
 #' \itemize{
-#' \item{}{Annual rainfall for a given station, against the average across all stations in \code{X} (except the station presented).}
-#' \item{}{Cumulative residuals of the annual rainfall from the straight line regression shown in the first panel. Assuming the residuals are are independent random variables, this figure include ellipses representing 80th and 95th percentile that the hypothesis that there is no change in slope can be rejected.}
-#' \item{}{double mass curve, plotting the cumulative annual rainfall for the station against the station average. If a breakpoint is identified, this is displayed on the plot.The colours represent the median quality code for each year, with the same colour palette as \code{\link[SWTools]{SILOQualityCodes}}}
-#' \item{}{Residuals of the cumulative rainfall from the straight line fitted to the double mass curve.}
+#' \item Annual rainfall for a given station, against the average across all stations in X (except the station presented).
+#' \item Cumulative residuals of the annual rainfall from the straight line regression shown in the first panel. Assuming the residuals are are independent random variables, this figure include ellipses representing 80th and 95th percentile that the hypothesis that there is no change in slope can be rejected.
+#' \item double mass curve, plotting the cumulative annual rainfall for the station against the station average. If a breakpoint is identified, this is displayed on the plot.The colours represent the median quality code for each year, with the same colour palette as \code{\link[SWTools]{SILOQualityCodes}}
+#' \item Residuals of the cumulative rainfall from the straight line fitted to the double mass curve.
 #' } 
 #'
 #' @export

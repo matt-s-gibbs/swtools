@@ -18,13 +18,13 @@
 #' 
 #' This function will create two files:
 #' \itemize{
-#' \item{\code{functionsfile}{one to be imported into Source using the Function Import/Export plugin. 
+#' \item \code{functionsfile} one to be imported into Source using the Function Import/Export plugin. 
 #' The functions in the file that will be imported are a time series function for each SILO site in \code{X} and a function
-#' weighting these SILO sites using Thiessen polygon areas for each subcatchment in \code{boundary}}
-#' \item{\code{RRFile}}{This file points each subcatchment and functional unit to the relevant function created for 
-#' rainfall and PET, to be Imported in the Rainfall Runoff feature table (Edit-Rainfall Runoff Models and Import button)}
+#' weighting these SILO sites using Thiessen polygon areas for each subcatchment in \code{boundary}
+#' \item \code{RRFile} This file points each subcatchment and functional unit to the relevant function created for 
+#' rainfall and PET, to be Imported in the Rainfall Runoff feature table (Edit-Rainfall Runoff Models and Import button)
 #' }
-#' }
+#' 
 #' 
 #' @return Nothing to the R environment. Files \code{functionsfile} and \code{RRfile} are created.
 #' 
