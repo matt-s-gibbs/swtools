@@ -370,14 +370,14 @@ SILOMap<-function(SILO,filename=NULL)
                      lat=sapply(SILO,function(x) x$Lat),
                      Station=sapply(SILO,function(x) x$Station))
   
-  sbbox <- ggmap::make_bbox(lon = points$lon, lat = points$lat, f = 1.0)
+  sp<-sf::st_as_sf(points,coords=c("lon","lat"),crs=4283)
   
-  if(length(SILO)==1) sbbox<-c(sbbox[1]*0.999,sbbox[2]*1.005,sbbox[3]*1.001,sbbox[4]*0.995)
-    sq_map <- ggmap::get_map(location = sbbox,  maptype = "terrain", source = "stamen")
-  
-  p<-ggmap::ggmap(sq_map) + 
-    ggplot2::geom_point(data = points, color = "red", size = 3) +
-    ggplot2::geom_text(data = points, ggplot2::aes(label = .data$Station))
+  p<-ggplot2::ggplot() +
+    ggspatial::annotation_map_tile(zoomin=-0)+
+    ggspatial::layer_spatial(sp, size=5)+
+    ggspatial::annotation_scale(location = "tl")+
+    #ggplot2::geom_point(data = points, color = "red", size = 3) +
+    ggspatial::geom_spatial_label(ggplot2::aes(lon,lat+0.005,label = Station),points,crs = 4283)
   
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)
