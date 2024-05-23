@@ -39,22 +39,19 @@ SILOSitesfromPolygon<-function(shpFile,ssl=FALSE,buffer=0)
                                                           c(6,48,57,66,71,79,86),
                                                           as.character(names)),skip=1)
   
-  p<-sp::SpatialPoints(coords=cbind(X$Longitud,X$Latitude),proj4string=sp::CRS("+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs",doCheckCRSArgs=FALSE))
+  #p<-sp::SpatialPoints(coords=cbind(X$Longitud,X$Latitude),proj4string=sp::CRS("+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs",doCheckCRSArgs=FALSE))
+  p<-sf::st_as_sf(X,coords=c("Longitud","Latitude"),crs=4283)
   
   area = sf::st_read(shpFile)
-  area = sf::st_transform(area,"+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs")
+  area = sf::st_transform(area,,crs=4283)#"+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs")
   
   if(buffer>0)
   {
     sf::sf_use_s2(FALSE) #ignores errors if input shapefile is not spherical
-    #  area <- sf::st_union(area)
     area <- suppressMessages(suppressWarnings(sf::st_buffer(area,buffer*0.008))) #convert km to degrees at the equator. Could improve this and get latitude from the shp file
   }
-  #area<- as(area, 'Spatial')
-  area<-sf::as_Spatial(area)
+  stations<-suppressMessages(sf::st_intersection(p,area))
   
-  stations<-sp::over(p,area,returnList = FALSE)
-  
-  stations<-X[!is.na(stations[,1]),]
+  stations<-sf::st_drop_geometry(stations)
   return(stations)
 }

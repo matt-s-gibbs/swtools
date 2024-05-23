@@ -1,3 +1,7 @@
+# SWTools 1.0.2
+
+* change from ggmap to ggspatial package for SILOMap()
+
 # SWTools 1.0.1
 
 * Very minor update to add @aliases to package documentation

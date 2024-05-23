@@ -1,6 +1,6 @@
 # Resubmission
 
-Minor update to add PKGNAME-package \alias and address CHECK comments related to dependancy
+Minor update to fix broken function due to dependancy change
 
 # Test environments
 
@@ -46,10 +46,4 @@ checking CRAN incoming feasibility ... [11s] NOTE
 
 ## Local Windows 10
 
-one WARNING:
-
-> checking package dependencies ... WARNING
-  Requires orphaned package: 'ggmap'
-  
-It is [understood ggmap is no longer orphaned](https://community.rstudio.com/t/orphaned-package-on-windows-build/84165). 
-The warning is only generated on the local windows check, none of the others, also suggesting the package is not orphaned.
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
