@@ -373,11 +373,12 @@ SILOMap<-function(SILO,filename=NULL)
   sp<-sf::st_as_sf(points,coords=c("lon","lat"),crs=4283)
   
   p<-ggplot2::ggplot() +
-    ggspatial::annotation_map_tile(zoomin=-1, chachedir=tempdir())+
+    ggspatial::annotation_map_tile(zoomin=-1, cachedir=tempdir())+
     ggspatial::layer_spatial(sp, size=5)+
     ggspatial::annotation_scale(location = "tl")+
     #ggplot2::geom_point(data = points, color = "red", size = 3) +
-    ggspatial::geom_spatial_label(ggplot2::aes(.data$lon,.data$lat+0.005,label = .data$Station),points,crs = 4283)
+    ggspatial::geom_spatial_label(ggplot2::aes(.data$lon,.data$lat+0.005,label = .data$Station),points,crs = 4283)+
+    ggplot2::labs(x=NULL,y=NULL)
   
   if(!is.null(filename))  ggplot2::ggsave(filename,p,width=15,height=15,units="cm")
   return(p)

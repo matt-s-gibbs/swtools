@@ -1,6 +1,6 @@
 # Resubmission
 
-Minor update to fix broken function due to dependancy change
+Fix typo
 
 # Test environments
 
