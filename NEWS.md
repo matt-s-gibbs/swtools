@@ -1,3 +1,7 @@
+# SWTools 1.0.3
+
+* Fix small typo
+
 # SWTools 1.0.2
 
 * change from ggmap to ggspatial package for SILOMap()

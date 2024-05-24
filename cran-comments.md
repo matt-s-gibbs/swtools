@@ -1,6 +1,6 @@
 # Resubmission
 
-Fix typo
+Fix typo, updated version number
 
 # Test environments
 
