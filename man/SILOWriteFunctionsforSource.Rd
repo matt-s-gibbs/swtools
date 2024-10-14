@@ -39,16 +39,16 @@ SILOWriteFunctionsforSource(
 \item{fus}{character vector of function unit names in the model.
 
 It is assumed that the Source rainfall-runoff scenario was created using the Geographic wizard, using the 'draw network' method (as opposed to DEM based)
-This allows a raster to be loaded into Source, with an integer in each cell representing the different subcatchments. 
-\code{boundary} should be the path to a polygon shapefile with these catchment boundaries, and an attribute column that represent the catchment numbers. 
+This allows a raster to be loaded into Source, with an integer in each cell representing the different subcatchments.
+\code{boundary} should be the path to a polygon shapefile with these catchment boundaries, and an attribute column that represent the catchment numbers.
 Typically this shapefile will be used to generate the raster that Source requires.
 
 This function will create two files:
 \itemize{
-\item \code{functionsfile} one to be imported into Source using the Function Import/Export plugin. 
+\item \code{functionsfile} one to be imported into Source using the Function Import/Export plugin.
 The functions in the file that will be imported are a time series function for each SILO site in \code{X} and a function
 weighting these SILO sites using Thiessen polygon areas for each subcatchment in \code{boundary}
-\item \code{RRFile} This file points each subcatchment and functional unit to the relevant function created for 
+\item \code{RRFile} This file points each subcatchment and functional unit to the relevant function created for
 rainfall and PET, to be Imported in the Rainfall Runoff feature table (Edit-Rainfall Runoff Models and Import button)
 }}
 }

@@ -1,0 +1,62 @@
+Code,Description,BomCode
+1,RATINGS/TS - No data in the period have been adjusted from sensing system measurement in any way - see code definitions,A
+2,TS - Data adjusted during processing - see code definitions,A
+3,RATINGS/TS - No data in the period have been adjusted from sensing system measurement in any way - see code definitions,A
+4,TS - Data adjusted during processing - see code definitions,A
+5,RATINGS/TS - No data in the period have been adjusted from sensing system measurement in any way - see code definitions,A
+6,GAUGINGS - Good Gauging to AS3778; TS - Data adjusted during processing - see comments,A
+7,RATINGS/TS - Large uncertainty - data in period not adjusted from sensing system measurement in any way - see code definitions; GAUGINGS - Good Gauging,B
+8,TS - Data adjusted during processing - see comments,B
+9,RATINGS/TS - Large uncertainty - data in period not adjusted from sensing system measurement in any way - see code definitions,B
+10,TS - Data adjusted during processing - see comments,B
+11,TS-Synthetic or Artificial Data. Data which does not relate directly to the measured variable but for which a valid code is required,C
+12,GAUGINGS - Acceptable Gauging,F
+17,GAUGINGS - Reasonable Gauging,F
+26,"TS - Daily, accumulated or spot data",E
+30,Pre 21 Aug 2004 - RATINGS/TS - Highly accurate continuous records,B
+31,GAUGINGS - Brief Gauging High Flow,F
+32,Pre 21 Aug 2004 - TS - Good continuous record.,B
+33,"Pre 21 Aug 2004 - TS - Good record processed +/- 10mm, within 30 minutes",B
+34,"Pre 21 Aug 2004 - RATINGS - Good record where number of gaugings >=5, 95% within 10% curve",A
+35,"GAUGINGS - Normal Gauging Bad Site, Normal Gauging Backwater Affected, Surface Velocities",F
+36,Pre 21 Aug 2004 - TS - Good spot samples (daily read) +/-15 minutes,B
+38,Pre 1 Nov 1996 - RATINGS/TS - Good record processed prior to 1/11/96,A
+39,Pre 21 Aug 2004 - TS - Water level below sensor and no flow/dry stream,C
+40,Pre 21 Aug 2004 - TS - Fair measured data,B
+41,Pre 21 Aug 2004 - RATINGS/TS - Fair measured data,E
+44,Pre 21 Aug 2004 - RATINGS - Fair record where 95% of flow gaugings within 20% of discharge,B
+45,"Pre 21 Aug 2004 - TS - Spot samples of fair quality, +/- 1 hour",E
+46,"Pre 21 Aug 2004 - TS - Level estimated to +/-20mm, time unknown",E
+51,TS - Data estimated - see comments,C
+52,RATINGS - Backwater affected - see comments,B
+54,GAUGINGS - Unverified Gauging,F
+57,Pre 21 Aug 2004 - TS - Data limited by client spec. fulfils requirement of qc40,B
+58,Pre 1 Nov 1996 - TS - Fair record processed prior to 1/11/96,B
+60,"Pre 21 Aug 2004 - TS - Poor measured data, time +/- 2 hours.",B
+61,Pre 21 Aug 2004 - RATINGS/TS - Poor measured data,E
+62,Pre 21 Aug 2004 - RATINGS - High segment Rating table gaugings <5,B
+63,Pre 21 Aug 2004 - RATINGS - Low segment Rating table gauging<5 (often unstable),B
+64,"Pre 21 Aug 2004 - RATINGS - Poor measured data, 95% of flow gaugings within 30% of discharge",B
+65,"Pre 21 Aug 2004 - TS - Spot samples, conditions as per poor data, +/- 2 hours;",E
+66,"Pre 21 Aug 2004 - TS - Data within +/-20cm, time unknown",C
+67,"Pre 21 Aug 2004 - RATINGS/TS - Data limited by client specifications - Poor measured data, time +/- 2 hour",B
+68,Pre 1 Nov 1996 - RATINGS/TS - Record processed prior to 1/11/96 considered poor,B
+69,Pre 21 Aug 2004 - RATINGS - Rating table gaugings >=5 Less than 95% within 30% of curve,F
+71,GAUGINGS - Part Gauged/ Estimated,F
+75,Pre 21 Aug 2004 - RATINGS - Reasonable estimate where rating derived by one method,C
+77,"Pre 21 Aug 2004 - RATINGS/TS - Data limited by client specifications - Poor measured data, time +/- 2 hour",B
+80,"Pre 1 Nov 1996 - RATINGS - Rating processed prior to 1/11/96, coded estimated (poor)",C
+82,Pre 21 Aug 2004 - RATINGS - Good estimate where rating has 3 methods agreeing to 10%,C
+91,Pre 21 Aug 2004 - RATINGS - Fair estimate where rating has 2 methods agreeing to 20%,C
+94,"Pre 1 Nov 1996 - RATINGS - Rating processed prior to 1/11/96, coded extrapolated - good",C
+95,"Pre 1 Nov 1996 - RATINGS - Rating processed prior to 1/11/96, coded extrapolated - fair",C
+100,Quality unknown,E
+130,Not quality coded - subject to change,E
+140,RATINGS - Current rating - may be subject to change.,E
+145,TS - Telemetry system added point,E
+151,Pre Aug 2004 QC - Data Not Available,F
+152,Pre 21 Aug 2004 - RATINGS/TS - Backwater affected - see comments,F
+153,GAUGINGS - Invalid Gauging,F
+180,"Rating table out of range, no flow available",F
+201,Data unavailable,F
+255,Data Unavailable,F

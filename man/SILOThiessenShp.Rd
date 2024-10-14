@@ -7,13 +7,21 @@
 SILOThiessenShp(SILOdata, path, shpname, boundary = NULL)
 }
 \arguments{
-\item{SILOdata}{- data loaded from SILO based on site list}
+\item{SILOdata}{\itemize{
+\item data loaded from SILO based on site list
+}}
 
-\item{path}{- file path to save Thiessen polygon shapefile}
+\item{path}{\itemize{
+\item file path to save Thiessen polygon shapefile
+}}
 
-\item{shpname}{- filename to save ESRI shapefile (no extension)}
+\item{shpname}{\itemize{
+\item filename to save ESRI shapefile (no extension)
+}}
 
-\item{boundary}{- optional either a filename(including path) of a boundary, e.g. catchment boundary, to apply, or the boundary as a sfc_MULTIPOLYGON object}
+\item{boundary}{\itemize{
+\item optional either a filename(including path) of a boundary, e.g. catchment boundary, to apply, or the boundary as a sfc_MULTIPOLYGON object
+}}
 }
 \value{
 A simple feature geometry (sf::sfc object) of the polgyons created. Shape file saved to path \\ shpname

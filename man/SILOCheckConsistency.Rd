@@ -29,13 +29,13 @@ Compute tests on rainfall double mass curves and cumulative deviation in annual 
 Non-homogeneity can occur for a number of reasons, such as interception from vegetation or buildings over time, moving of a station location, or due to interpolation of missing data or station closure
 }
 \details{
-Two tests are calculated by \code{SILOCheckConsistency}, which are outlined in [Annex 4](https://www.fao.org/3/x0490e/x0490e0l.htm#annex%204.%20statistical%20analysis%20of%20weather%20data%20sets%201) of Allen et al. (1998).
+Two tests are calculated by \code{SILOCheckConsistency}, which are outlined in \href{https://www.fao.org/3/x0490e/x0490e0l.htm#annex\%204.\%20statistical\%20analysis\%20of\%20weather\%20data\%20sets\%201}{Annex 4} of Allen et al. (1998).
 
-The first considers the residual errors in annual rainfall at a station, compared to the straight line (intercept=0) regression with the average annual rainfall from the other sites in \code{X}. 
+The first considers the residual errors in annual rainfall at a station, compared to the straight line (intercept=0) regression with the average annual rainfall from the other sites in \code{X}.
 The residuals should follow a normal distribution with mean zero and standard deviation s_y,x. The annual rainfall data is plotted to visually assess the homoscedasticity requirement (constant variance).
-Ellipses for 80\% and 95\% confidence in rejecting the homogeneity hypothesis are plotted on the cumulative residuals figure. 
+Ellipses for 80\\% and 95\\% confidence in rejecting the homogeneity hypothesis are plotted on the cumulative residuals figure.
 
-The second test tests for a break point in the plot of cumulative annual rainfall, commonly referred to as a double-mass analysis. 
+The second test tests for a break point in the plot of cumulative annual rainfall, commonly referred to as a double-mass analysis.
 This analysis is outlined in Allen et al. (1998) and also Chang and Lee (1974). A bootstraped estimate of any breakpoint in the double-mass plot, indicating a change in the relationship between rainfall at the station and the average of all other stations,
 is assessed using the method of Muggeo (2003), as provided in \link[segmented]{segmented}.
 }
@@ -48,7 +48,7 @@ SILOCheckConsistency(X,tempdir())
 \references{
 Chang, M., and Lee, R. (1974) Objective double-mass analysis, Water Resour. Res., 10( 6), 1123-1126, doi:10.1029/WR010i006p01123.
 
-Allan, R., Pereira, L. and Smith, M. (1998) Crop evapotranspiration-Guidelines for computing crop water requirements-FAO Irrigation and drainage paper 56. 
+Allan, R., Pereira, L. and Smith, M. (1998) Crop evapotranspiration-Guidelines for computing crop water requirements-FAO Irrigation and drainage paper 56.
 
 Muggeo, V.M.R. (2003) Estimating regression models with unknown break-points. Statistics in Medicine 22, 3055-3071.
 }

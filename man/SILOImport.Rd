@@ -16,9 +16,9 @@ SILOImport(station, path, startdate, enddate)
 \item{enddate}{End date of data to load, in format "YYYY-MM-DD". Defaults to end of the file if not provided}
 }
 \value{
-a list of data from the file, with members: 
+a list of data from the file, with members:
 \describe{
-\item{tsd}{the raw data as a daily zoo object} 
+\item{tsd}{the raw data as a daily zoo object}
 \item{Site}{the name of the site}
 \item{Station}{the station number}
 \item{Lon}{Longitude}

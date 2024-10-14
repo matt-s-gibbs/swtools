@@ -1,0 +1,32 @@
+Code,Description,BomCode
+1,Good (actual),A
+9,CITEC - Normal Reading,A
+10,Good,A
+15,Water level below threshold (no flow),A
+19,CITEC - No Flow Reading,A
+20,Fair,A
+26,BOM data - Good Daily Read Records,A
+30,Poor,B
+31,Gauging temp - Good,A
+32,Gauging temp - Fair,A
+33,Gauging temp - Poor,B
+34,Gauging temp - composite,B
+35,Gauging temp - equipment problems causing incomplete gauging - suspect procedures and methods. Possible inflow between gauging and station.,B
+36,Gauging temp - Velocity measurements taken on surface only or velocity measurements with floats.,B
+37,Gauging temp - Discharge correlated from U/S or D/S stations.,B
+38,Gauging temp - Interim code for data transferred from CITEC. Data not yet Quality Coded.,E
+39,Gauging temp - Data of No Value,F
+59,CITEC - Derived Height,A
+60,Estimate,C
+69,CITEC - Derived Discharge,A
+79,CITEC - Backwater Record,B
+80,BOM data - Accumulated,A
+119,Old - Gauge Ht > instrument threshold,C
+130,Not coded value,E
+140,Interim value,E
+150,Unknown,E
+151,Data not yet available,F
+160,Suspect,F
+170,Water level above threshold,F
+180,Old - Gauge Height < Instrument Threshold,F
+200,Water level below threshold,F

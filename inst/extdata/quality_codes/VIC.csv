@@ -1,0 +1,52 @@
+Code,Description,BomCode
+1,Good continuous records,A
+2,Good quality edited data,A
+3,Linear infill to first value in block (no data lost),A
+4,Temporary coded for Currumbeene data,E
+5,Drawdown - chart rating applies,A
+6,Phased Rating Applicable - gradual changing of control & channel,A
+8,Pool reading only,A
+9,Pool dry - no data collected,A
+10,Data transposed from recorder chart,A
+13,Accurate derived data from multiple sources (level & flow),A
+14,Telemetry data not stored in archive,A
+15,Minor editing,A
+20,Edited to measurements,A
+26,Daily read records (MW - Good periodic data),A
+30,Good Meas. - mult. point; 40 sec timing (Good acc. data - MW),A
+31,Good Meas. - Adeq. verts & obs; 40 sec timing (Good acc. data - MW),A
+32,Fair Measurement - Weighted mean gauge height; turbulent flow; flow angle extreme,B
+35,Composite Measurement - Segments taken from several gaugings to create a composite,B
+36,Measurement for sampling purposes. Rough estimate,C
+42,Low velocity acoustic record affected by wind or gate opening,E
+50,Medium editing >Q=15 (1996 on & MW) or HYMAN data import (pre-1996),B
+75,Height correction applied,B
+76,Reliable interpolation,B
+77,Correlation with other station; same variable,B
+100,Irregular data use with caution,E
+104,Records estimated,C
+146,Drawdown - no rating applies,E
+148,Theoretical rating table applied,C
+149,Raw data as received from Serco (MW),E
+150,Rating extrapolated due to insufficient gaugings (Unrel. data - MW),C
+151,Data lost due to natural causes - NRE approved loss,F
+152,Refer station file,E
+153,PROBE OUT OF WATER/BELOW INSTRUMENT THRESHOLD,F
+155,ABOVE INSTRUMENT THRESHOLD,F
+160,Backed-up by d/s influence. (Unreliable periodic data - MW),E
+161,Debris Effecting Sensor.,F
+165,Suspect or bad data supplied by other authority,E
+170,Raw unedited data stored in archive (Unrel. accum. data - MW),E
+180,Equipment malfunction,F
+190,Data unavailable station discontinued,F
+200,Data available but not digitised,F
+201,Data not rec. - no correlation available (Station not op. - MW),F
+235,Poor Measurement - Not enough verticals or observations; not enough information,E
+236,Suspect or Incomplete Measurement - Equipment suspect or giving problems causing measurement to be aborted.,E
+237,Surface Velocities - Velocity measurements taken on surface only.,B
+238,Control Leaking - Control leaking; either as noted on measurement or chart.,E
+239,Backed up Flow Measurement - Measurement is affected by backup.,A
+240,Not Coded Measurement - Measurement not coded as per HYDSYS System.,E
+250,Rating table suspended,F
+254,Rating table exceeded,F
+255,No Data Exists (Lost data - MW),F

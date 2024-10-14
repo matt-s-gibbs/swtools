@@ -14,13 +14,15 @@ VeneerGetTS(TSURL, baseURL = "http://localhost:9876")
 \value{
 a zoo time series of the data
 
-The URL of the time series must be specified, by interrogation using a browser or other analysis. 
+The URL of the time series must be specified, by interrogation using a browser or other analysis.
 By default Source returns SI units. Some conversion is undertaken:
-* Flow converted to ML/d
-* Volume converted to ML
-* Area converted to ha
+\itemize{
+\item Flow converted to ML/d
+\item Volume converted to ML
+\item Area converted to ha
+}
 
-Spaces are OK, like in the example below (dont need to insert %20 for example).
+Spaces are OK, like in the example below (dont need to insert \%20 for example).
 }
 \description{
 Get a time series result from Source using Veneer

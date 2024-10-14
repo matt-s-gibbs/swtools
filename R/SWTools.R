@@ -26,8 +26,7 @@
 #' The \href{https://water.data.sa.gov.au/Data/Export}{Export link} creates URLs that enable multiple datasets to be downloaded.
 #' \code{\link{AQWPDownload}} builds these URLs to download data in json format, and \code{\link{AQWPLoad}} loads this json file into the R interface.
 #'
-#' @docType package
-#' @name SWTools
+"_PACKAGE"
 #'
 #'@importFrom magrittr %>% 
 #'@importFrom rlang .data

@@ -2,7 +2,7 @@
 % Please edit documentation in R/SILO.R
 \name{SILOReport}
 \alias{SILOReport}
-\title{Write SILO data report to word document. The report includes output from SILOSiteSummary(), SILOQualityCodes(), 
+\title{Write SILO data report to word document. The report includes output from SILOSiteSummary(), SILOQualityCodes(),
 SILOMortonQualityCodes(). SILOMap(), SILOMonthlyRainfall(), SILOCumulativeDeviation() and SILODoubleMass().}
 \usage{
 SILOReport(SILO, filename, path = getwd(), cols = pkg.env$cols)
@@ -20,7 +20,7 @@ SILOReport(SILO, filename, path = getwd(), cols = pkg.env$cols)
 Nothing to the environment. A word document report is written to "filename".
 }
 \description{
-Write SILO data report to word document. The report includes output from SILOSiteSummary(), SILOQualityCodes(), 
+Write SILO data report to word document. The report includes output from SILOSiteSummary(), SILOQualityCodes(),
 SILOMortonQualityCodes(). SILOMap(), SILOMonthlyRainfall(), SILOCumulativeDeviation() and SILODoubleMass().
 }
 \examples{

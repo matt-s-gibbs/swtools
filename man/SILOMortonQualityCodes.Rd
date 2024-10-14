@@ -15,7 +15,7 @@ SILOMortonQualityCodes(SILO, filename = NULL)
 a ggplot geom_tile plot of the rainfall quality codes
 }
 \description{
-Produces a tile plot displaying the quality codes for variables that are input to the 
+Produces a tile plot displaying the quality codes for variables that are input to the
 calculation of Morton's evaporation equations, being maximum and minimum temperature, solar radiation and vapor pressure (derived from wet bulb temperature).
 Evaporation is also plotted, if the site has pan observations.
 }

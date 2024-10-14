@@ -1,3 +1,7 @@
+# SWTools 1.1.0
+
+* Added [HydstraSiteDetails()] function, to query streamflow station data from states that have a hydstra database, NSW, QLD and VIC
+
 # SWTools 1.0.3
 
 * Fix small typo

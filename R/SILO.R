@@ -293,10 +293,9 @@ SILOCumulativeDeviation<-function(SILO,filename=NULL,cols=pkg.env$cols)
   dat<-lapply(SILO,function(x) cumsum(as.numeric(x$tsd$Rain-mean(x$tsd$Rain))))
   
   #reformat for plot
-  dat<-data.frame(matrix(unlist(dat),nrow=length(dat[[1]]),byrow=FALSE))
-  colnames(dat)<-names(SILO)
-  dat$date<-zoo::index(SILO[[1]]$tsd)
-  dat<-reshape2::melt(dat,id.vars="date")
+  dat<-tibble::tibble(data.frame(matrix(unlist(dat),nrow=length(dat[[1]]),byrow=FALSE))) %>% 
+    stats::setNames(names(SILO)) %>% dplyr::mutate(date=zoo::index(SILO[[1]]$tsd))
+  dat<-dat %>% tidyr::pivot_longer(!date,names_to="variable",values_to="value")
   
   p<-ggplot2::ggplot(dat)+
     ggplot2::geom_line(ggplot2::aes(date,.data$value,col=.data$variable))+

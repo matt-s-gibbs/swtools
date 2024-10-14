@@ -2,6 +2,7 @@
 
 export(AQWPDownload)
 export(AQWPLoad)
+export(HydstraSiteDetails)
 export(SILOCheckConsistency)
 export(SILOCorrectSite)
 export(SILOCumulativeDeviation)

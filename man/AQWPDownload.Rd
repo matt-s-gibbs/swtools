@@ -45,7 +45,7 @@ AQWPDownload(
 The lnk created to download the data, which is useful for debugging. The data is saved to "file", that can then be read in with AQWPLoad()
 }
 \description{
-For most inputs, valid options will be returned if an unexpected input is provided. 
+For most inputs, valid options will be returned if an unexpected input is provided.
 The exception are \strong{Location} and \strong{Dataset}, if the location, or dataset for that location, don't exist no data will be returned.
 Browse the Export tab on https://water.data.sa.gov.au to find \strong{Location} and \strong{Dataset} that exists.
 }

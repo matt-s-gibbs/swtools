@@ -9,8 +9,8 @@ WritepwtoIS(folder, csvfiles, outputfile)
 \arguments{
 \item{folder}{Folder for where are the csv files with the lookup tables}
 
-\item{csvfiles}{vector of files to turn into an input set line. 
-File name should be the name of the pw table in Source, including the folder name if necessary, separated by "." (see example). 
+\item{csvfiles}{vector of files to turn into an input set line.
+File name should be the name of the pw table in Source, including the folder name if necessary, separated by "." (see example).
 The first row in the file should be column names, the same as used in Source, i.e. XValue and YValue}
 
 \item{outputfile}{text file to save the lines to}
