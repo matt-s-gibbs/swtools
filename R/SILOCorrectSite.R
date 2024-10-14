@@ -5,7 +5,7 @@
 #'
 #' If the break point of a non-homogenous rainfall station has been identified (potentially using \link[SWTools]{SILOCheckConsistency}), correct the data on one side of the breakpoint
 #' 
-#' The method of cumulative residuals outlined in [Annex 4](https://www.fao.org/3/x0490e/x0490e0l.htm#annex%204.%20statistical%20analysis%20of%20weather%20data%20sets%201) of Allen et al. (1998) has been used.
+#' The method of cumulative residuals outlined in [Annex 4](https://www.fao.org/4/x0490e/x0490e0l.htm#annex%204.%20statistical%20analysis%20of%20weather%20data%20sets%201) of Allen et al. (1998) has been used.
 #' That is, two linear regressions between the annual rainfall totals are calculated \code{P_s_correct~P_s_reference} over the periods year_start:year_break and year_break:year_end
 #' For the period to correct (after the breakpoint if \code{after=TRUE}) an annual scaling factor is calculated from the ratio of the predicted rainfall total from the two regression equations, based on the rainfall total for each year at the reference site.
 #' This scaling factor is then applied to the daily rainfall data for that year.

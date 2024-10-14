@@ -27,4 +27,9 @@ Maintainer: 'Matt Gibbs <gibbs.ms@gmail.com>'
 
 ## Local Windows 10
 
-0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+0 errors ✔ | 0 warnings ✔ | 1 notes
+
+>Namespace in Imports field not imported from: ‘prettymapr’
+  All declared Imports should be used.
+  
+prettymapr is used via a ggspatial function, and is not called directly. 

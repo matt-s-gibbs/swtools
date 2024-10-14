@@ -33,7 +33,7 @@ These functions allow SILO data to be downloaded from the [SILO Website](https:/
 *SILODownload*, *SILOLoad* and *SILOReport* functions allow a vector of SILO sites to be downloaded and summarised in a Microsoft Word report.
 
 ## Source and Veneer functions:
-[eWater Source](https://ewater.org.au/products/ewater-source/) is the Australia's national hydrological modelling platform, and is increasing in use around the world.
+[eWater Source](https://ewater.org.au/ewater-solutions/tools/source/) is the Australia's national hydrological modelling platform, and is increasing in use around the world.
 Functions are included to write SILO climate data to the format expected for Source *SILOWriteforSource*,
  and reading in model outputs, *read_res.csv*.
 
@@ -45,6 +45,9 @@ South Australia's hydrological data is hosted on [Water Data SA](https://water.d
 The [Export link](https://water.data.sa.gov.au/Data/Export) creates URLs that enable multiple datasets to be downloaded.
 *AQWPDownload* builds these URLs to download data in json format, and *AWQPLoad* loads this json file into the R interface.
 
+## Hydstra functions:
+New South Wales, Queensland and Victoria use a Hydstra database, with the site information available over a 
+[Kisters API](https://resources.kisters.com.au/public/hydstra-web-services/). *HydstraSiteDetails* uses this API to download streamflow site information, such as the cross section, rating curve, gaugings as well as the daily (9am-9am) time series of discharge data.
 
 ## Installation
 

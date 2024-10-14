@@ -31,7 +31,7 @@ downloaded and summarised in a Microsoft Word report.
 
 ## Source and Veneer functions:
 
-[eWater Source](https://ewater.org.au/products/ewater-source/) is the
+[eWater Source](https://ewater.org.au/ewater-solutions/tools/source/) is the
 Australia’s national hydrological modelling platform, and is increasing
 in use around the world. Functions are included to write SILO climate
 data to the format expected for Source *SILOWriteforSource*, and reading
