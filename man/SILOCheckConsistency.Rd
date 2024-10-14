@@ -29,7 +29,7 @@ Compute tests on rainfall double mass curves and cumulative deviation in annual 
 Non-homogeneity can occur for a number of reasons, such as interception from vegetation or buildings over time, moving of a station location, or due to interpolation of missing data or station closure
 }
 \details{
-Two tests are calculated by \code{SILOCheckConsistency}, which are outlined in \href{https://www.fao.org/3/x0490e/x0490e0l.htm#annex\%204.\%20statistical\%20analysis\%20of\%20weather\%20data\%20sets\%201}{Annex 4} of Allen et al. (1998).
+Two tests are calculated by \code{SILOCheckConsistency}, which are outlined in \href{https://www.fao.org/4/x0490e/x0490e0l.htm#annex\%204.\%20statistical\%20analysis\%20of\%20weather\%20data\%20sets\%201}{Annex 4} of Allen et al. (1998).
 
 The first considers the residual errors in annual rainfall at a station, compared to the straight line (intercept=0) regression with the average annual rainfall from the other sites in \code{X}.
 The residuals should follow a normal distribution with mean zero and standard deviation s_y,x. The annual rainfall data is plotted to visually assess the homoscedasticity requirement (constant variance).

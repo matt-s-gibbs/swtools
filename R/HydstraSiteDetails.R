@@ -18,7 +18,7 @@
 #'  \item https://data.water.vic.gov.au/WMIS
 #' }
 #' 
-#' The Bureau of Meteorology's \href{http://www.bom.gov.au/waterdata}{Water Data Online} site is also useful, which can also be queried using `get_station_list()` from \href{https://github.com/buzacott/bomWater}{BomWater package}.
+#' The Bureau of Meteorology's \href{http://www.bom.gov.au/waterdata/}{Water Data Online} site is also useful, which can also be queried using `get_station_list()` from \href{https://github.com/buzacott/bomWater/}{BomWater package}.
 #' 
 #' The function will save a number of files to `out_folder` that have a file name starting with the station number followed by:
 #' \itemize{
