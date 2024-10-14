@@ -5,7 +5,7 @@
 #' @param buffer distance in km to buffer the shapefile to look for sites outside the catchment
 #' 
 #' The buffer distance is approximate for a couple of reasons: the shapefile is projected to match SILO site coordinates,
-#' WGS84 and sf::st_buffer does not correctly buffer longitude/latitude data. sdaf
+#' WGS84 and sf::st_buffer does not correctly buffer longitude/latitude data.
 #' Also the input distance in km is converted to degrees using the conversion at the equator of 0.008.
 #'
 #' @return a table of site information including site numbers found within the polygon

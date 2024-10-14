@@ -10,7 +10,7 @@
 #' Ellipses for 80\% and 95\% confidence in rejecting the homogeneity hypothesis are plotted on the cumulative residuals figure. 
 #' 
 #' The second test tests for a break point in the plot of cumulative annual rainfall, commonly referred to as a double-mass analysis. 
-#' This analysis is outlined in Allen et al. (1998) and also Chang and Lee (1974). A bootstraped estimate of any breakpoint in the double-mass plot, indicating a change in the relationship between rainfall at the station and the average of all other stations,
+#' This analysis is outlined in Allen et al. (1998) and also Chang and Lee (1974). A bootstrapped estimate of any breakpoint in the double-mass plot, indicating a change in the relationship between rainfall at the station and the average of all other stations,
 #' is assessed using the method of Muggeo (2003), as provided in \link[segmented]{segmented}.
 #' 
 #' @seealso 

@@ -95,7 +95,7 @@ AQWPLoad<-function(filename,qual_codes=TRUE,long_format=TRUE) #return data in lo
 #'@param EndTime End Date and Time if DateRange="Custom", in a format that as.POSIXct will convert, e.g 2001-01-02 00:00
 #'@param Calendar When to start the periods, e.g. "WATERDAY9AM"
 #'
-#'@return The lnk created to download the data, which is useful for debugging. The data is saved to "file", that can then be read in with AQWPLoad()
+#'@return The link created to download the data, which is useful for debugging. The data is saved to "file", that can then be read in with AQWPLoad()
 #'
 #'@examples
 #'\dontrun{
