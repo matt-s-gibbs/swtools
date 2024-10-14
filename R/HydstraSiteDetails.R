@@ -104,8 +104,8 @@ HydstraSiteDetails<-function(site,state,out_folder,flood_level=NA){
   
   URL <- paste0(service,"/cgi/webservice.exe?{%22function%22:%22get_cross_sections%22,%22version%22:%221%22,%22params%22:{%22site_list%22:%22",
                 site,
-                "%22,%22section_types%22:[%22XS%22,%22WR%22,%22BR%22],%22comments%22:%22yes%22,%22gauge_datum%22:%22yes%22}}")
-                #"%22,%22section_types%22:[%22XS%22],%22comments%22:%22yes%22,%22gauge_datum%22:%22yes%22}}")
+                #"%22,%22section_types%22:[%22XS%22,%22WR%22,%22BR%22],%22comments%22:%22yes%22,%22gauge_datum%22:%22yes%22}}")
+                "%22,%22section_types%22:[%22XS%22],%22comments%22:%22yes%22,%22gauge_datum%22:%22yes%22}}")
   
   X<-httr::GET(URL)
   X<-jsonlite::fromJSON(httr::content(X,"text", encoding = "UTF-8"))
